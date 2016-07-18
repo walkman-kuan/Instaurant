@@ -2,4 +2,3 @@
 2. The idea that turns into the project is proposed by Zhuoran Li during a Dinner with Xiaowei Deng and Kuan Lin, on 25th June, 2016.
 3. The idea aims to turn each customer's mobile device into a menu and ordering machine, and to allows customers access menus and restaurant services with a scan of QR Code.
 4. The project aims at create an online order system named Instaurant (temporarily) which is a portmanteau of "Instant" and "Restaurant".
-5. test for 
