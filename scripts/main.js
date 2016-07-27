@@ -4,12 +4,6 @@ var DishCategoryRow = React.createClass({
     }
 });
 
-// var DishPicture = React.createClass({
-//     render: function() {
-//         return (<td><img src={this.props.imageURL} /></td>)
-//     }
-// })
-
 var DishRow = React.createClass({
     render: function() {
         return (
@@ -48,17 +42,45 @@ var DishTable = React.createClass({
     }
 });
 
-// var Subtotal = React.createClass({
-//     render: function() {
+var Subtotal = React.createClass({
+    render: function() {
+        var subtotal = 0;
+        var HST = 0;
+        this.props.prices.forEach(function(price) {
+            subtotal += parseFloat(price);
+        });
+        HST = subtotal * 0.13;
+        return (
+            <table>
+                <tr>{'Subtotal: ' + subtotal.toFixed(2)}</tr>
+                <tr>{'HST: ' + HST.toFixed(2)}</tr>
+            </table>
+        );
+    }
+});
 
-//     }
-// })
+var SubtotalAndOrder = React.createClass({
+    render: function() {
+        var prices = [];
+        this.props.dishes.forEach(function(dish) {
+            prices.push(dish.price);
+        });
+        return (
+            <table>
+                <td><Subtotal prices={prices} /></td>
+                <button>{'Order Now'}</button>
+            </table>
+        );
+
+    }
+});
 
 var DeletableDishTable = React.createClass({
     render: function() {
         return (
             <div>
                 <DishTable dishes={this.props.dishes} />
+                <SubtotalAndOrder dishes={this.props.dishes} />
             </div>
         );
     }
