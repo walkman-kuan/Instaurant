@@ -6,10 +6,15 @@ var DishCategoryRow = React.createClass({
 
 var DishRow = React.createClass({
     render: function() {
+        var name = this.props.ordered ?
+            <span style={{color: 'red'}}>
+                {this.props.dish.name}
+            </span> :
+            this.props.dish.name;
         return (
             <tr>
                 <td><img src={this.props.dish.imageURL} height="42" width="42" /></td>
-                <td>{this.props.dish.name}</td>
+                <td>{name}</td>
                 <td>{this.props.dish.price}</td>
             </tr>
         );
@@ -24,9 +29,13 @@ var DishTable = React.createClass({
             if (dish.category !== lastCategory) {
                 rows.push(<DishCategoryRow category={dish.category} key={dish.category} />);
             }
-            rows.push(<DishRow dish={dish} key={dish.name} />);
-            lastCategory = dish.categoty;
-        });
+            if (this.props.sentDishNames.indexOf(dish.name) === -1) {
+                rows.push(<DishRow dish={dish} key={dish.name} ordered={false}/>);
+            } else {
+                rows.push(<DishRow dish={dish} key={dish.name} ordered={true}/>);
+            }
+            lastCategory = dish.category;
+        }.bind(this));
         return (
             <table>
                 <thead>
@@ -46,41 +55,70 @@ var Subtotal = React.createClass({
     render: function() {
         var subtotal = 0;
         var HST = 0;
-        this.props.prices.forEach(function(price) {
-            subtotal += parseFloat(price);
+        this.props.dishes.forEach(function(dish) {
+            subtotal += parseFloat(dish.price);
         });
         HST = subtotal * 0.13;
         return (
             <table>
-                <tr>{'Subtotal: ' + subtotal.toFixed(2)}</tr>
-                <tr>{'HST: ' + HST.toFixed(2)}</tr>
+                <tbody>
+                    <tr>{'Subtotal: ' + subtotal.toFixed(2)}</tr>
+                    <tr>{'HST: ' + HST.toFixed(2)}</tr>
+                </tbody>
             </table>
         );
     }
 });
 
 var SubtotalAndOrder = React.createClass({
-    render: function() {
-        var prices = [];
+    handleClick: function() {
+        var newDishNames = [];
         this.props.dishes.forEach(function(dish) {
-            prices.push(dish.price);
-        });
+            if (this.props.sentDishNames.indexOf(dish.name) === -1) {
+                newDishNames.push(dish.name);
+            }
+        }.bind(this));
+        this.props.onUserInput(newDishNames);
+    },
+
+    render: function() {
         return (
-            <table>
-                <td><Subtotal prices={prices} /></td>
-                <button>{'Order Now'}</button>
-            </table>
+            <div>
+                <Subtotal dishes={this.props.dishes} />
+                <input 
+                    type="button" 
+                    value="Order Now"
+                    ref="submitOrderInput" 
+                    onClick={this.handleClick}
+                />
+            </div>
         );
 
     }
 });
 
 var DeletableDishTable = React.createClass({
+    getInitialState: function() {
+        return {
+            sentDishNames: []
+        };
+    },
+
+    handleUserInput: function(newItem) {
+        this.setState({ 
+            sentDishNames: this.state.sentDishNames.concat(newItem),
+        });
+    },
+
     render: function() {
         return (
             <div>
-                <DishTable dishes={this.props.dishes} />
-                <SubtotalAndOrder dishes={this.props.dishes} />
+                <DishTable dishes={this.props.dishes} sentDishNames={this.state.sentDishNames}/>
+                <SubtotalAndOrder 
+                    dishes={this.props.dishes} 
+                    sentDishNames={this.state.sentDishNames}
+                    onUserInput={this.handleUserInput}
+                />
             </div>
         );
     }
@@ -94,6 +132,7 @@ var DISHES = [
     {category: 'Beef', price: '6.99', imageURL: '/img/beef_burger.jpg', name: 'Beef Burger'},
     {category: 'Lamb', price: '7.99', imageURL: '/img/whole_lamb.jpg', name: 'BBQ Whole Lamb'}
 ];
+
 
 ReactDOM.render(
     <DeletableDishTable dishes={DISHES} />,
