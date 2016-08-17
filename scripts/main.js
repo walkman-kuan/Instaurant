@@ -1,52 +1,65 @@
 var DishCategoryRow = React.createClass({
     render: function() {
-        return (<tr><th colSpan='2'>{this.props.category}</th></tr>);
+        return (
+            <div className="col-xs-12">
+                <h2>{this.props.category}</h2>
+            </div>
+        );
     }
 });
 
 var DishRow = React.createClass({
+    handleDelete: function() {
+        this.props.onOrderDelete(this.props.dish);
+    },
+
     render: function() {
         var name = this.props.ordered ?
             <span style={{color: 'red'}}>
                 {this.props.dish.name}
             </span> :
             this.props.dish.name;
+
+        var price = this.props.ordered ?
+            <span style={{color: 'red'}}>
+                {"$"+this.props.dish.price}
+            </span> :
+            "$"+this.props.dish.price;
+        
+        var deleteBtn = this.props.ordered ?
+            <input type="button" value="Ordered" disabled={true}/> :
+            <input type="button" value="Delete" onClick={this.handleDelete} disabled={false}/>
+
         return (
-            <tr>
-                <td><img src={this.props.dish.imageURL} height="42" width="42" /></td>
-                <td>{name}</td>
-                <td>{this.props.dish.price}</td>
-            </tr>
+            <div className="col-xs-12 jumbotron">
+                <img src={this.props.dish.imageURL} style={{"width":"100%", "height":"100%"}} />
+                <p className="text-center">{name}</p>
+                <p className="text-center">{price}</p>
+                <div>{deleteBtn}</div>
+            </div>
         );
     }
 });
 
 var DishTable = React.createClass({
     render: function() {
-        var rows = [];
+        var displayItems = [];
         var lastCategory = null;
         this.props.dishes.forEach(function(dish) {
             if (dish.category !== lastCategory) {
-                rows.push(<DishCategoryRow category={dish.category} key={dish.category} />);
+                displayItems.push(<DishCategoryRow category={dish.category} key={dish.category} />);
             }
             if (this.props.sentDishNames.indexOf(dish.name) === -1) {
-                rows.push(<DishRow dish={dish} key={dish.name} ordered={false}/>);
+                displayItems.push(<DishRow dish={dish} key={dish.name} onOrderDelete={this.props.onOrderDelete} ordered={false}/>);
             } else {
-                rows.push(<DishRow dish={dish} key={dish.name} ordered={true}/>);
+                displayItems.push(<DishRow dish={dish} key={dish.name} ordered={true}/>);
             }
             lastCategory = dish.category;
         }.bind(this));
         return (
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>{rows}</tbody>
-            </table>
+            <div>
+                {displayItems}
+            </div>
         );
     }
 });
@@ -78,18 +91,19 @@ var SubtotalAndOrder = React.createClass({
                 newDishNames.push(dish.name);
             }
         }.bind(this));
-        this.props.onUserInput(newDishNames);
+        this.props.onOrderNow(newDishNames);
     },
 
     render: function() {
         return (
-            <div>
+            <div className="col-xs-12">
                 <Subtotal dishes={this.props.dishes} />
-                <input 
+                <input
                     type="button" 
                     value="Order Now"
                     ref="submitOrderInput" 
                     onClick={this.handleClick}
+                    className="btn-primary"
                 />
             </div>
         );
@@ -100,24 +114,38 @@ var SubtotalAndOrder = React.createClass({
 var DeletableDishTable = React.createClass({
     getInitialState: function() {
         return {
-            sentDishNames: []
+            sentDishNames: [],
+            orderedDishes: this.props.dishes
         };
     },
 
-    handleUserInput: function(newItem) {
+    handleOrderNow: function(newItem) {
         this.setState({ 
             sentDishNames: this.state.sentDishNames.concat(newItem),
         });
     },
 
+    handleOrderDelete: function(deleteItem) {
+        var newOrderedDishes = this.state.orderedDishes;
+        var index = newOrderedDishes.indexOf(deleteItem);
+        newOrderedDishes.splice(index, 1);
+        this.setState({
+            orderedDishes: newOrderedDishes, 
+        });
+    },
+
     render: function() {
         return (
-            <div>
-                <DishTable dishes={this.props.dishes} sentDishNames={this.state.sentDishNames}/>
-                <SubtotalAndOrder 
-                    dishes={this.props.dishes} 
+            <div className="container">
+                <DishTable 
+                    dishes={this.state.orderedDishes} 
                     sentDishNames={this.state.sentDishNames}
-                    onUserInput={this.handleUserInput}
+                    onOrderDelete={this.handleOrderDelete}
+                />
+                <SubtotalAndOrder 
+                    dishes={this.state.orderedDishes} 
+                    sentDishNames={this.state.sentDishNames}
+                    onOrderNow={this.handleOrderNow}
                 />
             </div>
         );
