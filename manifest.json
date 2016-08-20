@@ -1,0 +1,8 @@
+{
+  "name": "Instaurant",
+  "short_name": "Intaurant",
+  "owner_start_url": "/menuConfiguration.html",
+  "customer_start_url" : "/undefined.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}

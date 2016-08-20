@@ -1,0 +1,13 @@
+{
+    _ownerId : "_OWNER_ID",
+    firstName : "FIRST_NAME",
+    lastName : "LAST_NAME",
+    businessName : "BUSINESS_NAME",
+    email : "EMAIL",
+    phone : "PHONE",
+    baseUrl : "BASE_URL",
+    qrCodes : [
+        {qrCodeUrl : "QR_CODE_URL_1"},
+        {qrCodeUrl : "QR_CODE_URL_2"}
+    ]
+}

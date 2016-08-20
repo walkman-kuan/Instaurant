@@ -1,0 +1,22 @@
+{
+  "menu" : {
+    "-K2ib4H77rj0LYewF7dP" : {
+        "name" : "Sandwich",
+        "imageUrl" : "https://firebasestorage.googleapis.com/v0/b/instaurant-72a63.appspot.com/o/Sandwich.jpg?alt=media&amp;token=9af067c6-89bb-4afd-abb7-fcb97a23067e",
+        "price" : "12.0",
+        "description" : "Sandwich with deep fried fish fillet and tomato."
+    },
+    "-K2ib5JHRbbL0NrztUfO" : {
+        "name" : "Salad",
+        "imageUrl" : "https://firebasestorage.googleapis.com/v0/b/instaurant-72a63.appspot.com/o/Salad.jpg?alt=media&amp;token=e010f648-a024-417b-8eb4-29560233ebda",
+        "price" : "10.0",
+        "description" : "Home-made salad with various sauces."
+    },
+    "-K2ib62mjHh34CAUbide" : {
+        "name" : "Noodle",
+        "imageUrl" : "https://firebasestorage.googleapis.com/v0/b/instaurant-72a63.appspot.com/o/SpicyNoodle.jpg?alt=media&amp;token=39e0ae79-a071-4a26-a121-6e761e8b815a",
+        "price" : "12.0",
+        "description" : "Sichuan-style spicy noodle with home-made pork and vegetable."
+    }
+  }
+}

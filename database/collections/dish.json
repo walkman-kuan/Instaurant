@@ -1,0 +1,9 @@
+{
+    _dishId : "_DISH_ID",
+    categoryId : "CATEGORY_ID",
+    dishName : "DISH_NAME",
+    dishPrice : "DISH_PRICE",
+    dishDescription : "DISH_DESCRIPTION",
+    dishImageUrl : "DISH_IMAGE_URL",
+    dishOrderWithinCategory : "DISH_ORDER_WITHIN_CATEGORY"
+}

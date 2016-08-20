@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Instaurant</title>
+
+    <!-- React Libraries -->
+    <script src="../../build/react-with-addons.min.js"></script>
+    <script src="../../build/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBpRpP_p6-9wagoZRPbJpqoGkJD5028JFk",
+            authDomain: "instaurant-72a63.firebaseapp.com",
+            databaseURL: "https://instaurant-72a63.firebaseio.com",
+            storageBucket: "instaurant-72a63.appspot.com",
+        };
+        // firebase is a global namespace from which all the Firebase services are accessed.
+        firebase.initializeApp(config);
+    </script>
+
+    <!-- Bootstrap and jQuery -->
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div id="container">
+    <script type="text/babel" src="../js/menu.js"></script>
+</div>
+
+</body>
+</html>

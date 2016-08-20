@@ -1,0 +1,7 @@
+{
+    _categoryId : "_CATEGORY_ID",
+    ownerId : "OWNER_ID",
+    categoryName : "CATEGORY_NAME",
+    categoryDescription : "CATEGORY_DESCRIPTION",
+    catogotyOrderWithinOwner : "CATEGORY_ORDER_WITHIN_OWNER"
+}

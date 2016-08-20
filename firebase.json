@@ -1,0 +1,16 @@
+{
+  "database": {
+      "rules": "./firebase-config/database-rules.json"
+  },
+  "storage": {
+      "rules": "./firebase-config/storage.rules"
+  },
+  "hosting": {
+    "public": "./",
+    "ignore": [
+      "firebase.json",
+      "./firebase-config/database-rules.json",
+      "./firebase-config/storage.rules"
+    ]
+  }
+}
