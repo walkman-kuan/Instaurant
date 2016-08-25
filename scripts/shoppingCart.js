@@ -29,24 +29,12 @@ var NumberSpinner = React.createClass({
 })
 
 var DishRow = React.createClass({
-    getInitialState: function() {
-        return {
-            dishCopyNumber: this.props.dish.copies
-        }
-    },
-
     handleMinusCopy: function() {
-        this.setState({
-            dishCopyNumber: (this.state.dishCopyNumber > 1) ?
-                            this.state.dishCopyNumber - 1:
-                            this.state.dishCopyNumber
-        })
+        this.props.onOrderLess(this.props.dish);
     },
 
     handlePlusCopy: function() {
-        this.setState({
-            dishCopyNumber: this.state.dishCopyNumber + 1,
-        })
+        this.props.onOrderMore(this.props.dish);
     },
 
     handleDelete: function() {
@@ -72,13 +60,13 @@ var DishRow = React.createClass({
 
         var numberSpinner = this.props.ordered ?
             <NumberSpinner 
-                dishCopyNumber={this.state.dishCopyNumber} 
+                dishCopyNumber={this.props.dish.copies} 
                 onMinus={this.handleMinusCopy}
                 onPlus={this.handlePlusCopy} 
                 disabled={true}
             /> :
             <NumberSpinner 
-                dishCopyNumber={this.state.dishCopyNumber} 
+                dishCopyNumber={this.props.dish.copies} 
                 onMinus={this.handleMinusCopy}
                 onPlus={this.handlePlusCopy}
                 disabled={false} 
@@ -107,7 +95,14 @@ var DishTable = React.createClass({
                 displayItems.push(<DishCategoryRow category={dish.category} key={dish.category} />);
             }
             if (this.props.sentDishNames.indexOf(dish.name) === -1) {
-                displayItems.push(<DishRow dish={dish} key={dish.name} onOrderDelete={this.props.onOrderDelete} ordered={false}/>);
+                displayItems.push(<DishRow 
+                                    dish={dish} 
+                                    key={dish.name}
+                                    onOrderMore={this.props.onOrderMore}
+                                    onOrderLess={this.props.onOrderLess}
+                                    onOrderDelete={this.props.onOrderDelete}
+                                    ordered={false}
+                />);
             } else {
                 displayItems.push(<DishRow dish={dish} key={dish.name} ordered={true}/>);
             }
@@ -126,13 +121,15 @@ var Subtotal = React.createClass({
         var subtotal = 0;
         var HST = 0;
         this.props.dishes.forEach(function(dish) {
-            subtotal += parseFloat(dish.price);
+            subtotal += parseFloat(dish.price * dish.copies);
         });
         HST = subtotal * 0.13;
+        // Include HST in the subtotal
+        subtotal += HST;
         return (
             <table>
                 <tbody>
-                    <tr>{'Subtotal: ' + subtotal.toFixed(2)}</tr>
+                    <tr>{'Subtotal: ' + subtotal.toFixed(2) + ' (Including HST)'}</tr>
                     <tr>{'HST: ' + HST.toFixed(2)}</tr>
                 </tbody>
             </table>
@@ -178,17 +175,39 @@ var DeletableDishTable = React.createClass({
 
     handleOrderNow: function(newItem) {
         this.setState({ 
-            sentDishNames: this.state.sentDishNames.concat(newItem),
+            sentDishNames: React.addons.update(this.state.sentDishNames, {$push: newItem}),
         });
     },
 
     handleOrderDelete: function(deleteItem) {
-        var newOrderedDishes = this.state.orderedDishes;
-        var index = newOrderedDishes.indexOf(deleteItem);
-        newOrderedDishes.splice(index, 1);
+        // Make the change according to Kuan's recommendation
+        // Using the React Immutability Helper so that 
+        // original state array won't be modified due to the JS
+        // pass by reference property
+        var index = this.state.orderedDishes.indexOf(deleteItem);
         this.setState({
-            orderedDishes: newOrderedDishes, 
+            orderedDishes: React.addons.update(this.state.orderedDishes, {$splice: [[index, 1]]}),
         });
+    },
+
+    handleOrderMore: function(orderItem) {
+        var newOrderedDishes = this.state.orderedDishes;
+        var index = newOrderedDishes.indexOf(orderItem);
+        newOrderedDishes[index].copies += 1;
+        this.setState({
+            orderedDishes: React.addons.update(this.state.orderedDishes, {$set: newOrderedDishes}),
+        }); 
+    },
+
+    handleOrderLess: function(orderItem) {
+        var newOrderedDishes = this.state.orderedDishes;
+        var index = newOrderedDishes.indexOf(orderItem);
+        newOrderedDishes[index].copies = newOrderedDishes[index].copies > 1 ?
+                                         newOrderedDishes[index].copies - 1 :
+                                         newOrderedDishes[index].copies;
+        this.setState({
+            orderedDishes: React.addons.update(this.state.orderedDishes, {$set: newOrderedDishes}), 
+        }); 
     },
 
     render: function() {
@@ -198,6 +217,8 @@ var DeletableDishTable = React.createClass({
                     dishes={this.state.orderedDishes} 
                     sentDishNames={this.state.sentDishNames}
                     onOrderDelete={this.handleOrderDelete}
+                    onOrderMore={this.handleOrderMore}
+                    onOrderLess={this.handleOrderLess}
                 />
                 <SubtotalAndOrder 
                     dishes={this.state.orderedDishes} 

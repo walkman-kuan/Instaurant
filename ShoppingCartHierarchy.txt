@@ -1,7 +1,0 @@
-DeletableDishTable
-    DishTable
-        DishCategoryRow
-        DishRow
-    SubtotalAndOrder
-        Subtotal
-        OrderButton
