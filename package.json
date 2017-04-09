@@ -1,0 +1,19 @@
+{
+  "name": "instaurant",
+  "version": "1.0.0",
+  "description": "This is the instaurant project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://clark_the_walkman@bitbucket.org/hackinstaurant/instaurant.git"
+  },
+  "author": "Kuan Lin",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/hackinstaurant/instaurant#readme",
+  "devDependencies": {
+    "webpack": "^2.3.3"
+  }
+}
