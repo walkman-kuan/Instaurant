@@ -12,6 +12,11 @@
   },
   "author": "Kuan Lin",
   "license": "ISC",
+  "keywords": [
+    "Firebase",
+    "React",
+    "Webpack"
+  ],
   "homepage": "https://bitbucket.org/hackinstaurant/instaurant#readme",
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -23,6 +28,7 @@
     "webpack": "^2.3.3"
   },
   "dependencies": {
+    "firebase": "^3.7.6",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   }
