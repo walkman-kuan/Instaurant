@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
 
 const config = {
     entry: {
-        main: './src/index.js'
+        main: './src/app/index.js'
     },
     output: {
         filename:'[name].[chunkhash].js',
@@ -12,9 +12,16 @@ const config = {
         path: path.resolve('bundles')
     },
     module: {
+        // Rules for the module (configure loaders, parser option, etc.)
         rules: [
-            {test: '/\.jsx?$/', use: 'babel-loader', include: path.resolve('./src/index.js')}
+            // No qoute around the tested egRex
+            {test: /\.jsx?$/, loader: "babel-loader", include: path.resolve('./src/app')}
         ]
+    },
+    resolve: {
+        // An array of extensions that should be used to automatically resolve modules.
+        // https://webpack.js.org/configuration/resolve/#resolve-extensions
+        extensions: ['*', '.js', '.jsx']
     },
     plugins: [
         //new webpack.optimize.UglifyJsPlugin(),
