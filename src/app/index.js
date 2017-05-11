@@ -9,4 +9,4 @@ if (module.hot) {
     module.hot.accept();
 }
 
-ReactDom.render(<HomePage/>, document.getElementById('root'));
+ReactDom.render(<HomePage />, document.getElementById('root'));
