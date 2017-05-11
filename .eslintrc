@@ -1,0 +1,12 @@
+{
+    "env": {
+      "browser": true
+    },
+    "extends": "airbnb",
+    "rules": {
+        "indent": [2, 4],
+        "max-len": ["warn", 120],
+        "react/jsx-indent": ["warn", 4],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    }
+}

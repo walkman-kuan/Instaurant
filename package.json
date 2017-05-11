@@ -1,0 +1,47 @@
+{
+  "name": "instaurant",
+  "version": "1.0.0",
+  "description": "This is the instaurant project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rm index.html && rm -rf bundles",
+    "build": "webpack",
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://clark_the_walkman@bitbucket.org/hackinstaurant/instaurant.git"
+  },
+  "author": "Kuan Lin",
+  "license": "ISC",
+  "keywords": [
+    "Firebase",
+    "React",
+    "Webpack"
+  ],
+  "homepage": "https://bitbucket.org/hackinstaurant/instaurant#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
+    "html-webpack-plugin": "^2.28.0",
+    "path": "^0.12.7",
+    "react-hot-loader": "^1.3.1",
+    "webpack": "^2.5.0",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "dependencies": {
+    "firebase": "^3.7.6",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0"
+  }
+}
