@@ -28,7 +28,7 @@ const config = {
 
         // By default, HtmlWebpackPlugin put the generated html under the directory: output.path
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: './src/index.template.html',
             filename: '../index.html',
             inject: 'body'
         })
