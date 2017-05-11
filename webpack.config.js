@@ -7,8 +7,8 @@ const config = {
         main: './src/app/index.js'
     },
     output: {
-        filename:'[name].[chunkhash].js',
-        // publicPath: '../' // The publicPath also affects the relative path of the injected scripts to index.html
+        filename:'[name].js',
+        publicPath: 'bundles/', // The publicPath also affects the relative path of the injected scripts to index.html
         path: path.resolve('bundles')
     },
     module: {
