@@ -41,7 +41,8 @@ const config = {
     ],
     devServer: {
         hot: true, // Enable HMR in webpack-dev-server and in libs running in the the browser
-        contentBase: './' // Tell webpack dev server where to serve content (static assets) from
+        contentBase: './', // Tell webpack dev server where to serve content (static assets) from
+        publicPath: '/bundles/' // The bundled files (including the hot update) will be available in the browser under this path'
     }
 }
 
