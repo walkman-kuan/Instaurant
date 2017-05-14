@@ -8,7 +8,7 @@ const config = {
             'webpack-dev-server/client?http://localhost:8080', // Enable websocket connection (needs url and port)
             'webpack/hot/only-dev-server', // Perform HMR in the browser BUT doesn't reload the page upon errors
             // 'webpack/hot/dev-server', // Perform HMR in the browser and reload the page upon errors
-            './src/app/index.js',
+            './src/app/index.jsx',
         ],
     },
     output: {
