@@ -44,6 +44,7 @@ const config = {
         contentBase: './', // Tell webpack dev server where to serve content (static assets) from
         // The bundled files (including the hot update) will be available in the browser under this path'
         publicPath: '/bundles/',
+        historyApiFallback: true, //  Serve the index.html in place of 404 responses
     },
 };
 
