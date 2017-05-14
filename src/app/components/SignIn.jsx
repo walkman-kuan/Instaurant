@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default () => (
+const SignIn = () => (
     <div>
-        <h1>This is the Home Page of the application!</h1>
-        <Link to="/signin">Sign In</Link> and configure your application!
+        <h1>This is the Sign Up page!</h1>
+        Forget your password? <Link to="/reset-password">Reset Password</Link>
         <br />
         Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
     </div>
 );
+
+export default SignIn;
