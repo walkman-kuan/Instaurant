@@ -6,6 +6,6 @@ export default () => (
         <h1>This is the Home Page of the application!</h1>
         <Link to="/signin">Sign In</Link> and configure your application!
         <br />
-        Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
+        Need an Instaurant account? <Link to="/signup">Sign Up</Link>
     </div>
 );
