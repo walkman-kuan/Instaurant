@@ -2,7 +2,7 @@
   "name": "instaurant",
   "version": "1.0.0",
   "description": "This is the instaurant project.",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prebuild": "rm index.html && rm -rf bundles",
@@ -16,8 +16,12 @@
   "author": "Kuan Lin",
   "license": "ISC",
   "keywords": [
+    "Bootstrap",
+    "ES6/ECMAScript 2015",
     "Firebase",
     "React",
+    "React Router",
+    "Redux",
     "Webpack"
   ],
   "homepage": "https://bitbucket.org/hackinstaurant/instaurant#readme",
