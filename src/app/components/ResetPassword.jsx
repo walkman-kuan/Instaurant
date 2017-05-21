@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { sendPasswordResetEmail } from '../firebaseService';
+import { handlePasswordResetError } from '../utils/errorHandling';
 
 class ResetPassword extends Component {
+    constructor() {
+        super();
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+    }
+
+    onFormSubmit(event) {
+        event.preventDefault();
+
+        const email = this.email.value;
+
+        sendPasswordResetEmail(email).catch((error) => {
+            handlePasswordResetError(error);
+        });
+    }
     render() {
         return (
             <div className="container-fluid auth-page">
@@ -12,13 +28,13 @@ class ResetPassword extends Component {
                             Enter the email associated with your Instaurant account,
                             and we will email you a link to reset your password.
                         </span>
-                        <form id="reset-password-form">
+                        <form id="reset-password-form" onSubmit={this.onFormSubmit}>
                             <div className="form-group">
                                 <div className="input-group input-group-lg">
                                     <input
                                       type="email" className="form-control"
                                       id="email" name="email" placeholder="Email"
-                                      ref={(email) => { this.email = email; }}
+                                      ref={(email) => { this.email = email; }} required
                                     />
                                     <div className="input-group-addon">
                                         <span className="glyphicon glyphicon-envelope" />
