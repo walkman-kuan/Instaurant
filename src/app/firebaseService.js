@@ -7,7 +7,7 @@ const firebaseAuth = firebaseApp.auth();
 
 /**
  * Check whether there is a signed-in user
- * @return true if user is signed-in
+ * @return {boolean.true} if user is signed-in
  */
 export const isUserSignedIn = () => firebaseAuth.currentUser != null;
 
@@ -18,10 +18,10 @@ export const isUserSignedIn = () => firebaseAuth.currentUser != null;
 export const getCurrentSignInUser = () => firebaseAuth.currentUser;
 
 /**
- * Create a new Insturant account using email and password
+ * Create a new Insturant owner account using email and password
  *
- * @param user contains an email address and a password
+ * @param credentials contains an email address and a password
  * @returns {firebase.User}
  */
-export const signUpWithEmail = credentials =>
+export const signUpWithEmailAndPassword = credentials =>
 firebaseAuth.createUserWithEmailAndPassword(credentials.email, credentials.password);

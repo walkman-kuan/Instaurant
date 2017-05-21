@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { signUpWithEmail } from '../firebaseService';
+import { signUpWithEmailAndPassword } from '../firebaseService';
 import { handleSignUpError } from '../utils/errorHandling';
 
 class SignUp extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.onFormSubmit = this.onFormSubmit.bind(this);
     }
 
@@ -18,7 +18,7 @@ class SignUp extends Component {
 
         // On successful creation of the user account, this user will also be
         // signed in to your application, i.e., currentUser != null
-        signUpWithEmail({ email, password }).then(() => {
+        signUpWithEmailAndPassword({ email, password }).then(() => {
             const { history } = this.props;
             // Route to the admin page. Note that instead of creating a new owner node
             // in the Realtime Database with null/empty value, we delay the creation until
