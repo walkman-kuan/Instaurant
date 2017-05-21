@@ -25,3 +25,19 @@ export const getCurrentSignInUser = () => firebaseAuth.currentUser;
  */
 export const signUpWithEmailAndPassword = credentials =>
 firebaseAuth.createUserWithEmailAndPassword(credentials.email, credentials.password);
+
+/**
+ * Sign in an Insturant owner using email and password
+ *
+ * @param credentials contains an email address and a password
+ * @returns {firebase.User}
+ */
+export const signInWithEmailAndPassword = credentials =>
+firebaseAuth.signInWithEmailAndPassword(credentials.email, credentials.password);
+
+/**
+ * Sign in an Insturant owner using email and password
+ *
+ * @param email is the email address with the password to be reset.
+ */
+export const sendPasswordResetEmail = email => firebaseAuth.sendPasswordResetEmail(email);

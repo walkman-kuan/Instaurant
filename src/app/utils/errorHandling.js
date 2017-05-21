@@ -1,4 +1,4 @@
-import signUpErrorCodes from '../resources/firebaseTexts';
+import { signUpErrorCodes, signInErrorCodes, resetPasswordErrorCodes } from '../resources/firebaseTexts';
 
 export const handleSignUpError = (error) => {
     switch (error.code) {
@@ -19,6 +19,34 @@ export const handleSignUpError = (error) => {
     }
 };
 
-export const handleSignInError = () => {
-    // Handle sign in error
+export const handleSignInError = (error) => {
+    switch (error.code) {
+    case signInErrorCodes.INVALID_EMAIL:
+        // error.message
+        break;
+    case signInErrorCodes.USER_DISABLED:
+        // error.message
+        break;
+    case signInErrorCodes.USER_NOT_FOUNED:
+        // error.message
+        break;
+    case signInErrorCodes.WRONG_PASSWORD:
+        // error.message
+        break;
+    default:
+        // Unknow error message
+    }
+};
+
+export const handlePasswordResetError = (error) => {
+    switch (error.code) {
+    case resetPasswordErrorCodes.INVALID_EMAIL:
+        // error.message
+        break;
+    case resetPasswordErrorCodes.USER_NOT_FOUNED:
+        // error.message
+        break;
+    default:
+        // Unknow error message
+    }
 };
