@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import isUserSignedIn from '../firebaseService';
+import { isUserSignedIn } from '../firebaseService';
 
 class AdministrationPanel extends Component {
 
