@@ -1,3 +1,9 @@
+/* Customized colors */
+.color-option-1() {
+    color: #0099cc;
+}
+// color-option-1 is Bootstrap highlight color
+
 /* General layout */
 body {
     font-size: 16px;
@@ -29,6 +35,18 @@ a {
     font-size: 16px;
 }
 
+/* Admin page */
+.admin-page-wrapper {
+    .navbar-brand {
+        .color-option-1;
+        /* Use the same color on hover and focus */
+        &:hover, &:focus {
+            .color-option-1;
+        }
+        font-size: 24px;
+    }
+}
+
 
 /* Customized button */
 .btn.outline {
@@ -39,9 +57,3 @@ a {
 	border: 2px solid #0099cc;
 	.color-option-1;
 }
-
-/* Customized colors */
-.color-option-1() {
-    color: #0099cc;
-}
-// color-option-1 is Bootstrap highlight color
