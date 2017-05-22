@@ -41,3 +41,8 @@ firebaseAuth.signInWithEmailAndPassword(credentials.email, credentials.password)
  * @param email is the email address with the password to be reset.
  */
 export const sendPasswordResetEmail = email => firebaseAuth.sendPasswordResetEmail(email);
+
+/**
+ * Sign out the current Instaurant owner
+ */
+export const signOut = () => firebaseAuth.signOut();
