@@ -7,7 +7,7 @@ class AdministrationPanel extends Component {
     // If there is no signed-in user, redirect to the sign in page
     componentWillMount() {
         const { history } = this.props;
-        if (!isUserSignedIn) {
+        if (!isUserSignedIn()) {
             history.replace('/signin');
         }
     }
