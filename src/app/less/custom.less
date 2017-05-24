@@ -47,6 +47,18 @@ a {
     }
 }
 
+/* Always right align nav bar icons */
+.right-aligned-nav {
+  position: absolute;
+  right: 10px;
+  /* Keep the right-aligned icons in the same line with the brand */
+  top: 0px;
+  /* All <li>/icons in the same line */
+  & > li {
+    display: inline-block;
+  }
+}
+
 
 /* Customized button */
 .btn.outline {
@@ -56,4 +68,19 @@ a {
 .btn-default.outline {
 	border: 2px solid #0099cc;
 	.color-option-1;
+}
+
+
+/*
+    Responsive Design - Bootstrap 4 Break Points
+    Extra small <576px
+    Small ≥576px
+	Medium ≥768px
+	Large ≥992px
+	Extra large ≥1200px
+ */
+@media (max-width: 576px) {
+    .nav-text {
+        display: none;
+    }
 }

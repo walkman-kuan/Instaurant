@@ -30,25 +30,26 @@ class AdministrationPanel extends Component {
                             {/* Stay on current page if click */}
                             <Link to={this.props.location} className="navbar-brand">Instaurant</Link>
                         </div>
-                        <div className="collapse navbar-collapse" id="owner-nav-bar">
-                            <ul className="nav navbar-nav navbar-right">
-                                <li>
-                                    <Link to="/qrCode">
-                                        <span className="glyphicon glyphicon-qrcode" />&nbsp;QR Code
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/profile">
-                                        <span className="glyphicon glyphicon-user" />&nbsp;Profile
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/signin" onClick={this.onSignOut}>
-                                        <span className="glyphicon glyphicon-off" />&nbsp;Sign out
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
+                        <ul className="nav navbar-nav right-aligned-nav">
+                            <li>
+                                <Link to="/qrCode">
+                                    <span className="glyphicon glyphicon-qrcode" />
+                                    <span className="nav-text">&nbsp;QR Code</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/profile">
+                                    <span className="glyphicon glyphicon-user" />
+                                    <span className="nav-text">&nbsp;Profile</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/signin" onClick={this.onSignOut}>
+                                    <span className="glyphicon glyphicon-off" />
+                                    <span className="nav-text">&nbsp;Sign out</span>
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
                 <h1>This is the Administration Panel page!</h1>
