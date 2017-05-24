@@ -27,16 +27,6 @@ class AdministrationPanel extends Component {
                 <nav className="navbar navbar-default">
                     <div className="container-fluid">
                         <div className="navbar-header">
-                            <button
-                              type="button"
-                              className="navbar-toggle"
-                              data-toggle="collapse"
-                              data-target="#owner-nav-bar"
-                            >
-                                <span className="icon-bar" />
-                                <span className="icon-bar" />
-                                <span className="icon-bar" />
-                            </button>
                             {/* Stay on current page if click */}
                             <Link to={this.props.location} className="navbar-brand">Instaurant</Link>
                         </div>
