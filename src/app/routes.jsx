@@ -7,6 +7,7 @@ import SignUp from './components/SignUp';
 import ResetPassword from './components/ResetPassword';
 import AdministrationPanel from './components/AdministrationPanel';
 import Profile from './components/Profile';
+import QrCode from './components/QrCode';
 
 export default (
     <Switch>
@@ -17,5 +18,6 @@ export default (
         <Route path="/reset-password" component={ResetPassword} />
         <Route path="/admin" component={AdministrationPanel} />
         <Route path="/profile" component={Profile} />
+        <Route path="/qrCode" component={QrCode} />
     </Switch>
 );

@@ -43,6 +43,11 @@ class AdministrationPanel extends Component {
                         <div className="collapse navbar-collapse" id="owner-nav-bar">
                             <ul className="nav navbar-nav navbar-right">
                                 <li>
+                                    <Link to="/qrCode">
+                                        <span className="glyphicon glyphicon-qrcode" />&nbsp;QR Code
+                                    </Link>
+                                </li>
+                                <li>
                                     <Link to="/profile">
                                         <span className="glyphicon glyphicon-user" />&nbsp;Profile
                                     </Link>
