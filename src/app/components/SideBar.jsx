@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const SideBar = props => (
     <div id="sidebar" className="sidebar-wrapper" style={props.sidebarStyle}>
-        <ul className="sidebar-nav">
+        <ul className="sidebar-nav list-unstyled">
             {props.categories}
         </ul>
     </div>
