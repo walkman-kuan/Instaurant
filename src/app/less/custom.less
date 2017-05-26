@@ -2,20 +2,19 @@
 .color-option-1() {
     color: #0099cc;
 }
-// color-option-1 is Bootstrap highlight color
+// color-option-2 is Bootstrap highlight color
 
 /* General layout */
 body {
     font-size: 16px;
 }
 
-a {
-    .color-option-1;
-}
-
 
 /* The authentication page */
 .auth-page {
+    a {
+        .color-option-1;
+    }
     h1 {
         .color-option-1;
         margin-bottom: 30px;
@@ -24,6 +23,13 @@ a {
     form {
         margin: 15px 0 15px 0;
     }
+    /* Vetically `center` */
+    position: absolute;
+    top: 40%;
+    transform: translate(0%, -50%); // Standard
+    -ms-transform: translate(0%, -50%); // IE 9
+    -o-transform: translate(0%, -50%); // Opera
+    -webkit-transform: translate(0%, -50%); // Safari
 }
 
 .forgot-password {
