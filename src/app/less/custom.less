@@ -41,6 +41,7 @@ body {
     font-size: 16px;
 }
 
+
 /* Admin page */
 .admin-page-wrapper {
     .navbar-brand {
@@ -65,6 +66,56 @@ body {
   }
 }
 
+.sidebar-wrapper {
+    position: fixed; // Positioned relative to browser
+
+    /* Since top isn't 0, we have trouble render the last category in the sidebar. */
+    top: 52px;
+    bottom: 0;
+    left: 0;
+
+    z-index: 100; // Stay on top
+
+    height: 100%; // 100% full height
+    width: 250px;
+
+    padding-top: 30px;
+    border-right: 1px solid #eee;
+
+    background-color: #f5f5f5;
+    transition: 0.3s;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sidebar-nav {
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none; // Don't need any list item marker, etc
+    li {
+        text-indent: 30px;
+        line-height: 40px;
+        a {
+            display: block; // Highlight the whole <li> when a is hovered
+            text-decoration: none;
+
+            // TODO: Make sure the selected <li> is always highlighted
+            &:hover, &:active, &:focus {
+                background: #e5e5e5;
+            }
+        }
+    }
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 15px;
+    background-color: #727272;
+}
+
 
 /* Customized button */
 .btn.outline {
@@ -79,14 +130,38 @@ body {
 
 /*
     Responsive Design - Bootstrap 4 Break Points
-    Extra small <576px
-    Small ≥576px
-	Medium ≥768px
-	Large ≥992px
-	Extra large ≥1200px
+    Extra small < 576px
+    Small ≥ 576px
+    Medium ≥ 768px
+    Large ≥ 992px
+    Extra large ≥ 1200px
  */
-@media (max-width: 576px) {
+@media (max-width: 575px) {
     .nav-text {
+        display: none;
+    }
+
+    /* Hide the sidebar */
+    .sidebar-wrapper {
+        width: 0;
+    }
+
+    /* Remove the left margin of the main content */
+    .main-content {
+        margin-left: 0;
+    }
+
+    /* Tweak the narbar-toggle class to get our toggle button */
+    .navbar-toggle.sidebar-toggle {
+        display: block;
+        float: left;
+        margin-left: 15px;
+        margin-right: 0;
+    }
+}
+
+@media (min-width: 576px) {
+    .navbar-toggle.sidebar-toggle {
         display: none;
     }
 }

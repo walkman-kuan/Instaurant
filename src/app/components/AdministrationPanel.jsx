@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { isUserSignedIn, signOut } from '../firebaseService';
+import NavBar from './NavBar';
+import SideBar from './SideBar';
+import { isUserSignedIn } from '../firebaseService';
 
 class AdministrationPanel extends Component {
     constructor() {
         super();
-        this.onSignOut = this.onSignOut.bind(this);
+        this.state = {
+            isSiderBarHidden: true,
+            sidebarStyle: {},
+        };
+        this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
     }
 
     // If there is no signed-in user, redirect to the sign in page
@@ -17,42 +22,27 @@ class AdministrationPanel extends Component {
         }
     }
 
-    onSignOut() {
-        signOut();
+    handleToggleSidebar() {
+        const isSiderBarHidden = !this.state.isSiderBarHidden;
+        const sidebarStyle = this.state.isSiderBarHidden ? { width: '90%' } : {};
+        this.setState({ isSiderBarHidden, sidebarStyle });
     }
 
     render() {
+        const categories = ['Chicken', 'Beef', 'Lamb', 'Pork', 'Duck',
+            'Salad', 'Sushi', 'Ice Cream', 'Barrito', 'Tacco', 'Sandwich',
+            'Fries', 'Poutine', 'Kabbo', 'Noddle', 'Dumpling', 'Pizza',
+            'Pho', 'Pad Thai', 'Curry', 'Korean BBQ', 'Japanese BBQ',
+            'Tea', 'Bottled Water', 'Wine', 'Beer', 'Juice'];
+        const listOfCategories = categories.map(category => (
+            <li key={category}><a href={`#${category}`} id={category}>{category}</a></li>
+        ));
+
         return (
             <div className="admin-page-wrapper">
-                <nav className="navbar navbar-default">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            {/* Stay on current page if click */}
-                            <Link to={this.props.location} className="navbar-brand">Instaurant</Link>
-                        </div>
-                        <ul className="nav navbar-nav right-aligned-nav">
-                            <li>
-                                <Link to="/qrCode">
-                                    <span className="glyphicon glyphicon-qrcode" />
-                                    <span className="nav-text">&nbsp;QR Code</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/profile">
-                                    <span className="glyphicon glyphicon-user" />
-                                    <span className="nav-text">&nbsp;Profile</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/signin" onClick={this.onSignOut}>
-                                    <span className="glyphicon glyphicon-off" />
-                                    <span className="nav-text">&nbsp;Sign out</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                <h1>This is the Administration Panel page!</h1>
+                <NavBar onToggleSiderbar={this.handleToggleSidebar} />
+                <SideBar categories={listOfCategories} sidebarStyle={this.state.sidebarStyle} />
+                <div id="menu-content" className="main-content">Panel</div>
             </div>
         );
     }
@@ -60,7 +50,6 @@ class AdministrationPanel extends Component {
 
 AdministrationPanel.propTypes = {
     history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
 };
 
 export default AdministrationPanel;
