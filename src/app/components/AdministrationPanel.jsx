@@ -23,9 +23,11 @@ class AdministrationPanel extends Component {
     }
 
     handleToggleSidebar() {
-        const isSiderBarHidden = !this.state.isSiderBarHidden;
-        const sidebarStyle = this.state.isSiderBarHidden ? { width: '90%' } : {};
-        this.setState({ isSiderBarHidden, sidebarStyle });
+        // The new state depends on the prev state
+        this.setState(prevState => ({
+            isSiderBarHidden: !prevState.isSiderBarHidden,
+            sidebarStyle: prevState.isSiderBarHidden ? { width: '90%' } : {},
+        }));
     }
 
     render() {
@@ -34,6 +36,7 @@ class AdministrationPanel extends Component {
             'Fries', 'Poutine', 'Kabbo', 'Noddle', 'Dumpling', 'Pizza',
             'Pho', 'Pad Thai', 'Curry', 'Korean BBQ', 'Japanese BBQ',
             'Tea', 'Bottled Water', 'Wine', 'Beer', 'Juice'];
+        // Keys only make sense in the outest array elements, e.g., <li>, not <a>
         const listOfCategories = categories.map(category => (
             <li key={category}><a href={`#${category}`} id={category}>{category}</a></li>
         ));
