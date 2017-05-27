@@ -3,6 +3,14 @@
     color: #0099cc;
 }
 // color-option-2 is Bootstrap highlight color
+.color-option-3() {
+    color: #535353;
+}
+@color-option-4: #fcfcfc; // // Background of Sidebar header
+@color-option-5: #f5f5f5; // Background of Sidebar content
+@color-option-6: #e5e5e5; // Background of Sidebar content on hover
+
+@border-color: #eee;
 
 /* General layout */
 body {
@@ -50,7 +58,7 @@ body {
         &:hover, &:focus {
             .color-option-1;
         }
-        font-size: 24px;
+        font-size: 26px;
     }
 }
 
@@ -79,14 +87,22 @@ body {
     height: 100%; // 100% full height
     width: 250px;
 
-    padding-top: 30px;
-    border-right: 1px solid #eee;
+    border-right: 1px solid @border-color;
 
-    background-color: #f5f5f5;
+    background-color: @color-option-5;
     transition: 0.3s;
 
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.sidebar-header {
+    background-color: @color-option-4;
+    border-bottom: 1px solid #eee;
+    .color-option-3;
+    padding: 15px 0 15px 0;
+    text-indent: 30px;
+
 }
 
 .sidebar-nav {
@@ -101,7 +117,7 @@ body {
 
             // TODO: Make sure the selected <li> is always highlighted
             &:hover, &:active, &:focus {
-                background: #e5e5e5;
+                background: @color-option-6;
             }
         }
     }
