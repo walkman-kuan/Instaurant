@@ -6,10 +6,10 @@ import { signOut } from '../firebaseService';
 class NavBar extends Component {
     constructor() {
         super();
-        this.onSignOut = this.onSignOut.bind(this);
+        this.handleSignOut = this.handleSignOut.bind(this);
     }
 
-    onSignOut() {
+    handleSignOut() {
         signOut();
     }
 
@@ -44,7 +44,7 @@ class NavBar extends Component {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/signin" onClick={this.onSignOut}>
+                            <Link to="/signin" onClick={this.handleSignOut}>
                                 <span className="glyphicon glyphicon-off" />
                                 <span className="nav-text">&nbsp;Sign out</span>
                             </Link>
