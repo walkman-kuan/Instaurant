@@ -97,9 +97,9 @@ body {
     .color-option-3;
 
     border-bottom: 1px solid #eee;
-    padding: 15px 0 15px 30px;
+    padding: 10px 0 10px 30px;
 
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
 }
 .sidebar-nav {
@@ -124,6 +124,17 @@ body {
             &:hover, &:active, &:focus {
                 background: @color-option-6;
             }
+
+            &.disabled-link {
+                display: inline-block;; // Highlight the whole <li> when a is hovered
+            }
+        }
+
+        .category-edit {
+            display: inline-block;
+            .glyphicon {
+                text-indent: 5px;
+            }
         }
     }
 }
@@ -131,15 +142,27 @@ body {
 .sidebar-footer {
     background-color: @color-option-4;
     .color-option-3;
-    cursor: pointer;
-
-    height: 45px;
-    border-top: 1px solid @border-color;
-    padding: 13px 0 15px 30px;
-
     &:hover, &:active, &:focus {
         background: @color-option-6;
     }
+    padding: 13px 0 15px 30px;
+
+    /* Overwrite Bootstrap Button */
+    height: 45px;
+    width: 100%;
+    border-top-width: 1px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-style: solid;
+    border-color: @border-color;
+    text-align: inherit;
+    // Remove button outline and shadow
+    &:focus, &:active {
+      outline: none;
+      box-shadow: none;
+    }
+
 }
 .main-content {
     margin-left: 250px;
@@ -157,7 +180,6 @@ body {
 	border: 2px solid #0099cc;
 	.color-option-1;
 }
-
 
 /*
     Responsive Design - Bootstrap 4 Break Points
