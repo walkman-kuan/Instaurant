@@ -6,10 +6,10 @@ import { handlePasswordResetError } from '../utils/errorHandling';
 class ResetPassword extends Component {
     constructor() {
         super();
-        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    onFormSubmit(event) {
+    handleFormSubmit(event) {
         event.preventDefault();
 
         const email = this.email.value;
@@ -28,7 +28,7 @@ class ResetPassword extends Component {
                             Enter the email associated with your Instaurant account,
                             and we will email you a link to reset your password.
                         </span>
-                        <form id="reset-password-form" onSubmit={this.onFormSubmit}>
+                        <form id="reset-password-form" onSubmit={this.handleFormSubmit}>
                             <div className="form-group">
                                 <div className="input-group input-group-lg">
                                     <input

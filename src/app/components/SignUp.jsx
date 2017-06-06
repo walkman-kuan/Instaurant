@@ -7,10 +7,10 @@ import { handleSignUpError } from '../utils/errorHandling';
 class SignUp extends Component {
     constructor() {
         super();
-        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    onFormSubmit(event) {
+    handleFormSubmit(event) {
         event.preventDefault();
 
         const email = this.email.value;
@@ -35,7 +35,7 @@ class SignUp extends Component {
                 <h1>Sign Up</h1>
                 <div className="row">
                     <div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
-                        <form id="sign-up-form" onSubmit={this.onFormSubmit}>
+                        <form id="sign-up-form" onSubmit={this.handleFormSubmit}>
                             <div className="form-group">
                                 <div className="input-group input-group-lg">
                                     <input

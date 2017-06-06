@@ -4,10 +4,11 @@
     },
     "extends": "airbnb",
     "rules": {
+        "class-methods-use-this": ["warn", { "exceptMethods": ["handleSignOut"] }],
         "indent": [2, 4],
         "max-len": ["warn", 120],
-        "react/forbid-prop-types": [1, {"forbid": ["any"]}],
+        "react/forbid-prop-types": ["warn", {"forbid": ["any"]}],
         "react/jsx-indent": ["warn", 4],
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+        "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     }
 }

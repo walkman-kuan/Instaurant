@@ -7,10 +7,10 @@ import { handleSignInError } from '../utils/errorHandling';
 class SignIn extends Component {
     constructor() {
         super();
-        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    onFormSubmit(event) {
+    handleFormSubmit(event) {
         event.preventDefault();
 
         const email = this.email.value;
@@ -30,9 +30,11 @@ class SignIn extends Component {
                 <h1>Sign In</h1>
                 <div className="row">
                     <div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
-                        <form id="sign-in-form" onSubmit={this.onFormSubmit}>
+                        <form id="sign-in-form" onSubmit={this.handleFormSubmit}>
                             <div className="form-group">
                                 <div className="input-group input-group-lg">
+                                    {/* TODO: Considering using controlled components
+                                        to take advantage of their benefits */}
                                     <input
                                       type="email" className="form-control"
                                       id="email" name="email" placeholder="Email"
