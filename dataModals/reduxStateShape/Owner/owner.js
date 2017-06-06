@@ -17,7 +17,7 @@ const ownerReduxStateShape = {
      *     3. Order = length of list of categories + 1
      * 2. Update category
      *     1. Name is updated by owner
-     *     2. Order is updated based on orders of re-rendered <li>'s within <ul>
+     *     2. Order is updated, e.g., drag and drop, based on orders of re-rendered <li>'s within <ul>
      * 3. Delete category
      *     1. Order is updated based on orders of re-rendered <li>'s within <ul>
      *     2. All associated dishes are deleted
@@ -54,7 +54,7 @@ const ownerReduxStateShape = {
      * 2. Update dish
      *     1. Name, Price and Description are updated by owner
      *     2. Image URL is given by Firebase
-     *     2. Order is updated based on orders of re-rendered <li>'s within <ul>
+     *     2. Order is updated, e.g., drag and drop, based on orders of re-rendered <li>'s within <ul>
      * 3. Delete dish
      *     1. Order is updated based on orders of re-rendered <li>'s within <ul>
      */

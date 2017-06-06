@@ -111,22 +111,22 @@ const ownerDataStructure = {
         // qrCodes are organized by owner ID
         qrCodes: {
             owner1Id: {
-                qrCode1: {
+                qrCode1Id: {
                     id: 'idOfQrCode1',
                     // Each qrCode has an URL, e.g., https://www.instaurant.com?ownerId=idOfOwner1&tableNum=1
                     url: 'urlOfQrCode1',
                 },
-                qrCode2: {
+                qrCode2Id: {
                     id: 'idOfQrCode2',
                     url: 'urlOfQrCode2',
                 },
             },
             owner2Id: {
-                qrCode3: {
+                qrCode3Id: {
                     id: 'idOfQrCode3',
                     url: 'urlOfQrCode3',
                 },
-                qrCode4: {
+                qrCode4Id: {
                     id: 'idOfQrCode4',
                     url: 'urlOfQrCode4',
                 },

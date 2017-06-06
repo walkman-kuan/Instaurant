@@ -5,7 +5,6 @@ import { signOut } from '../firebaseService';
 
 const NavBar = ({ onToggleSiderbar }) => {
     const handleSignOut = () => {
-        console.log('Yo!');
         signOut();
     };
 
