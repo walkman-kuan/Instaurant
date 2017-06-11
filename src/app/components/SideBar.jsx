@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import CategoryList from './CategoryList';
 
 const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
     const { wrapperStyle, isEditingCategory } = sidebarStyle;
@@ -11,7 +12,7 @@ const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
                     Category
                 </div>
                 <ul className="sidebar-nav list-unstyled">
-                    {categories}
+                    <CategoryList categories={categories} isEditingCategory={isEditingCategory} />
                 </ul>
             </div>
             <button type="button" className="sidebar-footer" onClick={onCategoryEdit}>
@@ -26,9 +27,18 @@ const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
 };
 
 SideBar.propTypes = {
-    categories: PropTypes.array.isRequired,
+    categories: PropTypes.objectOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        order: PropTypes.number.isRequired,
+    })).isRequired,
     onCategoryEdit: PropTypes.func.isRequired,
-    sidebarStyle: PropTypes.object.isRequired,
+    sidebarStyle: PropTypes.shape({
+        isWrapperHidden: PropTypes.bool.isRequired,
+        wrapperStyle: PropTypes.object,
+        isEditingCategory: PropTypes.bool.isRequired,
+        navStyle: PropTypes.object,
+    }).isRequired,
 };
 
 export default SideBar;

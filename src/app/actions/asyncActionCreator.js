@@ -24,6 +24,8 @@ const fetchCategoriesFromFirebase = uid => (dispatch) => {
 
 // Fetch categories from Firebase if necessary
 const fetchCategoriesIfNeed = uid => (dispatch, getState) => {
+    // The return value can be accessed through dispatch(fetchCategoriesIfNeed(uid)).then()
+
     // Avoiding a network request if a cached value is already available
     if (shouldFetchCategory(getState())) {
         // Dispatch a thunk from thunk!
@@ -32,8 +34,6 @@ const fetchCategoriesIfNeed = uid => (dispatch, getState) => {
 
     // Let the calling code know there's nothing to wait for
     return Promise.resolve();
-    // The return value can be accessed through
-    // dispatch(fetchCategoriesIfNeed(uid)).then()
 };
 
 export default fetchCategoriesIfNeed;

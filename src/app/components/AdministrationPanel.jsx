@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
 import MenuContent from './MenuContent';
-import { isUserSignedIn } from '../firebaseService';
+import { isUserSignedIn, getCurrentSignInUser } from '../firebaseService';
+import fetchCategoriesIfNeed from '../actions/asyncActionCreator';
 
 class AdministrationPanel extends Component {
     constructor() {
@@ -21,35 +23,17 @@ class AdministrationPanel extends Component {
         this.handleEditCategory = this.handleEditCategory.bind(this);
     }
 
-    // If there is no signed-in user, redirect to the sign in page
+    // If there is no signed-in user, redirect to the sign in page.
+    // This happens when user refresh page at .../admin
     componentWillMount() {
         const { history } = this.props;
         if (!isUserSignedIn()) {
             history.replace('/signin');
+        } else {
+            // Fetech list of categories if need
+            const { dispatch } = this.props;
+            dispatch(fetchCategoriesIfNeed(getCurrentSignInUser().uid));
         }
-    }
-
-    getCategoryList(categories) {
-        const isEditing = this.state.sidebarStyle.isEditingCategory;
-        // Keys only make sense in the outest array elements, e.g., <li>, not <a>
-        return (
-            categories.map(category => (
-                <li key={category}>
-                    <a
-                      href={`#${category}`}
-                      id={category}
-                      className={isEditing ? 'disabled-link' : ''}
-                    >
-                        {category}
-                    </a>
-                    {isEditing &&
-                        <div className="category-edit">
-                            <span className="glyphicon glyphicon-pencil" />
-                            <span className="glyphicon glyphicon-move" />
-                        </div>
-                    }
-                </li>
-        )));
     }
 
     handleToggleSidebar() {
@@ -74,21 +58,11 @@ class AdministrationPanel extends Component {
     }
 
     render() {
-        /*
-        const categories = ['Chicken', 'Beef', 'Lamb', 'Pork', 'Duck',
-            'Salad', 'Sushi', 'Ice Cream', 'Barrito', 'Tacco', 'Sandwich',
-            'Fries', 'Poutine', 'Kabbo', 'Noddle', 'Dumpling', 'Pizza',
-            'Pho', 'Pad Thai', 'Curry', 'Korean BBQ', 'Japanese BBQ',
-            'Tea', 'Bottled Water', 'Wine', 'Beer', 'Juice'];
-        */
-        const categories = ['Chicken', 'Beef', 'Lamb', 'Pork', 'Duck', 'Salad', 'Sushi'];
-        const listOfCategories = this.getCategoryList(categories);
-
         return (
             <div className="admin-page-wrapper">
                 <NavBar onToggleSiderbar={this.handleToggleSidebar} />
                 <SideBar
-                  categories={listOfCategories}
+                  categories={this.props.categories}
                   sidebarStyle={this.state.sidebarStyle}
                   onCategoryEdit={this.handleEditCategory}
                 />
@@ -99,7 +73,15 @@ class AdministrationPanel extends Component {
 }
 
 AdministrationPanel.propTypes = {
+    categories: PropTypes.objectOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        order: PropTypes.number.isRequired,
+    })).isRequired,
+    dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
 
-export default AdministrationPanel;
+const mapStateToProps = state => ({ categories: state.categories });
+
+export default connect(mapStateToProps)(AdministrationPanel);
