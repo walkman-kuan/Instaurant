@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
 import actionTypes from '../actions/actionTypes';
 
 // The reducer managing the category state
-const manageCategries = (state = {}, action) => {
+const manageCategries = (state = { isFetching: false, alreadyFetched: false, items: {} }, action) => {
     switch (action.type) {
+    case actionTypes.FETCHING_CATEGORY:
+        return { ...state, isFetching: true };
     case actionTypes.RECEIVE_CATEGORY:
-        return action.categories;
+        return { isFetching: false, alreadyFetched: true, items: action.categories };
     default:
         return state;
     }
@@ -22,8 +24,8 @@ const manageDishes = (state = {}, action) => {
 };
 
 const rootReducer = combineReducers({
-    categories: manageCategries,
-    dishes: manageDishes,
+    category: manageCategries,
+    dish: manageDishes,
 });
 
 export default rootReducer;

@@ -30,7 +30,9 @@ class AdministrationPanel extends Component {
         if (!isUserSignedIn()) {
             history.replace('/signin');
         } else {
-            // Fetech list of categories if need
+            // Fetech list of categories if need.
+            // Note that render() will be called before fetchCategoriesIfNeed()
+            // is resolved since fetchCategoriesIfNeed() is async
             const { dispatch } = this.props;
             dispatch(fetchCategoriesIfNeed(getCurrentSignInUser().uid));
         }
@@ -58,11 +60,12 @@ class AdministrationPanel extends Component {
     }
 
     render() {
+        const { alreadyFetched, items } = this.props;
         return (
             <div className="admin-page-wrapper">
                 <NavBar onToggleSiderbar={this.handleToggleSidebar} />
                 <SideBar
-                  categories={this.props.categories}
+                  categories={items}
                   sidebarStyle={this.state.sidebarStyle}
                   onCategoryEdit={this.handleEditCategory}
                 />
@@ -73,15 +76,21 @@ class AdministrationPanel extends Component {
 }
 
 AdministrationPanel.propTypes = {
-    categories: PropTypes.objectOf(PropTypes.shape({
+    items: PropTypes.objectOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
+    alreadyFetched: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({ categories: state.categories });
+const mapStateToProps = state => (
+    {
+        alreadyFetched: state.category.alreadyFetched,
+        items: state.category.items,
+    }
+);
 
 export default connect(mapStateToProps)(AdministrationPanel);
