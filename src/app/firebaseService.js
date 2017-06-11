@@ -3,7 +3,7 @@
 import firebaseApp from './firebaseApp';
 
 const firebaseAuth = firebaseApp.auth();
-// const firebaseDatabase = firebaseApp.database();
+const firebaseDatabase = firebaseApp.database();
 
 /**
  * Check whether there is a signed-in user
@@ -46,3 +46,8 @@ export const sendPasswordResetEmail = email => firebaseAuth.sendPasswordResetEma
  * Sign out the current Instaurant owner
  */
 export const signOut = () => firebaseAuth.signOut();
+
+/**
+ * Fetech a list of ordered categories given the uid
+ */
+export const fetchCategories = uid => firebaseDatabase.ref(`categories/${uid}`).orderByChild('order').once('value');
