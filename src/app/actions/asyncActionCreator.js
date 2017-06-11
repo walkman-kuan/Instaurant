@@ -2,22 +2,33 @@
 import { fetchingCategories, receiveCategories } from './actionCreator';
 import { fetchCategories } from '../firebaseService';
 
-// Return true if there is not categories in the state tree.
-// The Object.key() method returns an array of a given object's own enumerable properties
-const shouldFetchCategory = state => (Object.keys(state.categories).length === 0);
+// Return {true} if we are not in the process of fetching, have already fetched before,
+// or the list of fetched categories is not empty
+const shouldFetchCategory = ({ isFetching, alreadyFetched, items }) => {
+    // Object.keys(objName) returns an array of the given object's own enumerable properties
+    if (isFetching || alreadyFetched || Object.keys(items).length > 0) {
+        return false;
+    }
+
+    return true;
+};
 
 // Fetch categories from Firebase
 const fetchCategoriesFromFirebase = uid => (dispatch) => {
     fetchCategories(uid).then((snapshot) => {
         const categories = {};
-        snapshot.forEach((data) => {
-            categories[data.key] = {
-                // data.key and data.val().id are the same
-                id: data.key,
-                name: data.val().name,
-                order: data.val().order,
-            };
-        });
+        // Get the data out of this snapshot if it contains any data
+        if (snapshot.exists()) {
+            snapshot.forEach((data) => {
+                categories[data.key] = {
+                    // data.key and data.val().id are the same
+                    id: data.key,
+                    name: data.val().name,
+                    order: data.val().order,
+                };
+            });
+        }
+
         dispatch(receiveCategories(categories));
     });
 };
@@ -27,7 +38,7 @@ const fetchCategoriesIfNeed = uid => (dispatch, getState) => {
     // The return value can be accessed through dispatch(fetchCategoriesIfNeed(uid)).then()
 
     // Avoiding a network request if a cached value is already available
-    if (shouldFetchCategory(getState())) {
+    if (shouldFetchCategory(getState().category)) {
         // Change the status isFetching to true
         dispatch(fetchingCategories());
 
