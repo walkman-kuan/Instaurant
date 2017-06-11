@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
 import MenuContent from './MenuContent';
+import ConfigureCategory from './modals/ConfigureCategory';
 import { isUserSignedIn, getCurrentSignInUser } from '../firebaseService';
 import fetchCategoriesIfNeed from '../actions/asyncActionCreator';
 
@@ -70,6 +71,9 @@ class AdministrationPanel extends Component {
                   onCategoryEdit={this.handleEditCategory}
                 />
                 <MenuContent />
+
+                {/* Show the Configure Menu modal if, after fetching, there is no configured categories. */}
+                {alreadyFetched && Object.keys(items).length < 1 && <ConfigureCategory />}
             </div>
         );
     }
