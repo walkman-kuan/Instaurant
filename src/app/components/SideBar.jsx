@@ -4,6 +4,7 @@ import CategoryList from './CategoryList';
 
 const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
     const { wrapperStyle, isEditingCategory } = sidebarStyle;
+    const showCategoryInfo = Object.keys(categories).length > 0;
 
     return (
         <div id="sidebar" className="sidebar-wrapper" style={wrapperStyle}>
@@ -11,17 +12,22 @@ const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
                 <div className="sidebar-header">
                     Category
                 </div>
-                <ul className="sidebar-nav list-unstyled">
-                    <CategoryList categories={categories} isEditingCategory={isEditingCategory} />
-                </ul>
-            </div>
-            <button type="button" className="sidebar-footer" onClick={onCategoryEdit}>
-                {isEditingCategory ? (
-                    <span><span className="glyphicon glyphicon-saved" />&nbsp;Complete editing</span>
-                ) : (
-                    <span><span className="glyphicon glyphicon-edit" />&nbsp;Edit categories</span>
+                {/* Show category-related information only when there are configured categories */}
+                {showCategoryInfo && (
+                    <ul className="sidebar-nav list-unstyled">
+                        <CategoryList categories={categories} isEditingCategory={isEditingCategory} />
+                    </ul>
                 )}
-            </button>
+            </div>
+            {showCategoryInfo && (
+                <button type="button" className="sidebar-footer" onClick={onCategoryEdit}>
+                    {isEditingCategory ? (
+                        <span><span className="glyphicon glyphicon-saved" />&nbsp;Complete editing</span>
+                    ) : (
+                        <span><span className="glyphicon glyphicon-edit" />&nbsp;Edit categories</span>
+                    )}
+                </button>
+            )}
         </div>
     );
 };
