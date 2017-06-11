@@ -1,5 +1,5 @@
 // All the async action creators for Instaurant
-import receiveCategories from './actionCreator';
+import { fetchingCategories, receiveCategories } from './actionCreator';
 import { fetchCategories } from '../firebaseService';
 
 // Return true if there is not categories in the state tree.
@@ -28,6 +28,9 @@ const fetchCategoriesIfNeed = uid => (dispatch, getState) => {
 
     // Avoiding a network request if a cached value is already available
     if (shouldFetchCategory(getState())) {
+        // Change the status isFetching to true
+        dispatch(fetchingCategories());
+
         // Dispatch a thunk from thunk!
         return dispatch(fetchCategoriesFromFirebase(uid));
     }

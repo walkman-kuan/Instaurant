@@ -1,11 +1,11 @@
 // All the sysnchronous action creators for Instaurant
 import actionTypes from './actionTypes';
 
-const receiveCategories = categories => (
+export const receiveCategories = categories => (
     {
         type: actionTypes.RECEIVE_CATEGORY,
         categories,
     }
 );
 
-export default receiveCategories;
+export const fetchingCategories = () => ({ type: actionTypes.FETCHING_CATEGORY });

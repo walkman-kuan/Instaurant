@@ -15,7 +15,7 @@ const CategoryList = ({ categories, isEditingCategory }) => (
 );
 
 CategoryList.propTypes = {
-    // A object of property values of an catgory shape
+    // A object of property values of a category shape
     categories: PropTypes.objectOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
