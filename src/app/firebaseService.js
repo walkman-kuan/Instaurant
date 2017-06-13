@@ -7,12 +7,14 @@ const firebaseDatabase = firebaseApp.database();
 
 /**
  * Check whether there is a signed-in user
+ *
  * @return {boolean.true} if user is signed-in
  */
 export const isUserSignedIn = () => firebaseAuth.currentUser != null;
 
 /**
  * Return the current signed-in user after sign in or sign up
+ *
  * @return {firebase.User}
  */
 export const getCurrentSignInUser = () => firebaseAuth.currentUser;
@@ -38,12 +40,15 @@ firebaseAuth.signInWithEmailAndPassword(credentials.email, credentials.password)
 /**
  * Sign in an Insturant owner using email and password
  *
- * @param email is the email address with the password to be reset.
+ * @param email is the email address with the password to be reset
+ * @return {firebase.Promise} containing void
  */
 export const sendPasswordResetEmail = email => firebaseAuth.sendPasswordResetEmail(email);
 
 /**
  * Sign out the current Instaurant owner
+ *
+ * @return {firebase.Promise} containing void
  */
 export const signOut = () => firebaseAuth.signOut();
 
