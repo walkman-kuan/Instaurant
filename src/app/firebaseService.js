@@ -64,5 +64,8 @@ export const signOut = () => firebaseAuth.signOut();
  * Fetech a list of ordered categories given the uid
  *
  * @param uid is the owner id
+ * @return {firebase.Promise} containing the list of categories
  */
-export const fetchCategories = uid => firebaseDatabase.ref(`categories/${uid}`).orderByChild('order').once('value');
+export const firebaseFetchCategories = uid => (
+    firebaseDatabase.ref(`categories/${uid}`).orderByChild('order').once('value')
+);

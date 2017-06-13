@@ -1,6 +1,6 @@
 // All the async action creators for Instaurant
 import { fetchingCategories, receiveCategories } from './actionCreator';
-import { fetchCategories } from '../firebaseService';
+import { firebaseFetchCategories } from '../firebaseService';
 
 // Return {true} if we are not in the process of fetching, have already fetched before,
 // or the list of fetched categories is not empty
@@ -15,7 +15,7 @@ const shouldFetchCategory = ({ isFetching, alreadyFetched, items }) => {
 
 // Fetch categories from Firebase
 const fetchCategoriesFromFirebase = uid => (dispatch) => {
-    fetchCategories(uid).then((snapshot) => {
+    firebaseFetchCategories(uid).then((snapshot) => {
         const categories = {};
         // Get the data out of this snapshot if it contains any data
         if (snapshot.exists()) {
