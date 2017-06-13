@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CategoryList from './CategoryList';
+import AddCategoryButton from './AddCategoryButton';
 
 const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
     const { wrapperStyle, isEditingCategory } = sidebarStyle;
     const showCategoryInfo = Object.keys(categories).length > 0;
+    // -90px for both the 'Add category' and 'Edit categories' buttons
+    const marginBottom = showCategoryInfo ? { marginBottom: '-90px' } : { marginBottom: '-45px' };
 
     return (
         <div id="sidebar" className="sidebar-wrapper" style={wrapperStyle}>
-            <div className="sidebar-content">
+            <div className="sidebar-content" style={marginBottom}>
                 <div className="sidebar-header">
                     Category
                 </div>
@@ -19,6 +22,7 @@ const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
                     </ul>
                 )}
             </div>
+            <AddCategoryButton />
             {showCategoryInfo && (
                 <button type="button" className="sidebar-footer" onClick={onCategoryEdit}>
                     {isEditingCategory ? (
