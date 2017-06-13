@@ -29,6 +29,14 @@ export const signUpWithEmailAndPassword = credentials =>
 firebaseAuth.createUserWithEmailAndPassword(credentials.email, credentials.password);
 
 /**
+ * Add an owner object to the Realtime Database
+ *
+ * @param ownerId is the uid of the owner of type of {firebase.User}
+ * @return {firebase.Promise} containing void
+ */
+export const firebaseAddOwner = ownerId => firebaseDatabase.ref(`owners/${ownerId}`).set({ id: ownerId });
+
+/**
  * Sign in an Insturant owner using email and password
  *
  * @param credentials contains an email address and a password
