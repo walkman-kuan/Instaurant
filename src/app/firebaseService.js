@@ -61,11 +61,11 @@ export const sendPasswordResetEmail = email => firebaseAuth.sendPasswordResetEma
 export const signOut = () => firebaseAuth.signOut();
 
 /**
- * Fetech a list of ordered categories given the uid
+ * Fetech a list of ordered categories given the ownerId
  *
- * @param uid is the owner id
+ * @param ownerId is the owner id
  * @return {firebase.Promise} containing the list of categories
  */
-export const firebaseFetchCategories = uid => (
-    firebaseDatabase.ref(`categories/${uid}`).orderByChild('order').once('value')
+export const firebaseFetchCategories = ownerId => (
+    firebaseDatabase.ref(`categories/${ownerId}`).orderByChild('order').once('value')
 );

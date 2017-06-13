@@ -14,8 +14,8 @@ const shouldFetchCategory = ({ isFetching, alreadyFetched, items }) => {
 };
 
 // Fetch categories from Firebase
-const fetchCategoriesFromFirebase = uid => (dispatch) => {
-    firebaseFetchCategories(uid).then((snapshot) => {
+const fetchCategoriesFromFirebase = ownerId => (dispatch) => {
+    firebaseFetchCategories(ownerId).then((snapshot) => {
         const categories = {};
         // Get the data out of this snapshot if it contains any data
         if (snapshot.exists()) {
@@ -34,8 +34,8 @@ const fetchCategoriesFromFirebase = uid => (dispatch) => {
 };
 
 // Fetch categories from Firebase if necessary
-const fetchCategoriesIfNeed = uid => (dispatch, getState) => {
-    // The return value can be accessed through dispatch(fetchCategoriesIfNeed(uid)).then()
+export const fetchCategoriesIfNeed = ownerId => (dispatch, getState) => {
+    // The return value can be accessed through dispatch(fetchCategoriesIfNeed(ownerId)).then()
 
     // Avoiding a network request if a cached value is already available
     if (shouldFetchCategory(getState().category)) {
@@ -43,7 +43,7 @@ const fetchCategoriesIfNeed = uid => (dispatch, getState) => {
         dispatch(fetchingCategories());
 
         // Dispatch a thunk from thunk!
-        return dispatch(fetchCategoriesFromFirebase(uid));
+        return dispatch(fetchCategoriesFromFirebase(ownerId));
     }
 
     // Let the calling code know there's nothing to wait for
