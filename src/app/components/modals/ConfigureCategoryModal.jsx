@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class ConfigureCategory extends Component {
+class ConfigureCategoryModal extends Component {
     // Simulate a click to show the modal
     componentDidMount() {
         this.hiddenButton.click();
@@ -41,4 +41,4 @@ class ConfigureCategory extends Component {
     }
 }
 
-export default ConfigureCategory;
+export default ConfigureCategoryModal;
