@@ -69,3 +69,24 @@ export const signOut = () => firebaseAuth.signOut();
 export const firebaseFetchCategories = ownerId => (
     firebaseDatabase.ref(`categories/${ownerId}`).orderByChild('order').once('value')
 );
+
+/**
+ * Add a category given the ownerId, name, and order
+ *
+ * @param ownerId is the owner id
+ * @param name is the category name
+ * @param order is the caegory order within the existing category list
+ * @return {firebase.Promise} containing the new category
+ */
+export const firebaseAddCategory = (ownerId, name, order) => {
+    // Generates a new category location using a unique key and returns its Reference
+    const newCategoryRef = firebaseDatabase.ref(`categories/${ownerId}`).push();
+    // Update the empty location with a concrete category object
+    newCategoryRef.update({
+        id: newCategoryRef.key,
+        name,
+        order,
+    });
+
+    return newCategoryRef.once('value');
+};

@@ -5,8 +5,9 @@ import NavBar from './NavBar';
 import SideBar from './SideBar';
 import MenuContent from './MenuContent';
 import ConfigureCategoryModal from './modals/ConfigureCategoryModal';
+import AddCategoryModal from './modals/AddCategoryModal';
 import { isUserSignedIn, getCurrentSignInUser } from '../firebaseService';
-import fetchCategoriesIfNeed from '../actions/asyncActionCreator';
+import { fetchCategoriesIfNeed } from '../actions/asyncActionCreator';
 
 class AdministrationPanel extends Component {
     constructor() {
@@ -74,6 +75,7 @@ class AdministrationPanel extends Component {
 
                 {/* Show the Configure Menu modal if, after fetching, there is no configured categories. */}
                 {alreadyFetched && Object.keys(items).length < 1 && <ConfigureCategoryModal />}
+                <AddCategoryModal />
             </div>
         );
     }

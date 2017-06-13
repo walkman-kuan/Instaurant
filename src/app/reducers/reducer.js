@@ -8,6 +8,9 @@ const manageCategries = (state = { isFetching: false, alreadyFetched: false, ite
         return { ...state, isFetching: true };
     case actionTypes.RECEIVE_CATEGORY:
         return { isFetching: false, alreadyFetched: true, items: action.categories };
+    case actionTypes.ADD_CATEGORY:
+        // Update nested objects in 'items'
+        return { ...state, items: { ...state.items, [action.category.id]: action.category } };
     default:
         return state;
     }

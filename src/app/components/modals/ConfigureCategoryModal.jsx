@@ -21,7 +21,7 @@ class ConfigureCategoryModal extends Component {
                             </div>
                             <div className="modal-body">
                                 <p>
-                                    Click the add category button in the Category section
+                                    Click the add a category button in the Category section
                                     to add a new category and start to configure your menu!
                                 </p>
                             </div>
