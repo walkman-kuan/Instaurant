@@ -121,20 +121,30 @@ body {
             display: block; // Highlight the whole <li> when a is hovered
             text-decoration: none;
 
-            // TODO: Make sure the selected <li> is always highlighted
+            // TODO: Make sure the selected <li> is ALWAYS highlighted while editing dishes
             &:hover, &:active, &:focus {
                 background: @color-option-6;
             }
 
             &.disabled-link {
-                display: inline-block;; // Highlight the whole <li> when a is hovered
+                pointer-events: none; // Prevent the <li> being a target of mouse events
+                display: inline; // Avoid moving the editing icons to next line
             }
         }
 
         .category-edit {
             display: inline-block;
-            .glyphicon {
-                text-indent: 5px;
+
+            // Right align the category editing div
+            position: absolute;
+            right: 3px;
+
+            a {
+                display: inline;
+                text-indent: 8px;
+                &:hover, &:active, &:focus {
+                    background: @color-option-5;
+                }
             }
         }
     }
