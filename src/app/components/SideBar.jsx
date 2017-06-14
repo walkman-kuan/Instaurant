@@ -16,11 +16,9 @@ const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
                     Category
                 </div>
                 {/* Show category-related information only when there are configured categories */}
-                {showCategoryInfo && (
-                    <ul className="sidebar-nav list-unstyled">
-                        <CategoryList categories={categories} isEditingCategory={isEditingCategory} />
-                    </ul>
-                )}
+                {showCategoryInfo &&
+                    <CategoryList categories={categories} isEditingCategory={isEditingCategory} />
+                }
             </div>
             <AddCategoryButton />
             {showCategoryInfo && (
