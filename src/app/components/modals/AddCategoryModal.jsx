@@ -19,8 +19,9 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
         // Reset the name field so that it is empty when shown again
         categoryName.value = '';
 
-        // We can't add 'data-dismiss' to the 'addBtn', therefore, simulate a click
-        // on 'cancelBtn', after form submission, to dismiss the modal
+        // We can't add 'data-dismiss' to the 'addBtn', otherwise, the submit
+        // functionality won't work. Therefore, simulate a click on 'cancelBtn',
+        // after form submission, to dismiss the modal
         cancelBtn.click();
     };
 
@@ -43,7 +44,7 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
                                 {/* Using uncontrolled component */}
                                 <input
                                   type="text" className="form-control"
-                                  id="category-name" name="category-ame" placeholder="Category name"
+                                  id="category-name" name="category-name" placeholder="Category name"
                                   ref={(categoryNameNode) => { categoryName = categoryNameNode; }} required
                                 />
                             </div>
