@@ -16,3 +16,10 @@ export const addCategory = category => (
         category,
     }
 );
+
+export const selectedCategory = selectedCategoryId => (
+    {
+        type: actionTypes.SELECT_CATEGORY,
+        selectedCategoryId,
+    }
+);

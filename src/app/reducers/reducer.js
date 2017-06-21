@@ -26,9 +26,19 @@ const manageDishes = (state = {}, action) => {
     }
 };
 
+const selectedCategory = (state = '', action) => {
+    switch (action.type) {
+    case actionTypes.SELECT_CATEGORY:
+        return action.selectedCategoryId;
+    default:
+        return state;
+    }
+};
+
 const rootReducer = combineReducers({
     category: manageCategries,
     dish: manageDishes,
+    selectedCategory,
 });
 
 export default rootReducer;
