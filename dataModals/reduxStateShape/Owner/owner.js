@@ -10,6 +10,11 @@
 
 const ownerReduxStateShape = {
     /**
+     * Actions: select a category or dish, and start editing
+     */
+    selectedCategory: 'selectedCategoryId',
+    selectedDish: 'selectedDishId',
+    /**
      * Actions
      * 1. Add category
      *     1. ID is given by Firebase
