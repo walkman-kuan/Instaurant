@@ -44,7 +44,7 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
                                 {/* Using uncontrolled component */}
                                 <input
                                   type="text" className="form-control"
-                                  id="category-name" name="category-name" placeholder="Category name"
+                                  id="add-category-name" name="add-category-name" placeholder="Category name"
                                   ref={(categoryNameNode) => { categoryName = categoryNameNode; }} required
                                 />
                             </div>
