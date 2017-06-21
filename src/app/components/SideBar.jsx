@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import CategoryList from './CategoryList';
 import AddCategoryButton from './AddCategoryButton';
 
-const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
-    const { wrapperStyle, isEditingCategory } = sidebarStyle;
+const SideBar = ({ categories, onEditingCategories, sidebarStyle }) => {
+    const { wrapperStyle, isEditingCategories } = sidebarStyle;
     const showCategoryInfo = Object.keys(categories).length > 0;
     // -90px for both the 'Add category' and 'Edit categories' buttons
     const marginBottom = showCategoryInfo ? { marginBottom: '-90px' } : { marginBottom: '-45px' };
@@ -17,13 +17,13 @@ const SideBar = ({ categories, onCategoryEdit, sidebarStyle }) => {
                 </div>
                 {/* Show category-related information only when there are configured categories */}
                 {showCategoryInfo &&
-                    <CategoryList categories={categories} isEditingCategory={isEditingCategory} />
+                    <CategoryList categories={categories} isEditingCategories={isEditingCategories} />
                 }
             </div>
             <AddCategoryButton />
             {showCategoryInfo && (
-                <button type="button" className="sidebar-footer" onClick={onCategoryEdit}>
-                    {isEditingCategory ? (
+                <button type="button" className="sidebar-footer" onClick={onEditingCategories}>
+                    {isEditingCategories ? (
                         <span><span className="glyphicon glyphicon-saved" />&nbsp;Complete editing</span>
                     ) : (
                         <span><span className="glyphicon glyphicon-edit" />&nbsp;Edit categories</span>
@@ -40,12 +40,11 @@ SideBar.propTypes = {
         name: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
-    onCategoryEdit: PropTypes.func.isRequired,
+    onEditingCategories: PropTypes.func.isRequired,
     sidebarStyle: PropTypes.shape({
         isWrapperHidden: PropTypes.bool.isRequired,
         wrapperStyle: PropTypes.object,
-        isEditingCategory: PropTypes.bool.isRequired,
-        navStyle: PropTypes.object,
+        isEditingCategories: PropTypes.bool.isRequired,
     }).isRequired,
 };
 

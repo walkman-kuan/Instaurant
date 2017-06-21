@@ -17,12 +17,11 @@ class AdministrationPanel extends Component {
             sidebarStyle: {
                 isWrapperHidden: true,
                 wrapperStyle: {},
-                isEditingCategory: false,
-                navStyle: {},
+                isEditingCategories: false,
             },
         };
         this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
-        this.handleEditCategory = this.handleEditCategory.bind(this);
+        this.handleEditingCategories = this.handleEditingCategories.bind(this);
     }
 
     // If there is no signed-in user, redirect to the sign in page.
@@ -42,23 +41,22 @@ class AdministrationPanel extends Component {
 
     handleToggleSidebar() {
         // The new state depends on the prev state
-        this.setState(prevState => ({
-            sidebarStyle: {
-                isWrapperHidden: !prevState.sidebarStyle.isWrapperHidden,
-                wrapperStyle: prevState.sidebarStyle.isWrapperHidden ? { width: '90%' } : {},
-                isEditingCategory: prevState.sidebarStyle.isEditingCategory,
-            },
-        }));
+        this.setState(prevState => (
+            { ...prevState,
+                sidebarStyle: { ...prevState.sidebarStyle,
+                    isWrapperHidden: !prevState.sidebarStyle.isWrapperHidden,
+                    wrapperStyle: prevState.sidebarStyle.isWrapperHidden ? { width: '90%' } : {},
+                },
+            }));
     }
 
-    handleEditCategory() {
-        this.setState(prevState => ({
-            sidebarStyle: {
-                isWrapperHidden: prevState.sidebarStyle.isWrapperHidden,
-                wrapperStyle: prevState.sidebarStyle.wrapperStyle,
-                isEditingCategory: !prevState.sidebarStyle.isEditingCategory,
-            },
-        }));
+    handleEditingCategories() {
+        this.setState(prevState => (
+            { ...prevState,
+                sidebarStyle: { ...prevState.sidebarStyle,
+                    isEditingCategories: !prevState.sidebarStyle.isEditingCategories,
+                },
+            }));
     }
 
     render() {
@@ -69,7 +67,7 @@ class AdministrationPanel extends Component {
                 <SideBar
                   categories={items}
                   sidebarStyle={this.state.sidebarStyle}
-                  onCategoryEdit={this.handleEditCategory}
+                  onEditingCategories={this.handleEditingCategories}
                 />
                 <MenuContent />
 

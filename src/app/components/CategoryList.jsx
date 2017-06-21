@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Category from './Category';
 
-const CategoryList = ({ categories, isEditingCategory }) => (
+const CategoryList = ({ categories, isEditingCategories }) => (
     <ul className="sidebar-nav list-unstyled">
         {Object.values(categories).map(category =>
             <Category
               key={category.id}
-              isEditingCategory={isEditingCategory}
+              isEditingCategories={isEditingCategories}
               {...category}
             />)
         }
@@ -21,7 +21,7 @@ CategoryList.propTypes = {
         name: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
-    isEditingCategory: PropTypes.bool.isRequired,
+    isEditingCategories: PropTypes.bool.isRequired,
 };
 
 export default CategoryList;
