@@ -31,6 +31,7 @@ class ConfigureCategoryModal extends Component {
 
                 {/* Hidden button */}
                 <button
+                  className="hidden-element"
                   type="button"
                   data-toggle="modal"
                   data-target="#start-configure-menu"
