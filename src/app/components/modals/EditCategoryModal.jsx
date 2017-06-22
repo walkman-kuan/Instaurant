@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCurrentSignInUser } from '../../firebaseService';
+import { selectedCategory } from '../../actions/actionCreator';
 import { updateCategoryName } from '../../actions/asyncActionCreator';
 
 
@@ -25,11 +26,15 @@ class EditCategoryModal extends Component {
      * 2. Edit a category, but new name === old name, save it, and click to edit
      * the same category again
      */
-    componentWillReceiveProps({ selectedCategoryName }) {
-        this.categoryName.value = selectedCategoryName;
+    componentWillReceiveProps({ selectedCategoryId, categories }) {
+        if (selectedCategoryId !== '') {
+            const currentCategoryName = categories[selectedCategoryId].name;
 
-        // Set the category name before editing to the category name
-        this.categoryNameBeforeEditing = selectedCategoryName;
+            // Set the category name before editing to the current category name
+            this.categoryNameBeforeEditing = currentCategoryName;
+            // Set the displayed category name
+            this.categoryName.value = currentCategoryName;
+        }
     }
 
     handleSubmit(event) {
@@ -51,9 +56,14 @@ class EditCategoryModal extends Component {
         this.cancelBtn.click();
     }
 
-    // Reset the value of the category name field to the category name before editing
-    // if a user enters a new category but clicks cancel.
-    // This gets called on submitBtn and cancelBtn click
+    /**
+     * Reset the displayed category name to the category name before editing if a user
+     * enters a new category name, but clicks cancel. This makes sure that when the
+     * Modal shows again, the displayed category name will always be the current category
+     * name, not the dirty displayed category name left from previous cancelled editing!
+     *
+     * Note that this method gets called on submitBtn and cancelBtn click
+     */
     handleCancelBtnClick() {
         this.categoryName.value = this.categoryNameBeforeEditing;
     }
@@ -77,8 +87,8 @@ class EditCategoryModal extends Component {
                                 <div className="form-group">
                                     {/* Using uncontrolled component */}
                                     <input
-                                      type="text" className="form-control"
-                                      id="edit-category-name" name="edit-category-name" defaultValue="" required
+                                      type="text" className="form-control" id="edit-category-name"
+                                      name="edit-category-name" defaultValue="defaultValue" required
                                       ref={(categoryNameNode) => { this.categoryName = categoryNameNode; }}
                                     />
                                 </div>
@@ -109,17 +119,19 @@ class EditCategoryModal extends Component {
 }
 
 EditCategoryModal.propTypes = {
-    dispatch: PropTypes.func.isRequired,
     selectedCategoryId: PropTypes.string.isRequired,
-    selectedCategoryName: PropTypes.string.isRequired,
+    categories: PropTypes.objectOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        order: PropTypes.number.isRequired,
+    })).isRequired,
+    dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => (
     {
         selectedCategoryId: state.selectedCategory,
-        // Return 'initialValue' when Redux calls our reducers for the first time
-        selectedCategoryName: state.selectedCategory === '' ? 'initialValue'
-         : state.category.items[state.selectedCategory].name,
+        categories: state.category.items,
     }
 );
 
