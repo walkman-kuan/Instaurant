@@ -13,6 +13,16 @@ class EditCategoryModal extends Component {
         this.handleCancelBtnClick = this.handleCancelBtnClick.bind(this);
     }
 
+    // Reset `selectedCategory` to '' so that whenever we click to edit a category, Redux
+    // always re-renders the Edit Modal, i.e.,  componentWillReceiveProps is always called.
+    // Without resetting selectedCategory: If we navigate back from any routing point, and
+    // click to edit the SAME category we just edited before, Redux won't re-render this
+    // Modal because the prev and current states, i.e., `selectedCategory`, are the same!
+    componentDidMount() {
+        const { dispatch } = this.props;
+        dispatch(selectedCategory(''));
+    }
+
     /**
      * Populate the field with the name of the currently editing category
      *
