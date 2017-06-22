@@ -1,6 +1,6 @@
 // All the async action creators for Instaurant
-import { addCategory, fetchingCategories, receiveCategories } from './actionCreator';
-import { firebaseAddCategory, firebaseFetchCategories } from '../firebaseService';
+import { addCategory, fetchingCategories, receiveCategories, updateCategory } from './actionCreator';
+import { firebaseAddCategory, firebaseFetchCategories, firebaseUpdateCategory } from '../firebaseService';
 
 // Return {true} if we are not in the process of fetching, have already fetched before,
 // or the list of fetched categories is not empty
@@ -58,5 +58,16 @@ export const addCategoryToFirebase = (ownerId, name, order) => (dispatch) => {
             order: snapshot.val().order,
         };
         dispatch(addCategory(category));
+    });
+};
+
+export const updateCategoryName = (ownerId, categoryId, newName) => (dispatch) => {
+    firebaseUpdateCategory(ownerId, categoryId, newName).then((snapshot) => {
+        const category = {
+            id: snapshot.key,
+            name: snapshot.val().name,
+            order: snapshot.val().order,
+        };
+        dispatch(updateCategory(category));
     });
 };

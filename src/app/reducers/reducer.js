@@ -11,6 +11,8 @@ const manageCategries = (state = { isFetching: false, alreadyFetched: false, ite
     case actionTypes.ADD_CATEGORY:
         // Update nested objects in 'items'
         return { ...state, items: { ...state.items, [action.category.id]: action.category } };
+    case actionTypes.UPDATE_CATEGORY:
+        return { ...state, items: { ...state.items, [action.category.id]: action.category } };
     default:
         return state;
     }

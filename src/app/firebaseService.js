@@ -90,3 +90,18 @@ export const firebaseAddCategory = (ownerId, name, order) => {
 
     return newCategoryRef.once('value');
 };
+
+/**
+ * Update the name of a category given the new name, its id and the owner id
+ *
+ * @param ownerId is the owner id
+ * @param categoryId is id of the category
+ * @param newName is the new category name
+ * @return {firebase.Promise} containing the category who name is updated
+ */
+export const firebaseUpdateCategory = (ownerId, categoryId, newName) => {
+    const categoryRef = firebaseDatabase.ref(`categories/${ownerId}/${categoryId}`);
+    categoryRef.update({ name: newName });
+
+    return categoryRef.once('value');
+};

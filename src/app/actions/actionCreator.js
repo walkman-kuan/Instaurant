@@ -23,3 +23,10 @@ export const selectedCategory = selectedCategoryId => (
         selectedCategoryId,
     }
 );
+
+export const updateCategory = category => (
+    {
+        type: actionTypes.UPDATE_CATEGORY,
+        category,
+    }
+);
