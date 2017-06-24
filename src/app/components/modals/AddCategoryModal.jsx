@@ -25,6 +25,17 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
         cancelBtn.click();
     };
 
+    /**
+     * Reset category name field if a user enters a category name, but clicks cancel.
+     * This makes sure that when the Modal shows again, the field shows the placeholder,
+     * not the dirty category name left from previous cancelled editing!
+     *
+     * Note that this method gets called on submitBtn and cancelBtn click
+     */
+    const handleCancelBtnClick = () => {
+        categoryName.value = '';
+    };
+
     return (
         <div
           className="modal fade" id="add-category" tabIndex="-1" role="dialog"
@@ -55,6 +66,7 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
                               className="btn btn-default"
                               data-dismiss="modal"
                               ref={(cancelBtnNode) => { cancelBtn = cancelBtnNode; }}
+                              onClick={handleCancelBtnClick}
                             >
                             Cancel
                             </button>
