@@ -1,9 +1,14 @@
-import { createStore /* applyMiddleware */ } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import loggerMiddleware from 'redux-logger'; // Logger with default options
 import rootReducer from './reducers/reducer';
 
-// Used to hydrate client state using the state stored in the server, i.e., Firebase
-const initailStateFromFirebase = {};
-
-const instaurantStore = createStore(rootReducer, initailStateFromFirebase);
+const instaurantStore = createStore(
+    rootReducer,
+    applyMiddleware(
+        thunkMiddleware, // Let us dispatch function
+        loggerMiddleware, // Log action
+    ),
+);
 
 export default instaurantStore;

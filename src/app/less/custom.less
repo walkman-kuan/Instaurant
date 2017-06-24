@@ -16,6 +16,9 @@
 body {
     font-size: 16px;
 }
+.hidden-element {
+    display: none;
+}
 
 
 /* The Authentication page */
@@ -90,7 +93,8 @@ body {
 }
 .sidebar-content {
     min-height: 100%; // Help to create a sticky footer
-    margin-bottom: -45px; // Equal to the height of the sticky footer
+    // Equal to the height of the two equal-height sticky footers
+    // margin-bottom: -90px; // We set the value dynamically in component
 }
 .sidebar-header {
     background-color: @color-option-4;
@@ -120,20 +124,30 @@ body {
             display: block; // Highlight the whole <li> when a is hovered
             text-decoration: none;
 
-            // TODO: Make sure the selected <li> is always highlighted
+            // TODO: Make sure the selected <li> is ALWAYS highlighted while editing dishes
             &:hover, &:active, &:focus {
                 background: @color-option-6;
             }
 
             &.disabled-link {
-                display: inline-block;; // Highlight the whole <li> when a is hovered
+                pointer-events: none; // Prevent the <li> being a target of mouse events
+                display: inline; // Avoid moving the editing icons to next line
             }
         }
 
         .category-edit {
             display: inline-block;
-            .glyphicon {
-                text-indent: 5px;
+
+            // Right align the category editing div
+            position: absolute;
+            right: 3px;
+
+            a {
+                display: inline;
+                text-indent: 8px;
+                &:hover, &:active, &:focus {
+                    background: @color-option-5;
+                }
             }
         }
     }
