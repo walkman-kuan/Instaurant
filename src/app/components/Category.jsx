@@ -8,6 +8,10 @@ const Category = ({ id, name, isEditingCategories, dispatch }) => {
         dispatch(selectedCategory(id));
     };
 
+    const handleRemoveCategoryClick = () => {
+        dispatch(selectedCategory(id));
+    };
+
     return (
         <li>
             <a
@@ -27,7 +31,12 @@ const Category = ({ id, name, isEditingCategories, dispatch }) => {
                     >
                         <span title="edit" className="glyphicon glyphicon-pencil" />
                     </a>
-                    <a href={`#categoryId=${id}`}>
+                    <a
+                      href={`#categoryId=${id}`}
+                      data-toggle="modal"
+                      data-target="#delete-category"
+                      onClick={handleRemoveCategoryClick}
+                    >
                         <span title="remove" className="glyphicon glyphicon-remove" />
                     </a>
                     <a href={`#categoryId=${id}`}>

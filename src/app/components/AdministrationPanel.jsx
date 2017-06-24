@@ -7,6 +7,7 @@ import MenuContent from './MenuContent';
 import ConfigureCategoryModal from './modals/ConfigureCategoryModal';
 import AddCategoryModal from './modals/AddCategoryModal';
 import EditCategoryModal from './modals/EditCategoryModal';
+import RemoveCategoryModal from './modals/RemoveCategoryModal';
 import { isUserSignedIn, getCurrentSignInUser } from '../firebaseService';
 import { fetchCategoriesIfNeed } from '../actions/asyncActionCreator';
 
@@ -76,6 +77,7 @@ class AdministrationPanel extends Component {
                 {alreadyFetched && Object.keys(items).length < 1 && <ConfigureCategoryModal />}
                 <AddCategoryModal />
                 <EditCategoryModal />
+                <RemoveCategoryModal />
             </div>
         );
     }
