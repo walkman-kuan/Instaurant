@@ -105,3 +105,15 @@ export const firebaseUpdateCategory = (ownerId, categoryId, newName) => {
 
     return categoryRef.once('value');
 };
+
+
+/**
+ * Delete a category and update the orders of all categories that follow it
+ *
+ * @param ownerId is the owner id
+ * @param affectedCategories is a list of categories that are affected by deleting a category
+ * @return {firebase.Promise} containing void
+ */
+export const firebaseDeleteCategory = (ownerId, affectedCategories) => (
+    firebaseDatabase.ref(`categories/${ownerId}`).update(affectedCategories)
+);
