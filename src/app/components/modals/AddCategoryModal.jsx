@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCurrentSignInUser } from '../../firebaseService';
 import { addCategoryToFirebase } from '../../actions/asyncActionCreator';
+import { formatItemName } from '../../utils/instaurantUtils';
+
 
 const AddCategoryModal = ({ dispatch, numOfCategories }) => {
     let categoryName;
@@ -14,7 +16,7 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
         const ownerId = getCurrentSignInUser().uid;
         // Add the new category to the end of the list
         const order = numOfCategories + 1;
-        dispatch(addCategoryToFirebase(ownerId, categoryName.value, order));
+        dispatch(addCategoryToFirebase(ownerId, formatItemName(categoryName.value), order));
 
         // Reset the name field so that it is empty when shown again
         categoryName.value = '';

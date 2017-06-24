@@ -37,12 +37,31 @@ export const getAffectedCategoriesOnDelete = (indexOfDeletedCategory, keys, cate
  * @param deletedCategoryId is id of the category being deleted
  * @returns A list of new categories of correct order after the deleting action
  */
-const getRemainingCategories = (currentCategories, { categoriesWithUpdatedOrder, deletedCategoryId }) => {
+export const getRemainingCategories = (currentCategories, { categoriesWithUpdatedOrder, deletedCategoryId }) => {
     // Use Destructuring to remove the category being deleted from the current categories
     const { [deletedCategoryId]: deletedCategory, ...rest } = currentCategories;
 
-    // Update the orders of other affected categories and return
+    // Update the orders of other affected categories and return.
+    // Note that categoriesWithUpdatedOrder is an empty object {}
+    // if we are deleting the last category
     return { ...rest, ...categoriesWithUpdatedOrder };
 };
 
-export default getRemainingCategories;
+/**
+ * Format the item name:
+ * 1. Remove leading and trailing space(s)
+ * 2. Replace multiple spaces with a single space
+ * 3. Capitialize first character and lowercase non-first character(s) of each word
+ *
+ * This is helpful when saving category or dish name, e.g., we will format
+ * ` caliFoNia rOLl  ` into `California Roll` when saving a dish name.
+ */
+
+export const formatItemName = unformattedItemName => (
+    // Remove leading and trailing space(s) and replace multiple spaces with a single space
+    unformattedItemName.trim().replace(/\s+/g, ' ').replace(
+        // Capitialize first character and lowercase non-first character(s) of each word
+        // \w\S matches any word character concatenated with non-whitespace characters
+        /\w\S*/g, name => name.charAt(0).toUpperCase() + name.substr(1).toLowerCase(),
+    )
+);

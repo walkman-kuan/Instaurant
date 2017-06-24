@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { getCurrentSignInUser } from '../../firebaseService';
 import { selectedCategory } from '../../actions/actionCreator';
 import { updateCategoryName } from '../../actions/asyncActionCreator';
+import { formatItemName } from '../../utils/instaurantUtils';
 
 
 class EditCategoryModal extends Component {
@@ -51,7 +52,7 @@ class EditCategoryModal extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        const newCategoryName = this.categoryName.value;
+        const newCategoryName = formatItemName(this.categoryName.value);
         // Update the category name if necessary/different
         if (this.categoryNameBeforeEditing !== newCategoryName) {
             const ownerId = getCurrentSignInUser().uid;
