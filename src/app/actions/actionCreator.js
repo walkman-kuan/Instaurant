@@ -30,3 +30,13 @@ export const updateCategory = category => (
         category,
     }
 );
+
+export const deleteCategory = (categoriesWithUpdatedOrder, deletedCategoryId) => (
+    {
+        type: actionTypes.DELETE_CATEGORY,
+        data: {
+            categoriesWithUpdatedOrder,
+            deletedCategoryId,
+        },
+    }
+);

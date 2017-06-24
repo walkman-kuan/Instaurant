@@ -1,6 +1,18 @@
 // All the async action creators for Instaurant
-import { addCategory, fetchingCategories, receiveCategories, updateCategory } from './actionCreator';
-import { firebaseAddCategory, firebaseFetchCategories, firebaseUpdateCategory } from '../firebaseService';
+import {
+    addCategory,
+    fetchingCategories,
+    receiveCategories,
+    updateCategory,
+    deleteCategory,
+} from './actionCreator';
+import {
+    firebaseAddCategory,
+    firebaseFetchCategories,
+    firebaseUpdateCategory,
+    firebaseDeleteCategory,
+} from '../firebaseService';
+
 
 // Return {true} if we are not in the process of fetching, have already fetched before,
 // or the list of fetched categories is not empty
@@ -69,5 +81,13 @@ export const updateCategoryName = (ownerId, categoryId, newName) => (dispatch) =
             order: snapshot.val().order,
         };
         dispatch(updateCategory(category));
+    });
+};
+
+export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedCategoryId) => (dispatch) => {
+    firebaseDeleteCategory(ownerId, affectedCategories).then(() => {
+        // Use Destructuring to remove the category being deleted from the affected categories
+        const { [deletedCategoryId]: deletedCategory, ...categoriesWithUpdatedOrder } = affectedCategories;
+        dispatch(deleteCategory(categoriesWithUpdatedOrder, deletedCategoryId));
     });
 };
