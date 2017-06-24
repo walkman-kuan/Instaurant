@@ -10,7 +10,7 @@
 
 const ownerReduxStateShape = {
     /**
-     * Actions: select a category or dish, and start editing
+     * Actions: select a category or dish, and start editing/deleting
      */
     selectedCategory: 'selectedCategoryId',
     selectedDish: 'selectedDishId',
