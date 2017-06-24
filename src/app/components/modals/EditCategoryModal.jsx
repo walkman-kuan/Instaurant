@@ -30,6 +30,7 @@ class EditCategoryModal extends Component {
      * 1. The first time we edit a category
      * 2. Edit a category, save it, and click to edit the same category again
      * 3. Edit a category, save it, and click to edit another category
+     * 4. Whenever the store gets updated
      *
      * This does NOT get called when:
      * 1. Edit a category, cancel editing, and click to edit the same category again
@@ -37,7 +38,7 @@ class EditCategoryModal extends Component {
      * the same category again
      */
     componentWillReceiveProps({ selectedCategoryId, categories }) {
-        if (selectedCategoryId !== '') {
+        if (selectedCategoryId !== '' && categories[selectedCategoryId]) {
             const currentCategoryName = categories[selectedCategoryId].name;
 
             // Set the category name before editing to the current category name
@@ -51,6 +52,7 @@ class EditCategoryModal extends Component {
         event.preventDefault();
 
         const newCategoryName = this.categoryName.value;
+        // Update the category name if necessary/different
         if (this.categoryNameBeforeEditing !== newCategoryName) {
             const ownerId = getCurrentSignInUser().uid;
             const { dispatch, selectedCategoryId } = this.props;
@@ -113,12 +115,7 @@ class EditCategoryModal extends Component {
                                 >
                                 Cancel
                                 </button>
-                                <button
-                                  type="submit"
-                                  className="btn btn-primary"
-                                >
-                                Save change
-                                </button>
+                                <button type="submit" className="btn btn-primary">Save change</button>
                             </div>
                         </form>
                     </div>
