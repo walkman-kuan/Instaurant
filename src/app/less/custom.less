@@ -1,16 +1,21 @@
 /* Customized colors */
-.color-option-1() {
-    color: #0099cc;
-}
-// color-option-2 is Bootstrap highlight color
-.color-option-3() {
-    color: #535353;
-}
-
-@color-option-4: #fcfcfc; // // Background of Sidebar header
+@color-option-1: #0099cc; // Instaurant primary color
+@color-option-2: #007299;
+@color-option-3: #666; // Default Outline Button/Customized Link
+@color-option-4: #fcfcfc; // Background of Sidebar header
 @color-option-5: #f5f5f5; // Background of Sidebar content
 @color-option-6: #e5e5e5; // Background of Sidebar content on hover
+@color-option-7: #111; // Default Outline Button/Customized Link on hover
 @border-color: #eee;
+
+/* General Style */
+.non-shadow-outlline {
+    // Remove button outline and shadow
+    &:hover, &:focus, &:active {
+      outline: none;
+      box-shadow: none;
+    }
+}
 
 /* General layout */
 body {
@@ -24,10 +29,14 @@ body {
 /* The Authentication page */
 .auth-page {
     a {
-        .color-option-1;
+        color: @color-option-1;
+        &:hover, &:focus, &:active {
+            color: @color-option-2;
+        }
+
     }
     h1 {
-        .color-option-1;
+        color: @color-option-1;
         margin-bottom: 30px;
         text-align: center;
     }
@@ -51,28 +60,33 @@ body {
 }
 
 
-
 /* The Admin page */
 .admin-page-wrapper {
     .navbar-brand {
-        .color-option-1;
-        /* Use the same color on hover and focus */
-        &:hover, &:focus {
-            .color-option-1;
+        color: @color-option-1;
+        /* Use the same color on hover, focus and active */
+        &:hover, &:focus, &:active {
+            color: @color-option-1;
         }
         font-size: 26px;
     }
-}
-/* Always right align nav bar icons */
-.right-aligned-nav {
-  position: absolute;
-  right: 10px;
-  /* Keep the right-aligned icons in the same line with the brand */
-  top: 0px;
-  /* All <li>/icons in the same line */
-  & > li {
-    display: inline-block;
-  }
+    .navbar-nav > li > a {
+        color: @color-option-3;
+        &:hover, &:focus, &:active {
+            color: @color-option-7;
+        }
+    }
+    /* Always right align nav bar icons */
+    .right-aligned-nav {
+        position: absolute;
+        right: 10px;
+        /* Keep the right-aligned icons in the same line with the brand */
+        top: 0px;
+        /* All <li>/icons in the same line */
+        & > li {
+            display: inline-block;
+        }
+    }
 }
 .sidebar-wrapper {
     position: fixed; // Positioned relative to browser
@@ -98,7 +112,7 @@ body {
 }
 .sidebar-header {
     background-color: @color-option-4;
-    .color-option-3;
+    color: @color-option-3;
 
     border-bottom: 1px solid #eee;
     padding: 10px 0 10px 30px;
@@ -123,10 +137,12 @@ body {
         a {
             display: block; // Highlight the whole <li> when a is hovered
             text-decoration: none;
+            color: @color-option-3;
 
             // TODO: Make sure the selected <li> is ALWAYS highlighted while editing dishes
-            &:hover, &:active, &:focus {
+            &:hover, &:focus, &:active {
                 background: @color-option-6;
+                color: @color-option-7;
             }
 
             &.disabled-link {
@@ -145,8 +161,9 @@ body {
             a {
                 display: inline;
                 text-indent: 8px;
-                &:hover, &:active, &:focus {
+                &:hover, &:focus, &:active {
                     background: @color-option-5;
+                    color: @color-option-7;
                 }
             }
         }
@@ -155,9 +172,10 @@ body {
 /* The sticky footer */
 .sidebar-footer {
     background-color: @color-option-4;
-    .color-option-3;
-    &:hover, &:active, &:focus {
+    color: @color-option-3;
+    &:hover, &:focus, &:active {
         background: @color-option-6;
+        color: @color-option-7;
     }
     padding: 13px 0 15px 30px;
 
@@ -171,28 +189,53 @@ body {
     border-style: solid;
     border-color: @border-color;
     text-align: inherit;
-    // Remove button outline and shadow
-    &:focus, &:active {
-      outline: none;
-      box-shadow: none;
-    }
-
 }
-.main-content {
+.menu-content {
     margin-left: 250px;
-    padding: 15px;
+    padding: 20px 15px;
 }
 
+/* Modal */
+.modal .form-group:last-of-type {
+    margin-bottom: 0px; // No bottom margin if the last form group
+}
 
 
 /* Customized button */
 .btn.outline {
 	background: none;
 	padding: 7px 14px;
+    text-shadow: none;
+}
+.btn.narrow {
+    padding: 5px 14px;
+}
+.btn-primary.outline {
+	border: 2px solid @color-option-1;
+	color: @color-option-1;
+
+    &:hover, &:focus, &:active {
+        border-color: @color-option-2;
+        color: @color-option-2;
+    }
 }
 .btn-default.outline {
-	border: 2px solid #0099cc;
-	.color-option-1;
+	border: 2px solid #666;
+	color: #666;
+
+    &:hover, &:focus, &:active {
+        border-color: @color-option-7;
+        color: @color-option-7;
+    }
+}
+.btn-danger.outline {
+	border: 2px solid #e9534f;
+	color: #e9534f;
+
+    &:hover, &:focus, &:active {
+        border-color: #c9302c;
+        color: #c9302c;
+    }
 }
 
 /*
@@ -214,7 +257,7 @@ body {
     }
 
     /* Remove the left margin of the main content */
-    .main-content {
+    .menu-content {
         margin-left: 0;
     }
 

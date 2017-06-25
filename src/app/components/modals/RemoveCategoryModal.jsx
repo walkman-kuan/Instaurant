@@ -72,13 +72,15 @@ class RemoveCategoryModal extends Component {
                             <div className="modal-footer">
                                 <button
                                   type="button"
-                                  className="btn btn-default"
+                                  className="btn btn-default outline narrow non-shadow-outlline"
                                   data-dismiss="modal"
                                   ref={(cancelBtnNode) => { this.cancelBtn = cancelBtnNode; }}
                                 >
                                 Cancel
                                 </button>
-                                <button type="submit" className="btn btn-primary">Delete</button>
+                                <button
+                                  type="submit" className="btn btn-danger outline narrow non-shadow-outlline"
+                                >Delete</button>
                             </div>
                         </form>
                     </div>

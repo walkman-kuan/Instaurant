@@ -62,14 +62,16 @@ class SignUp extends Component {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <button type="submit" className="btn btn-default btn-block btn-lg">Sign up</button>
+                                <button
+                                  type="submit" className="btn btn-default btn-block btn-lg non-shadow-outlline"
+                                >Sign up</button>
                             </div>
                         </form>
                         <hr />
                         <div className="route-group text-center">
                             Already have an Instaurant account?
                             &nbsp;
-                            <Link to="/signin" className="btn btn-default outline">Sign in</Link>
+                            <Link to="/signin" className="btn btn-primary outline non-shadow-outlline">Sign in</Link>
                         </div>
                     </div>
                 </div>

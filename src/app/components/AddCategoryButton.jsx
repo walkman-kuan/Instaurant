@@ -3,7 +3,7 @@ import React from 'react';
 const AddCategoryButton = () => (
     <button
       type="button"
-      className="sidebar-footer"
+      className="sidebar-footer non-shadow-outlline"
       data-toggle="modal"
       data-target="#add-category"
     >

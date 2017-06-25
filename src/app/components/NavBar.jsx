@@ -22,25 +22,28 @@ const NavBar = ({ onToggleSiderbar }) => {
                         <span className="icon-bar" />
                     </button>
                     {/* Put the logo here */}
-                    <Link to="/admin" className="navbar-brand">Instaurant</Link>
+                    <Link to="/admin" className="navbar-brand non-shadow-outlline">Instaurant</Link>
                 </div>
                 <ul className="nav navbar-nav right-aligned-nav">
                     <li>
                         <Link to="/qrCode">
                             <span className="glyphicon glyphicon-qrcode" />
-                            <span className="nav-text">&nbsp;QR Code</span>
+                            &nbsp;
+                            <span className="nav-text">QR Code</span>
                         </Link>
                     </li>
                     <li>
                         <Link to="/profile">
                             <span className="glyphicon glyphicon-user" />
-                            <span className="nav-text">&nbsp;Profile</span>
+                            &nbsp;
+                            <span className="nav-text">Profile</span>
                         </Link>
                     </li>
                     <li>
                         <Link to="/signin" onClick={handleSignOut}>
                             <span className="glyphicon glyphicon-off" />
-                            <span className="nav-text">&nbsp;Sign out</span>
+                            &nbsp;
+                            <span className="nav-text">Sign out</span>
                         </Link>
                     </li>
                 </ul>
