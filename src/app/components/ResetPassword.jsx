@@ -43,7 +43,7 @@ class ResetPassword extends Component {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <button type="submit" className="btn btn-default btn-block btn-lg">
+                                <button type="submit" className="btn btn-default btn-block btn-lg non-shadow-outlline">
                                     Send reset email
                                 </button>
                             </div>
@@ -52,7 +52,7 @@ class ResetPassword extends Component {
                         <div className="route-group text-center">
                             Reset password successfully?
                             &nbsp;
-                            <Link to="/signin" className="btn btn-default outline">Sign in</Link>
+                            <Link to="/signin" className="btn btn-primary outline non-shadow-outlline">Sign in</Link>
                         </div>
                     </div>
                 </div>

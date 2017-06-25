@@ -109,14 +109,16 @@ class EditCategoryModal extends Component {
                             <div className="modal-footer">
                                 <button
                                   type="button"
-                                  className="btn btn-default"
+                                  className="btn btn-default outline narrow non-shadow-outlline"
                                   data-dismiss="modal"
                                   ref={(cancelBtnNode) => { this.cancelBtn = cancelBtnNode; }}
                                   onClick={this.handleCancelBtnClick}
                                 >
                                 Cancel
                                 </button>
-                                <button type="submit" className="btn btn-primary">Save change</button>
+                                <button
+                                  type="submit" className="btn btn-primary outline narrow non-shadow-outlline"
+                                >Save change</button>
                             </div>
                         </form>
                     </div>

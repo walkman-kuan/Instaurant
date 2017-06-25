@@ -21,8 +21,9 @@ const SideBar = ({ categories, onEditingCategories, sidebarStyle }) => {
                 }
             </div>
             <AddCategoryButton />
+            {/* Edit Category Button */}
             {showCategoryInfo && (
-                <button type="button" className="sidebar-footer" onClick={onEditingCategories}>
+                <button type="button" className="sidebar-footer non-shadow-outlline" onClick={onEditingCategories}>
                     {isEditingCategories ? (
                         <span><span className="glyphicon glyphicon-saved" />&nbsp;Complete editing</span>
                     ) : (

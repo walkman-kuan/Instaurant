@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MenuContent = () => (
-    <div id="menu-content" className="main-content">
+    <div id="menu-content" className="menu-content">
         <div className="row">
             <div className="col-xs-6 col-md-3">
                 Image 1

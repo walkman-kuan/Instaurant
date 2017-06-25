@@ -65,14 +65,16 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
                         <div className="modal-footer">
                             <button
                               type="button"
-                              className="btn btn-default"
+                              className="btn btn-default outline narrow non-shadow-outlline"
                               data-dismiss="modal"
                               ref={(cancelBtnNode) => { cancelBtn = cancelBtnNode; }}
                               onClick={handleCancelBtnClick}
                             >
                             Cancel
                             </button>
-                            <button type="submit" className="btn btn-primary">Add</button>
+                            <button
+                              type="submit" className="btn btn-primary outline narrow non-shadow-outlline"
+                            >Add</button>
                         </div>
                     </form>
                 </div>
