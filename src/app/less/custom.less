@@ -42,6 +42,13 @@ body {
 .hidden {
     display: none !important;
 }
+// Parent element should be position: non-static
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
 }
 
 
@@ -213,6 +220,16 @@ body {
 /* Modal */
 .modal .form-group:last-of-type {
     margin-bottom: 0px; // No bottom margin if the last form group
+}
+.image-drop-zone {
+    padding: 20px;
+    border: 3px dashed @border-color-2;
+    width: 340px;
+    height: 300px;
+    position: relative;
+}
+.upload-image-target {
+    margin: 0 auto 15px auto;
 }
 
 

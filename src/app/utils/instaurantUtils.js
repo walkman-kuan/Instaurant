@@ -1,3 +1,35 @@
+import update from 'immutability-helper';
+// The update() accepts two parameters:
+// The first one is the object/array that you want to mutate.
+// The second parameter is an object that describes
+//     WHERE the mutation should take place and
+//     WHAT kind of mutation you want to make.
+
+/**
+ * Given the rendered <li> elements, update the orders of the corresponding state
+ * object by looping through the list, finding the target state object using id of
+ * a <li> element, and setting the object's order to (current index + 1)
+ *
+ * @param nodeList read-only live/static collection of <li> elements
+ * @param elements the components with old order information
+ * @returns components with new order information
+ */
+
+export const updateListElementsOrder = (nodeList, elements) => {
+    let newElements = elements;
+    for (let index = 0; index < nodeList.length; index += 1) {
+        newElements = update(newElements, {
+            // ES6 Computed Property Name - [nodeList[index].id]
+            [nodeList[index].id]: {
+                order: { $set: index + 1 },
+            },
+        });
+    }
+
+    return newElements;
+};
+
+
 /**
  * Get a list of categories that are affected by deleting a category.
  * The value of category being deleted is set to null, and the order of
@@ -56,7 +88,6 @@ export const getRemainingCategories = (currentCategories, { categoriesWithUpdate
  * This is helpful when saving category or dish name, e.g., we will format
  * ` caliFoNia rOLl  ` into `California Roll` when saving a dish name.
  */
-
 export const formatItemName = unformattedItemName => (
     // Remove leading and trailing space(s) and replace multiple spaces with a single space
     unformattedItemName.trim().replace(/\s+/g, ' ').replace(
@@ -65,3 +96,28 @@ export const formatItemName = unformattedItemName => (
         /\w\S*/g, name => name.charAt(0).toUpperCase() + name.substr(1).toLowerCase(),
     )
 );
+
+const handleStopPropgationAndPreventDefault = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+};
+
+/**
+ *
+ *
+ */
+export const registerDragAndDropListeners = (target, dropEnterAndDropOverValue, dropCallback) => {
+    ['dragenter', 'dragover'].forEach(eventFromArray =>
+        target.addEventListener(eventFromArray, (event) => {
+            handleStopPropgationAndPreventDefault(event);
+            console.log('Enter and Over!');
+            event.dataTransfer.dropEffect = dropEnterAndDropOverValue;
+        }, false));
+
+    target.addEventListener('drop', (event) => {
+        handleStopPropgationAndPreventDefault(event);
+        if (dropCallback) {
+            dropCallback();
+        }
+    }, false);
+};
