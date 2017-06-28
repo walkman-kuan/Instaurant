@@ -1,28 +1,47 @@
 /* Customized colors */
 @color-option-1: #0099cc; // Instaurant primary color
-@color-option-2: #007299;
-@color-option-3: #666; // Default Outline Button/Customized Link
+@color-option-2: #666; // Default Outline Button/Customized Link/Texts
+@border-color-3: #111; // Customized Link/Text on hover
 @color-option-4: #fcfcfc; // Background of Sidebar header
 @color-option-5: #f5f5f5; // Background of Sidebar content
 @color-option-6: #e5e5e5; // Background of Sidebar content on hover
-@color-option-7: #111; // Default Outline Button/Customized Link on hover
-@border-color: #eee;
+@color-option-7: #e9534f; // Danger color
+@border-color-1: #eee;
+@border-color-2: #ccc;
+
+
+/* Mixins */
+.active-focus-hover-button(@color) {
+    &:hover, &:focus, &:active,
+    &.active.focus, &.active:focus, &.focus,
+    &.focus:active, &:active:focus, &:focus {
+        background-color: @color;
+        border-color: @color;
+        color: white;
+    }
+}
+
 
 /* General Style */
 .non-shadow-outlline {
-    // Remove button outline and shadow
-    &:hover, &:focus, &:active {
-      outline: none;
+    // Remove outline and shadow
+    &:hover, &:focus, &:active,
+    &.active.focus, &.active:focus, &.focus,
+    &.focus:active, &:active:focus, &:focus {
+      outline: 0;
+      -webkit-box-shadow: none;
       box-shadow: none;
     }
 }
+
 
 /* General layout */
 body {
     font-size: 16px;
 }
-.hidden-element {
-    display: none;
+.hidden {
+    display: none !important;
+}
 }
 
 
@@ -30,10 +49,6 @@ body {
 .auth-page {
     a {
         color: @color-option-1;
-        &:hover, &:focus, &:active {
-            color: @color-option-2;
-        }
-
     }
     h1 {
         color: @color-option-1;
@@ -71,9 +86,9 @@ body {
         font-size: 26px;
     }
     .navbar-nav > li > a {
-        color: @color-option-3;
+        color: @color-option-2;
         &:hover, &:focus, &:active {
-            color: @color-option-7;
+            color: @border-color-3;
         }
     }
     /* Always right align nav bar icons */
@@ -98,7 +113,7 @@ body {
 
     width: 250px;
 
-    border-right: 1px solid @border-color;
+    border-right: 1px solid @border-color-1;
 
     background-color: @color-option-5;
     transition: 0.3s;
@@ -112,7 +127,7 @@ body {
 }
 .sidebar-header {
     background-color: @color-option-4;
-    color: @color-option-3;
+    color: @color-option-2;
 
     border-bottom: 1px solid #eee;
     padding: 10px 0 10px 30px;
@@ -137,12 +152,12 @@ body {
         a {
             display: block; // Highlight the whole <li> when a is hovered
             text-decoration: none;
-            color: @color-option-3;
+            color: @color-option-2;
 
             // TODO: Make sure the selected <li> is ALWAYS highlighted while editing dishes
             &:hover, &:focus, &:active {
                 background: @color-option-6;
-                color: @color-option-7;
+                color: @border-color-3;
             }
 
             &.disabled-link {
@@ -163,7 +178,7 @@ body {
                 text-indent: 8px;
                 &:hover, &:focus, &:active {
                     background: @color-option-5;
-                    color: @color-option-7;
+                    color: @border-color-3;
                 }
             }
         }
@@ -172,10 +187,10 @@ body {
 /* The sticky footer */
 .sidebar-footer {
     background-color: @color-option-4;
-    color: @color-option-3;
+    color: @color-option-2;
     &:hover, &:focus, &:active {
         background: @color-option-6;
-        color: @color-option-7;
+        color: @border-color-3;
     }
     padding: 13px 0 15px 30px;
 
@@ -187,7 +202,7 @@ body {
     border-bottom-width: 0px;
     border-left-width: 0px;
     border-style: solid;
-    border-color: @border-color;
+    border-color: @border-color-1;
     text-align: inherit;
 }
 .menu-content {
@@ -213,29 +228,17 @@ body {
 .btn-primary.outline {
 	border: 2px solid @color-option-1;
 	color: @color-option-1;
-
-    &:hover, &:focus, &:active {
-        border-color: @color-option-2;
-        color: @color-option-2;
-    }
+    .active-focus-hover-button(@color-option-1);
 }
 .btn-default.outline {
-	border: 2px solid #666;
-	color: #666;
-
-    &:hover, &:focus, &:active {
-        border-color: @color-option-7;
-        color: @color-option-7;
-    }
+	border: 2px solid @color-option-2;
+	color: @color-option-2;
+    .active-focus-hover-button(@color-option-2);
 }
 .btn-danger.outline {
-	border: 2px solid #e9534f;
-	color: #e9534f;
-
-    &:hover, &:focus, &:active {
-        border-color: #c9302c;
-        color: #c9302c;
-    }
+	border: 2px solid @color-option-7;
+	color: @color-option-7;
+    .active-focus-hover-button(@color-option-7);
 }
 
 /*
