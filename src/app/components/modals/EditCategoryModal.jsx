@@ -113,9 +113,7 @@ class EditCategoryModal extends Component {
                                   data-dismiss="modal"
                                   ref={(cancelBtnNode) => { this.cancelBtn = cancelBtnNode; }}
                                   onClick={this.handleCancelBtnClick}
-                                >
-                                Cancel
-                                </button>
+                                >Cancel</button>
                                 <button
                                   type="submit" className="btn btn-primary outline narrow non-shadow-outlline"
                                 >Save change</button>

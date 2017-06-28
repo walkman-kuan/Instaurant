@@ -69,9 +69,7 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
                               data-dismiss="modal"
                               ref={(cancelBtnNode) => { cancelBtn = cancelBtnNode; }}
                               onClick={handleCancelBtnClick}
-                            >
-                            Cancel
-                            </button>
+                            >Cancel</button>
                             <button
                               type="submit" className="btn btn-primary outline narrow non-shadow-outlline"
                             >Add</button>
