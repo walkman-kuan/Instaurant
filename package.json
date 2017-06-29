@@ -48,6 +48,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "firebase": "^3.7.6",
     "immutability-helper": "^2.2.2",
     "prop-types": "^15.5.10",
