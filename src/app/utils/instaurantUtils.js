@@ -97,27 +97,52 @@ export const formatItemName = unformattedItemName => (
     )
 );
 
-const handleStopPropgationAndPreventDefault = (event) => {
+const stopPropgationAndPreventDefault = (event) => {
     event.stopPropagation();
     event.preventDefault();
 };
 
 /**
+ * Add event listeners for the drag and drop events for a target element.
  *
+ * @param eventTarget is the target of the drag and drop events.
+ * @param dropEffect specifies the allowed operation, e.g., copy/move, and affects
+ * the cursor type when the user hovers a target drop element.
+ * @param dropCallback is executed after the draggable is dropped.
+ * @param enterOrOverCallback is executed when the draggable enter and hover above the drop zone.
+ * @param leaveOrDropCallback is executed when the draggable leave the drop zon, or the drag eneds.
  *
+ * Note that we have trouble removing the listeners on componentWillMount because
+ * we use Anonymous functions when adding event listeners.
  */
-export const registerDragAndDropListeners = (target, dropEnterAndDropOverValue, dropCallback) => {
-    ['dragenter', 'dragover'].forEach(eventFromArray =>
-        target.addEventListener(eventFromArray, (event) => {
-            handleStopPropgationAndPreventDefault(event);
-            console.log('Enter and Over!');
-            event.dataTransfer.dropEffect = dropEnterAndDropOverValue;
-        }, false));
+export const addDragAndDropListeners = (
+    eventTarget, dropEffect, dropCallback, enterOrOverCallback, leaveOrDropCallback) => {
+    ['dragenter', 'dragover'].forEach(
+        individualEvent => eventTarget.addEventListener(individualEvent, (event) => {
+            stopPropgationAndPreventDefault(event);
+            event.dataTransfer.dropEffect = dropEffect;
+            if (typeof enterOrOverCallback === 'function') {
+                enterOrOverCallback();
+            }
+        }, false),
+    );
 
-    target.addEventListener('drop', (event) => {
-        handleStopPropgationAndPreventDefault(event);
-        if (dropCallback) {
+    ['dragend', 'dragleave', 'dragexit'].forEach(
+        individualEvent => eventTarget.addEventListener(individualEvent, (event) => {
+            stopPropgationAndPreventDefault(event);
+            if (typeof leaveOrDropCallback === 'function') {
+                leaveOrDropCallback();
+            }
+        }, false),
+    );
+
+    eventTarget.addEventListener('drop', (event) => {
+        stopPropgationAndPreventDefault(event);
+        if (typeof dropCallback === 'function') {
             dropCallback();
+        }
+        if (typeof leaveOrDropCallback === 'function') {
+            leaveOrDropCallback();
         }
     }, false);
 };

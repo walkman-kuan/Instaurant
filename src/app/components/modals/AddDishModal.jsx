@@ -1,22 +1,33 @@
 import React, { Component } from 'react';
-import { registerDragAndDropListeners } from '../../utils/instaurantUtils';
+import classNames from 'classnames';
+import { addDragAndDropListeners } from '../../utils/instaurantUtils';
 
 class AddDishModal extends Component {
     constructor() {
         super();
         this.state = {
             isImageAvailable: false,
-            fileHover: false,
+            imageOver: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClickToUploadImage = this.handleClickToUploadImage.bind(this);
+        this.handleImageEnterOrOverDropZone = this.handleImageEnterOrOverDropZone.bind(this);
+        this.handleImageLeaveDropZoneOrDropDone = this.handleImageLeaveDropZoneOrDropDone.bind(this);
     }
 
     componentDidMount() {
-        registerDragAndDropListeners(this.addDishModal, 'none');
-        registerDragAndDropListeners(this.imageDropZone, 'copy', () =>
-            console.log('File Drop!'),
+        addDragAndDropListeners(this.addDishModal, 'none');
+        addDragAndDropListeners(this.imageDropZone, 'copy', () =>
+            console.log('File Drop!'), this.handleImageEnterOrOverDropZone, this.handleImageLeaveDropZoneOrDropDone,
         );
+    }
+
+    handleImageEnterOrOverDropZone() {
+        this.setState(prevState => ({ ...prevState, imageOver: true }));
+    }
+
+    handleImageLeaveDropZoneOrDropDone() {
+        this.setState(prevState => ({ ...prevState, imageOver: false }));
     }
 
     handleSubmit(event) {
@@ -33,6 +44,11 @@ class AddDishModal extends Component {
     }
 
     render() {
+        const imageZoneClass = classNames({
+            'image-drop-zone': true,
+            'upload-image-target': true,
+            'image-over': this.state.imageOver,
+        });
         return (
             <div
               className="modal fade" id="add-dish" tabIndex="-1" role="dialog"
@@ -50,7 +66,7 @@ class AddDishModal extends Component {
                         <form role="form" onSubmit={this.handleSubmit}>
                             <div className="modal-body">
                                 <div
-                                  className="image-drop-zone upload-image-target"
+                                  className={imageZoneClass}
                                   ref={(imageDropZoneDomElement) => { this.imageDropZone = imageDropZoneDomElement; }}
                                 >
                                     { this.isImageAvailable ? (
@@ -59,7 +75,7 @@ class AddDishModal extends Component {
                                         <p className="centered">Drag a dish image here</p>
                                     )}
                                 </div>
-                                <div className="upload-image-target text-center">
+                                <div className="text-center upload-image-target ">
                                     Or&nbsp;
                                     <button
                                       type="button"
