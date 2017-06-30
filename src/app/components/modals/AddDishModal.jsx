@@ -6,19 +6,25 @@ class AddDishModal extends Component {
     constructor() {
         super();
         this.state = {
-            isImageAvailable: false,
+            imageReadyForPreview: false,
             imageOver: false,
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClickToUploadImage = this.handleClickToUploadImage.bind(this);
+        this.handleClickToSelectImage = this.handleClickToSelectImage.bind(this);
         this.handleImageEnterOrOverDropZone = this.handleImageEnterOrOverDropZone.bind(this);
         this.handleImageLeaveDropZoneOrDropDone = this.handleImageLeaveDropZoneOrDropDone.bind(this);
+        this.handleImagePreview = this.handleImagePreview.bind(this);
+        this.handleCancelBtnClick = this.handleCancelBtnClick.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
+        // The add dish modal isn't a valid drop zone - dropEffect is 'none'
         addDragAndDropListeners(this.addDishModal, 'none');
-        addDragAndDropListeners(this.imageDropZone, 'copy', () =>
-            console.log('File Drop!'), this.handleImageEnterOrOverDropZone, this.handleImageLeaveDropZoneOrDropDone,
+        // The image drop zone is a valid drop zone - dropEffect is 'copy'
+        addDragAndDropListeners(this.imageDropZone, 'copy',
+            this.handleImagePreview,
+            this.handleImageEnterOrOverDropZone,
+            this.handleImageLeaveDropZoneOrDropDone,
         );
     }
 
@@ -30,25 +36,66 @@ class AddDishModal extends Component {
         this.setState(prevState => ({ ...prevState, imageOver: false }));
     }
 
+    handleClickToSelectImage() {
+        this.imagePickerDomElem.click();
+    }
+
+    handleImagePreview(event) {
+        // If file is selected using drag and drop, event.dataTransfer is
+        // defined and we use DataTransfer interface to access the file(s)
+        const files = event.dataTransfer !== undefined
+            ? event.dataTransfer.files // For drag and drop
+            : event.target.files; // For file picker
+
+        // files.length could be zero, e.g., file picker is open, but no file is selected
+        const file = files.length && files[0];
+        // If the file exist and is an image
+        if (file && /^image\//i.test(file.type)) {
+            this.previewImageDomElem.src = URL.createObjectURL(files[0]);
+            this.previewImageDomElem.onload = () => {
+                // Release the object URL once the image has been loaded
+                URL.revokeObjectURL(this.src);
+            };
+            this.setState(prevState => ({ ...prevState, imageReadyForPreview: true }));
+        }
+    }
+
     handleSubmit(event) {
         event.preventDefault();
 
         // We can't add 'data-dismiss' to the 'addBtn', otherwise, the submit
         // functionality won't work. Therefore, simulate a click on 'cancelBtn',
         // after form submission, to dismiss the modal
-        this.cancelBtn.click();
+        this.cancelBtnDomElem.click();
     }
 
-    handleClickToUploadImage() {
-        this.uploadImage.click();
+    // Reset all fields and UI states after dimissing modal
+    handleCancelBtnClick() {
+        this.dishNameDomElem.value = '';
+        this.dishDescrDomElem.value = '';
+        this.dishPriceDomElem.value = '';
+        this.previewImageDomElem.src = '';
+        this.setState(prevState => ({
+            ...prevState,
+            imageOver: false,
+            imageReadyForPreview: false,
+        }));
     }
 
     render() {
-        const imageZoneClass = classNames({
-            'image-drop-zone': true,
-            'upload-image-target': true,
-            'image-over': this.state.imageOver,
-        });
+        const imageZoneClass = classNames(
+            'image-drop-zone',
+            'upload-image-target',
+            { 'image-over': this.state.imageOver },
+        );
+        const previewImageClass = classNames(
+            'centered preview-image',
+            { hidden: !this.state.imageReadyForPreview },
+        );
+        const dragImageTextClass = classNames(
+            'centered',
+            { hidden: this.state.imageReadyForPreview },
+        );
         return (
             <div
               className="modal fade" id="add-dish" tabIndex="-1" role="dialog"
@@ -67,38 +114,41 @@ class AddDishModal extends Component {
                             <div className="modal-body">
                                 <div
                                   className={imageZoneClass}
-                                  ref={(imageDropZoneDomElement) => { this.imageDropZone = imageDropZoneDomElement; }}
+                                  ref={(imageDropZoneDomElem) => { this.imageDropZone = imageDropZoneDomElem; }}
                                 >
-                                    { this.isImageAvailable ? (
-                                        <img className="centered" src="" alt="Uploading fail" />
-                                    ) : (
-                                        <p className="centered">Drag a dish image here</p>
-                                    )}
+                                    <img
+                                      className={previewImageClass} src="" alt="Uploading fail"
+                                      ref={(previewImageDomElem) => { this.previewImageDomElem = previewImageDomElem; }}
+                                    />
+                                    <p className={dragImageTextClass}>Drag a dish image here</p>
                                 </div>
                                 <div className="text-center upload-image-target ">
                                     Or&nbsp;
                                     <button
                                       type="button"
                                       className="btn btn-default non-shadow-outlline"
-                                      onClick={this.handleClickToUploadImage}
+                                      onClick={this.handleClickToSelectImage}
                                     >Select a dish image</button>
                                 </div>
                                 <div className="form-group">
                                     <input
                                       type="file" className="hidden" accept="image/*"
-                                      ref={(uploadImageNode) => { this.uploadImage = uploadImageNode; }}
+                                      ref={(imagePickerDomElem) => { this.imagePickerDomElem = imagePickerDomElem; }}
+                                      onChange={this.handleImagePreview}
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input
                                       type="text" className="form-control"
                                       id="add-dish-name" placeholder="Dish name" required
+                                      ref={(dishNameDomElem) => { this.dishNameDomElem = dishNameDomElem; }}
                                     />
                                 </div>
                                 <div className="form-group">
                                     <textarea
                                       rows="4" className="form-control" id="add-dish-description"
                                       placeholder="Dish description" maxLength="300" required
+                                      ref={(dishDescrDomElem) => { this.dishDescrDomElem = dishDescrDomElem; }}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -107,6 +157,7 @@ class AddDishModal extends Component {
                                         <input
                                           type="text" className="form-control"
                                           id="add-dish-price" placeholder="Price" required
+                                          ref={(dishPriceDomElem) => { this.dishPriceDomElem = dishPriceDomElem; }}
                                         />
                                     </div>
                                 </div>
@@ -116,7 +167,8 @@ class AddDishModal extends Component {
                                   type="button"
                                   className="btn btn-default outline narrow non-shadow-outlline"
                                   data-dismiss="modal"
-                                  ref={(cancelBtnNode) => { this.cancelBtn = cancelBtnNode; }}
+                                  ref={(cancelBtnDomElem) => { this.cancelBtnDomElem = cancelBtnDomElem; }}
+                                  onClick={this.handleCancelBtnClick}
                                 >Cancel</button>
                                 <button
                                   type="submit" className="btn btn-primary outline narrow non-shadow-outlline"
