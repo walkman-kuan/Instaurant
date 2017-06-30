@@ -97,6 +97,7 @@ export const formatItemName = unformattedItemName => (
     )
 );
 
+// Prevent browser's default drag and drop behaviors
 const stopPropgationAndPreventDefault = (event) => {
     event.stopPropagation();
     event.preventDefault();
@@ -139,7 +140,7 @@ export const addDragAndDropListeners = (
     eventTarget.addEventListener('drop', (event) => {
         stopPropgationAndPreventDefault(event);
         if (typeof dropCallback === 'function') {
-            dropCallback();
+            dropCallback(event);
         }
         if (typeof leaveOrDropCallback === 'function') {
             leaveOrDropCallback();
