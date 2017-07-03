@@ -47,3 +47,13 @@ export const configureCategory = configuredCategoryId => (
         configuredCategoryId,
     }
 );
+
+export const addDish = (categoryId, dish) => (
+    {
+        type: actionTypes.ADD_DISH,
+        data: {
+            categoryId,
+            dish,
+        },
+    }
+);

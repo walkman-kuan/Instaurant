@@ -24,8 +24,21 @@ const manageCategries = (state = { isFetching: false, alreadyFetched: false, ite
 // The reducer managing the dish state
 const manageDishes = (state = {}, action) => {
     switch (action.type) {
-    case 'EditStyleAction':
-        return 'Hi';
+    case actionTypes.ADD_DISH: {
+        const { categoryId, dish } = action.data;
+        // state[categoryId] is undefined if first dish
+        const items = state[categoryId] ? state[categoryId].items : {};
+        return {
+            ...state,
+            [categoryId]: {
+                ...state[categoryId],
+                items: {
+                    ...items,
+                    [dish.id]: dish,
+                },
+            },
+        };
+    }
     default:
         return state;
     }

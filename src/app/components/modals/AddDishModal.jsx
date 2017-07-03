@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { addDragAndDropListeners } from '../../utils/instaurantUtils';
+import { addDragAndDropListeners, formatItemName } from '../../utils/instaurantUtils';
+import { addDishToFirebase } from '../../actions/asyncActionCreator';
 
 class AddDishModal extends Component {
     constructor() {
@@ -47,14 +50,15 @@ class AddDishModal extends Component {
             ? event.dataTransfer.files // For drag and drop
             : event.target.files; // For file picker
 
-        // files.length could be zero, e.g., file picker is open, but no file is selected
-        const file = files.length && files[0];
+        // files.length could be zero, e.g., file picker is open, but no file is selected.
+        // Store the file in a class variable, which will be used in the uploading process later
+        this.file = files.length && files[0];
         // If the file exist and is an image
-        if (file && /^image\//i.test(file.type)) {
-            this.previewImageDomElem.src = URL.createObjectURL(files[0]);
+        if (this.file && /^image\//i.test(this.file.type)) {
+            this.previewImageDomElem.src = URL.createObjectURL(this.file);
             this.previewImageDomElem.onload = () => {
                 // Release the object URL once the image has been loaded
-                URL.revokeObjectURL(this.src);
+                window.URL.revokeObjectURL(this.src);
             };
             this.setState(prevState => ({ ...prevState, imageReadyForPreview: true }));
         }
@@ -62,6 +66,20 @@ class AddDishModal extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+
+        if (this.file && /^image\//i.test(this.file.type)) {
+            const { categoryId, numOfDishes, dispatch } = this.props;
+            // Add the new dish to the end of the list
+            const order = numOfDishes + 1;
+            dispatch(addDishToFirebase(
+                categoryId,
+                formatItemName(this.dishNameDomElem.value),
+                this.dishDescrDomElem.value,
+                this.dishPriceDomElem.value,
+                this.file,
+                order),
+            );
+        }
 
         // We can't add 'data-dismiss' to the 'addBtn', otherwise, the submit
         // functionality won't work. Therefore, simulate a click on 'cancelBtn',
@@ -185,4 +203,20 @@ class AddDishModal extends Component {
     }
 }
 
-export default AddDishModal;
+AddDishModal.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    categoryId: PropTypes.string.isRequired,
+    numOfDishes: PropTypes.number.isRequired,
+};
+
+const mapStateToProps = state => (
+    {
+        categoryId: state.configuredCategory,
+        // Return 0 if state.dish[categoryId] is undefined
+        numOfDishes: state.dish[state.configuredCategory]
+            ? Object.keys(state.dish[state.configuredCategory].items).length
+            : 0,
+    }
+);
+
+export default connect(mapStateToProps)(AddDishModal);

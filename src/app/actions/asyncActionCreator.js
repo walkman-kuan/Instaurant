@@ -5,12 +5,14 @@ import {
     receiveCategories,
     updateCategory,
     deleteCategory,
+    addDish,
 } from './actionCreator';
 import {
     firebaseAddCategory,
     firebaseFetchCategories,
     firebaseUpdateCategory,
     firebaseDeleteCategory,
+    firebaseAddDish,
 } from '../firebaseService';
 
 
@@ -89,5 +91,11 @@ export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedC
         // Use Destructuring to remove the category being deleted from the affected categories
         const { [deletedCategoryId]: deletedCategory, ...categoriesWithUpdatedOrder } = affectedCategories;
         dispatch(deleteCategory(categoriesWithUpdatedOrder, deletedCategoryId));
+    });
+};
+
+export const addDishToFirebase = (categoryId, name, description, price, file, order) => (dispatch) => {
+    firebaseAddDish(categoryId, name, description, price, file, order).then((dish) => {
+        dispatch(addDish(categoryId, dish));
     });
 };
