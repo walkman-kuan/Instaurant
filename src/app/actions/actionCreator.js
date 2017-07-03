@@ -40,3 +40,10 @@ export const deleteCategory = (categoriesWithUpdatedOrder, deletedCategoryId) =>
         },
     }
 );
+
+export const configureCategory = configuredCategoryId => (
+    {
+        type: actionTypes.CONFIGURE_CATEGORY,
+        configuredCategoryId,
+    }
+);

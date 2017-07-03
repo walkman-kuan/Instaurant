@@ -161,7 +161,6 @@ body {
             text-decoration: none;
             color: @color-option-2;
 
-            // TODO: Make sure the selected <li> is ALWAYS highlighted while editing dishes
             &:hover, &:focus, &:active {
                 background: @color-option-6;
                 color: @border-color-3;
@@ -170,6 +169,12 @@ body {
             &.disabled-link {
                 pointer-events: none; // Prevent the <li> being a target of mouse events
                 display: inline; // Avoid moving the editing icons to next line
+            }
+
+            //  Highlight the configured <li> while editing dishes
+            &.hightlight-link {
+                background: @color-option-6;
+                color: @border-color-3;
             }
         }
 

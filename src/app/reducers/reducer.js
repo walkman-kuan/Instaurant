@@ -41,10 +41,20 @@ const selectedCategory = (state = '', action) => {
     }
 };
 
+const configuredCategory = (state = '', action) => {
+    switch (action.type) {
+    case actionTypes.CONFIGURE_CATEGORY:
+        return action.configuredCategoryId;
+    default:
+        return state;
+    }
+};
+
 const rootReducer = combineReducers({
     category: manageCategries,
     dish: manageDishes,
     selectedCategory,
+    configuredCategory,
 });
 
 export default rootReducer;

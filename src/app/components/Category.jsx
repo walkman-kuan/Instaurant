@@ -1,23 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectedCategory } from '../actions/actionCreator';
+import classNames from 'classnames';
+import { selectedCategory, configureCategory } from '../actions/actionCreator';
 
-const Category = ({ id, name, isEditingCategories, dispatch }) => {
-    const handleEditCategoryClick = () => {
-        dispatch(selectedCategory(id));
-    };
+const Category = ({ id, name, isEditingCategories, configuredCategoryId, dispatch }) => {
+    const handleConfigureCategoryClick = () => dispatch(configureCategory(id));
 
-    const handleRemoveCategoryClick = () => {
-        dispatch(selectedCategory(id));
-    };
+    const handleEditCategoryClick = () => dispatch(selectedCategory(id));
+
+    const handleRemoveCategoryClick = () => dispatch(selectedCategory(id));
+
+    const getCategoryLinkClass = () => (
+        classNames({
+            'disabled-link': isEditingCategories,
+            // Highlight the category if it isn't being edited, and is being configured
+            'hightlight-link': !isEditingCategories && id === configuredCategoryId,
+        })
+    );
 
     return (
         <li>
             <a
               href={`#categoryId=${id}`}
               id={id}
-              className={isEditingCategories ? 'disabled-link' : ''}
+              className={getCategoryLinkClass()}
+              onClick={handleConfigureCategoryClick}
             >
                 {name}
             </a>
@@ -52,7 +60,10 @@ Category.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     isEditingCategories: PropTypes.bool.isRequired,
+    configuredCategoryId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(Category);
+const mapStateToProps = state => ({ configuredCategoryId: state.configuredCategory });
+
+export default connect(mapStateToProps)(Category);

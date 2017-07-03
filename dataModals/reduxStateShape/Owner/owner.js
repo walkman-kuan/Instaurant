@@ -9,22 +9,22 @@
  */
 
 const ownerReduxStateShape = {
-    /**
-     * Actions: select a category or dish, and start editing/deleting
-     */
+    /* Actions: select a category or dish, and start editing/deleting */
     selectedCategory: 'selectedCategoryId',
     selectedDish: 'selectedDishId',
+    /* Actions: Highlight a category and configure its associated dish(es) */
+    configuredCategory: 'configuredCategoryId',
     /**
      * Actions
      * 1. Add category
      *     1. ID is given by Firebase
      *     2. Name is given by owner
-     *     3. Order = length of list of categories + 1
+     *     3. Order = (length of list of categories) + 1
      * 2. Update category
      *     1. Name is updated by owner
      *     2. Order is updated, e.g., drag and drop, based on orders of re-rendered <li>'s within <ul>
      * 3. Delete category
-     *     1. Order is updated based on orders of re-rendered <li>'s within <ul>
+     *     1. Order is updated by decrementing the orders of following categories by 1
      *     2. All associated dishes are deleted
      * 4. Fetch categories
      */
@@ -60,13 +60,13 @@ const ownerReduxStateShape = {
      * 1. Add dish
      *     1. ID and Image URL are given by Firebase
      *     2. Name, Price and Description are given by owner
-     *     3. Order = length of list of dish + 1
+     *     3. Order = (length of list of dish) + 1
      * 2. Update dish
      *     1. Name, Price and Description are updated by owner
      *     2. Image URL is given by Firebase
      *     2. Order is updated, e.g., drag and drop, based on orders of re-rendered <li>'s within <ul>
      * 3. Delete dish
-     *     1. Order is updated based on orders of re-rendered <li>'s within <ul>
+     *     1. Order is updated by decrementing the orders of following categories by 1
      * 4. Fetch dishes
      */
     dish: {
