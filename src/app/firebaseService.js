@@ -4,6 +4,7 @@ import firebaseApp from './firebaseApp';
 
 const firebaseAuth = firebaseApp.auth();
 const firebaseDatabase = firebaseApp.database();
+const fireaseStorage = firebaseApp.storage();
 
 /**
  * Check whether there is a signed-in user
@@ -117,3 +118,44 @@ export const firebaseUpdateCategory = (ownerId, categoryId, newName) => {
 export const firebaseDeleteCategory = (ownerId, affectedCategories) => (
     firebaseDatabase.ref(`categories/${ownerId}`).update(affectedCategories)
 );
+
+/**
+ * Add a dish given the categoryId, name, description, price, file, and order
+ *
+ * @param categoryId is the id of the associated category of the dish
+ * @param name is the dish name
+ * @param description is the dish description
+ * @param price is the dish price
+ * @param file is the dish image to be uploaded
+ * @param order is the dish order within the existing dish list
+ * @return {Promise} containing the new dish
+ */
+export const firebaseAddDish = (categoryId, name, description, price, file, order) => {
+    // Generates a new dish location (Realtime Database) using a unique key and returns its Reference
+    const newDishRef = firebaseDatabase.ref(`dishes/${categoryId}`).push();
+
+    // Return a Promise so that we can consume the data
+    return new Promise((resolve, reject) => {
+        const id = newDishRef.key;
+        // Upload the image to the Storage bucket at the specified location, and return
+        // an uploadTask object that can be used to monitor and manage the upload
+        const uploadTask = fireaseStorage.ref(`dishes/${id}/${file.name}`).put(file, { contentType: file.type });
+
+        uploadTask.on('state_changed', null, (error) => {
+            reject(error.code);
+        }, () => {
+            // Handle successful uploads on complete
+            const dish = {
+                id,
+                name,
+                description,
+                price,
+                imageUrl: uploadTask.snapshot.downloadURL,
+                order,
+            };
+            // Update the empty location with a concrete dish object
+            newDishRef.update(dish);
+            resolve(dish);
+        });
+    });
+};
