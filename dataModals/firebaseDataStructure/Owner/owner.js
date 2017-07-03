@@ -133,6 +133,14 @@ const ownerDataStructure = {
             },
         },
     },
+
+    'firebase-storage': {
+        dishes: {
+            dishId1: 'dishImageData1',
+            dishId2: 'dishImageData2',
+            dishId3: 'dishImageData3',
+        },
+    },
 };
 
 export default ownerDataStructure;
