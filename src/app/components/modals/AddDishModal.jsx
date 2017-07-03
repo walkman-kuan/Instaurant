@@ -13,7 +13,7 @@ class AddDishModal extends Component {
         this.handleImageEnterOrOverDropZone = this.handleImageEnterOrOverDropZone.bind(this);
         this.handleImageLeaveDropZoneOrDropDone = this.handleImageLeaveDropZoneOrDropDone.bind(this);
         this.handleImagePreview = this.handleImagePreview.bind(this);
-        this.handleCancelBtnClick = this.handleCancelBtnClick.bind(this);
+        this.handleDismissBtnClick = this.handleDismissBtnClick.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -70,7 +70,7 @@ class AddDishModal extends Component {
     }
 
     // Reset all fields and UI states after dimissing modal
-    handleCancelBtnClick() {
+    handleDismissBtnClick() {
         this.dishNameDomElem.value = '';
         this.dishDescrDomElem.value = '';
         this.dishPriceDomElem.value = '';
@@ -105,7 +105,10 @@ class AddDishModal extends Component {
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <button
+                              type="button" className="close" data-dismiss="modal" aria-label="Close"
+                              onClick={this.handleDismissBtnClick}
+                            >
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <h4 className="modal-title">Add a new dish</h4>
@@ -168,7 +171,7 @@ class AddDishModal extends Component {
                                   className="btn btn-default outline narrow non-shadow-outlline"
                                   data-dismiss="modal"
                                   ref={(cancelBtnDomElem) => { this.cancelBtnDomElem = cancelBtnDomElem; }}
-                                  onClick={this.handleCancelBtnClick}
+                                  onClick={this.handleDismissBtnClick}
                                 >Cancel</button>
                                 <button
                                   type="submit" className="btn btn-primary outline narrow non-shadow-outlline"
