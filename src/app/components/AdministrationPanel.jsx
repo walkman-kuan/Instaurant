@@ -40,10 +40,10 @@ class AdministrationPanel extends Component {
             const { dispatch } = this.props;
             dispatch(fetchCategoriesIfNeeded(getCurrentSignInUser().uid)).then(() => {
                 // We have already fetch the configured categories (if any) successfully
-                const { items } = this.props;
-                if (Object.values(items).length > 0) {
+                const { categories } = this.props;
+                if (Object.values(categories).length > 0) {
                     // Set the configured category to the first one in the list
-                    dispatch(configureCategory(Object.values(items)[0].id));
+                    dispatch(configureCategory(Object.values(categories)[0].id));
                     dispatch(fetchDishesIfNeeded());
                 }
             });
@@ -71,19 +71,19 @@ class AdministrationPanel extends Component {
     }
 
     render() {
-        const { alreadyFetched, items } = this.props;
+        const { onCategoryFetched, categories, dishes } = this.props;
         return (
             <div className="admin-page-wrapper">
                 <NavBar onToggleSiderbar={this.handleToggleSidebar} />
                 <SideBar
-                  categories={items}
+                  categories={categories}
                   sidebarStyle={this.state.sidebarStyle}
                   onEditingCategories={this.handleEditingCategories}
                 />
-                <MenuContent />
+                <MenuContent dishes={dishes} />
 
                 {/* Show the Configure Menu modal if, after fetching, there is no configured categories. */}
-                {alreadyFetched && Object.keys(items).length < 1 && <ConfigureCategoryModal />}
+                {onCategoryFetched && Object.keys(categories).length < 1 && <ConfigureCategoryModal />}
                 <AddCategoryModal />
                 <EditCategoryModal />
                 <RemoveCategoryModal />
@@ -93,20 +93,29 @@ class AdministrationPanel extends Component {
 }
 
 AdministrationPanel.propTypes = {
-    items: PropTypes.objectOf(PropTypes.shape({
+    categories: PropTypes.objectOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
-    alreadyFetched: PropTypes.bool.isRequired,
+    onCategoryFetched: PropTypes.bool.isRequired,
+    dishes: PropTypes.objectOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        imageUrl: PropTypes.string.isRequired,
+        order: PropTypes.number.isRequired,
+    })).isRequired,
     dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => (
     {
-        alreadyFetched: state.category.alreadyFetched,
-        items: state.category.items,
+        onCategoryFetched: state.category.alreadyFetched,
+        categories: state.category.items,
+        dishes: state.dish[state.configuredCategory].items,
     }
 );
 
