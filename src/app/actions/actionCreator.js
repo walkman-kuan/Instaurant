@@ -48,6 +48,23 @@ export const configureCategory = configuredCategoryId => (
     }
 );
 
+export const receiveDishes = (configuredCategoryId, dishes) => (
+    {
+        type: actionTypes.RECEIVE_DISH,
+        data: {
+            configuredCategoryId,
+            dishes,
+        },
+    }
+);
+
+export const fetchingDishes = configuredCategoryId => (
+    {
+        type: actionTypes.FETCHING_DISH,
+        configuredCategoryId,
+    }
+);
+
 export const addDish = (categoryId, dish) => (
     {
         type: actionTypes.ADD_DISH,

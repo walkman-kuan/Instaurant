@@ -6,6 +6,8 @@ import {
     updateCategory,
     deleteCategory,
     addDish,
+    fetchingDishes,
+    receiveDishes,
 } from './actionCreator';
 import {
     firebaseAddCategory,
@@ -13,12 +15,14 @@ import {
     firebaseUpdateCategory,
     firebaseDeleteCategory,
     firebaseAddDish,
+    firebaseFetchDishes,
 } from '../firebaseService';
 
 
 // Return {true} if we are not in the process of fetching, have already fetched before,
-// or the list of fetched categories is not empty
-const shouldFetchCategory = ({ isFetching, alreadyFetched, items }) => {
+// or the list of fetched items(categories/dishes) is not empty
+const shouldFetchItem = (itemInfo = { isFetching: false, alreadyFetched: false, items: {} }) => {
+    const { isFetching, alreadyFetched, items } = itemInfo;
     // Object.keys(objName) returns an array of the given object's own enumerable properties
     if (isFetching || alreadyFetched || Object.keys(items).length > 0) {
         return false;
@@ -27,8 +31,8 @@ const shouldFetchCategory = ({ isFetching, alreadyFetched, items }) => {
     return true;
 };
 
-// Fetch categories from Firebase
-const fetchCategoriesFromFirebase = ownerId => (dispatch) => {
+// Fetch categories from Firebase, and return a promise
+const fetchCategoriesFromFirebase = ownerId => dispatch => (
     firebaseFetchCategories(ownerId).then((snapshot) => {
         const categories = {};
         // Get the data out of this snapshot if it contains any data
@@ -44,15 +48,15 @@ const fetchCategoriesFromFirebase = ownerId => (dispatch) => {
         }
 
         dispatch(receiveCategories(categories));
-    });
-};
+    })
+);
 
 // Fetch categories from Firebase if necessary
 export const fetchCategoriesIfNeed = ownerId => (dispatch, getState) => {
     // The return value can be accessed through dispatch(fetchCategoriesIfNeed(ownerId)).then()
 
     // Avoiding a network request if a cached value is already available
-    if (shouldFetchCategory(getState().category)) {
+    if (shouldFetchItem(getState().category)) {
         // Change the status isFetching to true
         dispatch(fetchingCategories());
 
@@ -71,6 +75,7 @@ export const addCategoryToFirebase = (ownerId, name, order) => (dispatch) => {
             name: snapshot.val().name,
             order: snapshot.val().order,
         };
+
         dispatch(addCategory(category));
     });
 };
@@ -82,6 +87,7 @@ export const updateCategoryName = (ownerId, categoryId, newName) => (dispatch) =
             name: snapshot.val().name,
             order: snapshot.val().order,
         };
+
         dispatch(updateCategory(category));
     });
 };
@@ -92,6 +98,50 @@ export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedC
         const { [deletedCategoryId]: deletedCategory, ...categoriesWithUpdatedOrder } = affectedCategories;
         dispatch(deleteCategory(categoriesWithUpdatedOrder, deletedCategoryId));
     });
+};
+
+// Fetch dishes from Firebase, and return a promise
+export const fetchDishesFromFirebase = configuredCategoryId => dispatch => (
+    firebaseFetchDishes(configuredCategoryId).then((snapshot) => {
+        const dishes = {};
+        // Get the data out of this snapshot if it contains any data
+        if (snapshot.exists()) {
+            snapshot.forEach((data) => {
+                dishes[data.key] = {
+                    // data.key and data.val().id are the same
+                    id: data.key,
+                    name: data.val().name,
+                    description: data.val().description,
+                    price: data.val().price,
+                    imageUrl: data.val().imageUrl,
+                    order: data.val().order,
+                };
+            });
+        }
+
+        dispatch(receiveDishes(configuredCategoryId, dishes));
+    })
+);
+
+// Fetch dishes from Firebase if necessary
+export const fetchDishesIfNeed = () => (dispatch, getState) => {
+    // The return value can be accessed through dispatch(fetchDishesIfNeed(ownerId)).then()
+
+    const configuredCategoryId = getState().configuredCategory;
+    // configuredDishInfo is undefined when fetching dishes for a category for the first time
+    const configuredDishInfo = getState().dish[configuredCategoryId];
+
+    // Avoiding a network request if a cached value is already available
+    if (shouldFetchItem(configuredDishInfo)) {
+        // Change the status isFetching to true
+        dispatch(fetchingDishes(configuredCategoryId));
+
+        // Dispatch a thunk from thunk!
+        return dispatch(fetchDishesFromFirebase(configuredCategoryId));
+    }
+
+    // Let the calling code know there's nothing to wait for
+    return Promise.resolve();
 };
 
 export const addDishToFirebase = (categoryId, name, description, price, file, order) => (dispatch) => {
