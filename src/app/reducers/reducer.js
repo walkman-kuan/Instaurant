@@ -21,9 +21,29 @@ const manageCategries = (state = { isFetching: false, alreadyFetched: false, ite
     }
 };
 
+const manageDishesOfIndividualCategory = (state = { isFetching: false, alreadyFetched: false, items: {} }) => (
+    { ...state, isFetching: true }
+);
+
 // The reducer managing the dish state
 const manageDishes = (state = {}, action) => {
     switch (action.type) {
+    case actionTypes.FETCHING_DISH:
+        return {
+            ...state,
+            [action.configuredCategoryId]: manageDishesOfIndividualCategory(state[action.configuredCategoryId]),
+        };
+    case actionTypes.RECEIVE_DISH: {
+        const { configuredCategoryId, dishes } = action.data;
+        return {
+            ...state,
+            [configuredCategoryId]: {
+                isFetching: false,
+                alreadyFetched: true,
+                items: dishes,
+            },
+        };
+    }
     case actionTypes.ADD_DISH: {
         const { categoryId, dish } = action.data;
         // state[categoryId] is undefined if first dish
