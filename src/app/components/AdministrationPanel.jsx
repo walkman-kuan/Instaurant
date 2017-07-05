@@ -9,7 +9,8 @@ import AddCategoryModal from './modals/AddCategoryModal';
 import EditCategoryModal from './modals/EditCategoryModal';
 import RemoveCategoryModal from './modals/RemoveCategoryModal';
 import { isUserSignedIn, getCurrentSignInUser } from '../firebaseService';
-import { fetchCategoriesIfNeed } from '../actions/asyncActionCreator';
+import { fetchCategoriesIfNeeded, fetchDishesIfNeeded } from '../actions/asyncActionCreator';
+import { configureCategory } from '../actions/actionCreator';
 
 class AdministrationPanel extends Component {
     constructor() {
@@ -37,7 +38,15 @@ class AdministrationPanel extends Component {
             // Note that render() will be called before fetchCategoriesIfNeed()
             // is resolved since fetchCategoriesIfNeed() is async
             const { dispatch } = this.props;
-            dispatch(fetchCategoriesIfNeed(getCurrentSignInUser().uid));
+            dispatch(fetchCategoriesIfNeeded(getCurrentSignInUser().uid)).then(() => {
+                // We have already fetch the configured categories (if any) successfully
+                const { items } = this.props;
+                if (Object.values(items).length > 0) {
+                    // Set the configured category to the first one in the list
+                    dispatch(configureCategory(Object.values(items)[0].id));
+                    dispatch(fetchDishesIfNeeded());
+                }
+            });
         }
     }
 

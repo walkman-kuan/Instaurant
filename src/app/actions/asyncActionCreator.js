@@ -51,8 +51,8 @@ const fetchCategoriesFromFirebase = ownerId => dispatch => (
     })
 );
 
-// Fetch categories from Firebase if necessary
-export const fetchCategoriesIfNeed = ownerId => (dispatch, getState) => {
+// Fetch categories from Firebase if needed
+export const fetchCategoriesIfNeeded = ownerId => (dispatch, getState) => {
     // The return value can be accessed through dispatch(fetchCategoriesIfNeed(ownerId)).then()
 
     // Avoiding a network request if a cached value is already available
@@ -123,8 +123,8 @@ export const fetchDishesFromFirebase = configuredCategoryId => dispatch => (
     })
 );
 
-// Fetch dishes from Firebase if necessary
-export const fetchDishesIfNeed = () => (dispatch, getState) => {
+// Fetch dishes from Firebase if needed
+export const fetchDishesIfNeeded = () => (dispatch, getState) => {
     // The return value can be accessed through dispatch(fetchDishesIfNeed(ownerId)).then()
 
     const configuredCategoryId = getState().configuredCategory;
