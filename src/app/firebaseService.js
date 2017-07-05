@@ -120,6 +120,16 @@ export const firebaseDeleteCategory = (ownerId, affectedCategories) => (
 );
 
 /**
+ * Fetech a list of ordered dishes given the category id
+ *
+ * @param configuredCategoryId is the categry id
+ * @return {firebase.Promise} containing the list of dishes
+ */
+export const firebaseFetchDishes = configuredCategoryId => (
+    firebaseDatabase.ref(`dishes/${configuredCategoryId}`).orderByChild('order').once('value')
+);
+
+/**
  * Add a dish given the categoryId, name, description, price, file, and order
  *
  * @param categoryId is the id of the associated category of the dish
