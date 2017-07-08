@@ -71,7 +71,7 @@ class AdministrationPanel extends Component {
     }
 
     render() {
-        const { onCategoryFetched, categories, dishes } = this.props;
+        const { onCategoryFetched, categories, configuredCategory, dishes } = this.props;
         return (
             <div className="admin-page-wrapper">
                 <NavBar onToggleSiderbar={this.handleToggleSidebar} />
@@ -80,7 +80,10 @@ class AdministrationPanel extends Component {
                   sidebarStyle={this.state.sidebarStyle}
                   onEditingCategories={this.handleEditingCategories}
                 />
-                <MenuContent dishes={dishes} />
+                <MenuContent
+                  dishes={dishes}
+                  categoryName={categories[configuredCategory] ? categories[configuredCategory].name : ''}
+                />
 
                 {/* Show the Configure Menu modal if, after fetching, there is no configured categories. */}
                 {onCategoryFetched && Object.keys(categories).length < 1 && <ConfigureCategoryModal />}
@@ -99,6 +102,7 @@ AdministrationPanel.propTypes = {
         order: PropTypes.number.isRequired,
     })).isRequired,
     onCategoryFetched: PropTypes.bool.isRequired,
+    configuredCategory: PropTypes.string.isRequired,
     dishes: PropTypes.objectOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -115,6 +119,7 @@ const mapStateToProps = state => (
     {
         onCategoryFetched: state.category.alreadyFetched,
         categories: state.category.items,
+        configuredCategory: state.configuredCategory,
         dishes: state.dish[state.configuredCategory]
             ? state.dish[state.configuredCategory].items
             : {},

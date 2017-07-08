@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddDishModal from './modals/AddDishModal';
+import MenuContentTitle from './MenuContentTitle';
 import DishList from './DishList';
+import AddDishModal from './modals/AddDishModal';
 
-const MenuContent = ({ dishes }) => (
+const MenuContent = ({ dishes, categoryName }) => (
     <div id="menu-content" className="menu-content">
+        <MenuContentTitle
+          categoryName={categoryName}
+          numOfDishes={Object.keys(dishes).length}
+        />
         <DishList dishes={dishes} />
         <AddDishModal />
     </div>
@@ -19,6 +24,7 @@ MenuContent.propTypes = {
         imageUrl: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
+    categoryName: PropTypes.string.isRequired,
 };
 
 export default MenuContent;

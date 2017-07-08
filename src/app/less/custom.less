@@ -157,7 +157,7 @@ body {
     color: @color-option-2;
 
     border-bottom: 1px solid #eee;
-    padding: 10px 0 10px 30px;
+    padding: 12px 0 12px 30px;
 
     font-size: 18px;
     font-weight: 500;
@@ -241,7 +241,13 @@ body {
 /* The Menu Content */
 .menu-content {
     margin: 50px 0 0 250px;
-    padding: 15px 20px;
+    padding: 10px 20px;
+}
+.menu-content-title {
+    margin: 2px 0 12px 0;
+    span {
+        color: @color-option-2;
+    }
 }
 .dish-container {
     .dish-container-look;
@@ -399,6 +405,9 @@ body {
     /* Remove the left margin of the main content */
     .menu-content {
         margin-left: 0;
+    }
+    .menu-content-title {
+        text-align: center;
     }
 
     .dish-container {
