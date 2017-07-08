@@ -56,7 +56,7 @@ class AdministrationPanel extends Component {
             { ...prevState,
                 sidebarStyle: { ...prevState.sidebarStyle,
                     isWrapperHidden: !prevState.sidebarStyle.isWrapperHidden,
-                    wrapperStyle: prevState.sidebarStyle.isWrapperHidden ? { width: '90%' } : {},
+                    wrapperStyle: prevState.sidebarStyle.isWrapperHidden ? { width: '96%' } : {},
                 },
             }));
     }
