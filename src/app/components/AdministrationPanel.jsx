@@ -103,7 +103,7 @@ AdministrationPanel.propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
+        price: PropTypes.string.isRequired,
         imageUrl: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
@@ -115,7 +115,9 @@ const mapStateToProps = state => (
     {
         onCategoryFetched: state.category.alreadyFetched,
         categories: state.category.items,
-        dishes: state.dish[state.configuredCategory].items,
+        dishes: state.dish[state.configuredCategory]
+            ? state.dish[state.configuredCategory].items
+            : {},
     }
 );
 
