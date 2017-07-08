@@ -1,16 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddDishModal from './modals/AddDishModal';
-import DishList from './DishList';
+import Dish from './Dish';
+import AddDishThumbnail from './AddDishThumbnail';
 
-const MenuContent = ({ dishes }) => (
-    <div id="menu-content" className="menu-content">
-        <DishList dishes={dishes} />
-        <AddDishModal />
+const DishList = ({ dishes }) => (
+    <div className="row">
+        {Object.values(dishes).map(dish => (
+            <Dish
+              key={dish.id}
+              {...dish}
+            />
+        ))}
+        <AddDishThumbnail />
     </div>
 );
 
-MenuContent.propTypes = {
+
+DishList.propTypes = {
     dishes: PropTypes.objectOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -21,4 +27,4 @@ MenuContent.propTypes = {
     })).isRequired,
 };
 
-export default MenuContent;
+export default DishList;
