@@ -102,6 +102,10 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%); // Internet Explorer and Microsoft Edge
+    -moz-transform: translate(-50%,-50%); // Firefox
+    -o-transform: translate(-50%,-50%); // Old, pre-WebKit, versions of Opera
+    -webkit-transform: translate(-50%,-50%); // Safari
     text-align: center;
 }
 
@@ -122,10 +126,11 @@ body {
     /* Vetically `center` */
     position: absolute;
     top: 40%;
-    transform: translate(0%, -50%); // Standard
-    -ms-transform: translate(0%, -50%); // IE 9
-    -o-transform: translate(0%, -50%); // Opera
-    -webkit-transform: translate(0%, -50%); // Safari
+    transform: translate(0%, -50%);
+    -ms-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
+    -webkit-transform: translate(0%, -50%);
 }
 .forgot-password {
     font-size: @font-size-small;
@@ -501,6 +506,12 @@ body {
         float: left;
         margin-left: 15px;
         margin-right: 0;
+    }
+
+    /* Modal */
+    .image-drop-zone {
+        height: 258px;
+        width: 306px;
     }
 }
 
