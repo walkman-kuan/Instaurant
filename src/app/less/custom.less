@@ -250,7 +250,7 @@ body {
     }
 }
 .menu-content-title {
-    margin: 2px 0 12px 0;
+    margin: 5px 0 15px 0;
     span {
         color: @color-option-2;
     }
@@ -404,8 +404,15 @@ body {
     Extra large ≥ 1200px
  */
 @media (max-width: 575px) {
+    /* Allow text wrapping */
     .elem-with-tooltip {
         white-space: normal;
+    }
+
+    /* Reduce padding to avoid overlapping */
+    .navbar-nav > li > a {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     /* Hide the sidebar */
