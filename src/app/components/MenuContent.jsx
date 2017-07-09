@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import MenuContentTitle from './MenuContentTitle';
 import DishList from './DishList';
 import AddDishModal from './modals/AddDishModal';
 
-const MenuContent = ({ dishes, categoryName }) => (
-    <div id="menu-content" className="menu-content">
-        <MenuContentTitle
-          categoryName={categoryName}
-          numOfDishes={Object.keys(dishes).length}
-        />
-        <DishList dishes={dishes} />
-        <AddDishModal />
-    </div>
-);
+const MenuContent = ({ dishes, categoryName, isSidebarVisibleOnMobile }) => {
+    const menuContentClass = classNames('menu-content', { 'push-dishes-left': isSidebarVisibleOnMobile });
+
+    return (
+        <div id="menu-content" className={menuContentClass}>
+            <MenuContentTitle
+              categoryName={categoryName}
+              numOfDishes={Object.keys(dishes).length}
+            />
+            <DishList dishes={dishes} />
+            <AddDishModal />
+        </div>
+    );
+};
 
 MenuContent.propTypes = {
     dishes: PropTypes.objectOf(PropTypes.shape({
@@ -25,6 +30,7 @@ MenuContent.propTypes = {
         order: PropTypes.number.isRequired,
     })).isRequired,
     categoryName: PropTypes.string.isRequired,
+    isSidebarVisibleOnMobile: PropTypes.bool.isRequired,
 };
 
 export default MenuContent;

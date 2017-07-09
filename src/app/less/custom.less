@@ -249,6 +249,12 @@ body {
     margin: 50px 0 0 250px;
     padding: 10px 20px;
 }
+/* Push the dish container(s) to left when sidebar shows on mobile view */
+.push-dishes-left {
+    .dish-container {
+        margin-left: -40%;
+    }
+}
 .menu-content-title {
     margin: 2px 0 12px 0;
     span {
@@ -268,6 +274,8 @@ body {
 
     /* Layout 2 - Position dish editing link */
     position: relative;
+
+    transition: 0.3s;
 }
 .dish-image-container {
     display: table-cell;
