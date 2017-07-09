@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { selectedCategory, configureCategory } from '../actions/actionCreator';
+import { fetchDishesIfNeeded } from '../actions/asyncActionCreator';
 
 const Category = ({ id, name, isEditingCategories, onConfiguringCategory, configuredCategoryId, dispatch }) => {
     const handleConfigureCategoryClick = () => {
         dispatch(configureCategory(id));
+        dispatch(fetchDishesIfNeeded());
         // Hide the sidebar if it shows on mobile view
         onConfiguringCategory();
     };
@@ -46,10 +48,10 @@ const Category = ({ id, name, isEditingCategories, onConfiguringCategory, config
                     <a
                       href={`#categoryId=${id}`}
                       data-toggle="modal"
-                      data-target="#delete-category"
+                      data-target="#remove-category"
                       onClick={handleRemoveCategoryClick}
                     >
-                        <span title="remove" className="glyphicon glyphicon-remove" />
+                        <span title="delete" className="glyphicon glyphicon-remove" />
                     </a>
                     <a href={`#categoryId=${id}`}>
                         <span title="reorder" className="glyphicon glyphicon-move" />

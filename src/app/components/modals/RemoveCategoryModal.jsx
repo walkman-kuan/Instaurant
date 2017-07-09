@@ -50,7 +50,7 @@ class RemoveCategoryModal extends Component {
     render() {
         return (
             <div
-              className="modal fade" id="delete-category" tabIndex="-1" role="dialog"
+              className="modal fade" id="remove-category" tabIndex="-1" role="dialog"
               data-backdrop="static" data-keyboard="false"
             >
                 <div className="modal-dialog" role="document">
@@ -64,9 +64,9 @@ class RemoveCategoryModal extends Component {
                         <form role="form" onSubmit={this.handleSubmit}>
                             <div className="modal-body">
                                 <span>
-                                    Are you sure you want to delete <strong>{ this.deletedCategoryName }</strong>?
-                                    Deleting <strong>{ this.deletedCategoryName }</strong> will
-                                     also delete <strong>all dishes</strong> associated with it.
+                                    Are you sure you want to delete <strong>{this.deletedCategoryName}</strong>?
+                                    Deleting <strong>{this.deletedCategoryName}</strong> will
+                                    also delete <strong>all dishes</strong> associated with it.
                                 </span>
                             </div>
                             <div className="modal-footer">
