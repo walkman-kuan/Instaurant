@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import CategoryList from './CategoryList';
 import AddCategoryButton from './AddCategoryButton';
 
-const SideBar = ({ categories, onEditingCategories, sidebarStyle }) => {
+const SideBar = ({ categories, onConfiguringCategory, onEditingCategories, sidebarStyle }) => {
     const { isEditingCategories, isSidebarVisibleOnMobile } = sidebarStyle;
     const sidebarClass = classNames('sidebar-wrapper', { 'sidebar-mobile': isSidebarVisibleOnMobile });
     const showCategoryInfo = Object.keys(categories).length > 0;
@@ -18,7 +18,11 @@ const SideBar = ({ categories, onEditingCategories, sidebarStyle }) => {
                 </div>
                 {/* Show category-related information only when there are configured categories */}
                 {showCategoryInfo &&
-                    <CategoryList categories={categories} isEditingCategories={isEditingCategories} />
+                    <CategoryList
+                      categories={categories}
+                      isEditingCategories={isEditingCategories}
+                      onConfiguringCategory={onConfiguringCategory}
+                    />
                 }
             </div>
             <AddCategoryButton />
@@ -42,6 +46,7 @@ SideBar.propTypes = {
         name: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
+    onConfiguringCategory: PropTypes.func.isRequired,
     onEditingCategories: PropTypes.func.isRequired,
     sidebarStyle: PropTypes.shape({
         isSidebarVisibleOnMobile: PropTypes.bool.isRequired,

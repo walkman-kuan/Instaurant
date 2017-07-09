@@ -22,6 +22,7 @@ class AdministrationPanel extends Component {
         };
         this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
         this.handleEditingCategories = this.handleEditingCategories.bind(this);
+        this.handleConfiguringCategory = this.handleConfiguringCategory.bind(this);
     }
 
     // If there is no signed-in user, redirect to the sign in page.
@@ -59,6 +60,14 @@ class AdministrationPanel extends Component {
             { ...prevState, isEditingCategories: !prevState.isEditingCategories }
         ));
     }
+
+    handleConfiguringCategory() {
+        // If sidebar shows on mobile view, hide it, otherwise, do nothing
+        if (this.state.isSidebarVisibleOnMobile) {
+            this.setState(prevState => (
+                { ...prevState, isSidebarVisibleOnMobile: !prevState.isSidebarVisibleOnMobile }
+            ));
+        }
     }
 
     render() {
@@ -70,10 +79,12 @@ class AdministrationPanel extends Component {
                   categories={categories}
                   sidebarStyle={this.state}
                   onEditingCategories={this.handleEditingCategories}
+                  onConfiguringCategory={this.handleConfiguringCategory}
                 />
                 <MenuContent
                   dishes={dishes}
                   categoryName={categories[configuredCategory] ? categories[configuredCategory].name : ''}
+                  isSidebarVisibleOnMobile={this.state.isSidebarVisibleOnMobile}
                 />
 
                 {/* Show the Configure Menu modal if, after fetching, there is no configured categories. */}

@@ -4,8 +4,12 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { selectedCategory, configureCategory } from '../actions/actionCreator';
 
-const Category = ({ id, name, isEditingCategories, configuredCategoryId, dispatch }) => {
-    const handleConfigureCategoryClick = () => dispatch(configureCategory(id));
+const Category = ({ id, name, isEditingCategories, onConfiguringCategory, configuredCategoryId, dispatch }) => {
+    const handleConfigureCategoryClick = () => {
+        dispatch(configureCategory(id));
+        // Hide the sidebar if it shows on mobile view
+        onConfiguringCategory();
+    };
 
     const handleEditCategoryClick = () => dispatch(selectedCategory(id));
 
@@ -62,6 +66,7 @@ Category.propTypes = {
     isEditingCategories: PropTypes.bool.isRequired,
     configuredCategoryId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
+    onConfiguringCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({ configuredCategoryId: state.configuredCategory });
