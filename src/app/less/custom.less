@@ -402,8 +402,17 @@ body {
     Medium ≥ 768px
     Large ≥ 992px
     Extra large ≥ 1200px
+
+    Notes:
+    1. The reason we define hidden-on-*, visible-on-* is because
+    we are using Bootstrap 3 where extra small break point is
+    768 px, not 576px.
+    2. Migrate to Bootstrap 4 or override Bootstrap 3 breakpoints
  */
 @media (max-width: 575px) {
+    .hidden-on-xs {
+        display: none;
+    }
     /* Allow text wrapping */
     .elem-with-tooltip {
         white-space: normal;
@@ -459,6 +468,9 @@ body {
 }
 
 @media (min-width: 576px) {
+    .visible-on-xs {
+        display: none;
+    }
     .navbar-toggle.sidebar-toggle {
         display: none;
     }

@@ -29,21 +29,21 @@ const NavBar = ({ onToggleSiderbar }) => {
                         <Link to="/qrCode">
                             <span className="glyphicon glyphicon-qrcode" />
                             &nbsp;
-                            <span className="hidden-xs">QR Code</span>
+                            <span className="hidden-on-xs">QR Code</span>
                         </Link>
                     </li>
                     <li>
                         <Link to="/profile">
                             <span className="glyphicon glyphicon-user" />
                             &nbsp;
-                            <span className="hidden-xs">Profile</span>
+                            <span className="hidden-on-xs">Profile</span>
                         </Link>
                     </li>
                     <li>
                         <Link to="/signin" onClick={handleSignOut}>
                             <span className="glyphicon glyphicon-off" />
                             &nbsp;
-                            <span className="hidden-xs">Sign out</span>
+                            <span className="hidden-on-xs">Sign out</span>
                         </Link>
                     </li>
                 </ul>

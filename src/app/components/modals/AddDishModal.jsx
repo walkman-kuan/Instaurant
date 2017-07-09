@@ -142,14 +142,14 @@ class AddDishModal extends Component {
                                       ref={(previewImageDomElem) => { this.previewImageDomElem = previewImageDomElem; }}
                                     />
                                     <p className={dragImageTextClass}>
-                                        <span className="hidden-xs">Drag a dish image here</span>
+                                        <span className="hidden-on-xs">Drag a dish image here</span>
                                     </p>
                                     <p className={dragImageTextClass}>
-                                        <span className="visible-xs">Dish image preview</span>
+                                        <span className="visible-on-xs">Dish image preview</span>
                                     </p>
                                 </div>
                                 <div className="text-center upload-image-target ">
-                                    <span className="hidden-xs">Or&nbsp;</span>
+                                    <span className="hidden-on-xs">Or&nbsp;</span>
                                     <button
                                       type="button"
                                       className="btn btn-default non-shadow-outlline"
