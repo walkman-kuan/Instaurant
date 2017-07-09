@@ -2,7 +2,7 @@ import React from 'react';
 
 const AddDishThumbnail = () => (
     <div className="col-md-6">
-        <div className="add-dish-thumbnail">
+        <div className="dish-container">
             <a
               href="#add-dish-thumbnail"
               className="non-shadow-outlline"
@@ -10,7 +10,7 @@ const AddDishThumbnail = () => (
               data-target="#add-dish"
             >
                 <img
-                  className="center-block" alt="Add dish"
+                  className="center-block add-dish-image" alt="Add dish"
                   src="data:image/svg+xml;utf8;
                   base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS
                   0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMS4wLCBTVkcgRXhwb3J0IFB
