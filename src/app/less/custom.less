@@ -18,6 +18,7 @@
 /* Variables */
 @dish-image-size: 138px;
 @dish-image-size-small: 105px;
+@line-height-1: 1.3; // Bootstrap 3 default is 1.428571429
 
 /* Mixins */
 .active-focus-hover-button(@color) {
@@ -27,6 +28,50 @@
         background-color: @color;
         border-color: @color;
         color: white;
+    }
+}
+/* Pure CSS for multiline truncation with ellipsis. Credit to:
+ * http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+ */
+.elem-with-tooltip(@font-size, @line-height, @line-count, @bg-color, ) {
+    /* hide text if it more than @line-count lines  */
+    overflow: hidden;
+    /* for set '...' in absolute position */
+    position: relative;
+    /* use this value to count block height */
+    line-height: calc(@font-size * @line-height);
+    /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: calc(@font-size * @line-height * @line-count);
+    /* fix problem when last visible word doesn't adjoin right side  */
+    text-align: justify;
+    /* place for '...' */
+    margin-right: 0;
+    padding-right: @font-size;
+
+    /* create the ... */
+    &:before {
+        /* points in the end */
+        content: ' ...';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of block */
+        right: 0;
+        bottom: 0;
+    }
+    /* hide ... if we have text, which is less than or equal to max lines */
+    &:after {
+        /* points in the end */
+        content: '';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of text */
+        right: 0;
+        /* set width and height */
+        width: @font-size;
+        height: @font-size;
+        margin-top: calc(0.2 * @font-size);
+        /* bg color = bg color of body or container */
+        background: @bg-color;
     }
 }
 
@@ -41,11 +86,6 @@
       -webkit-box-shadow: none;
       box-shadow: none;
     }
-}
-.elem-with-tooltip {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 
@@ -413,10 +453,6 @@ body {
     .hidden-on-xs {
         display: none;
     }
-    /* Allow text wrapping */
-    .elem-with-tooltip {
-        white-space: normal;
-    }
 
     /* Reduce padding to avoid overlapping */
     .navbar-nav > li > a {
@@ -456,6 +492,7 @@ body {
 
     .dish-description {
         font-size: @font-size-extra-small;
+        line-height: calc(@font-size-extra-small * @line-height-1);
     }
 
     /* Tweak the narbar-toggle class to get our toggle button */
@@ -471,7 +508,12 @@ body {
     .visible-on-xs {
         display: none;
     }
+
     .navbar-toggle.sidebar-toggle {
         display: none;
+    }
+
+    .dish-description {
+        .elem-with-tooltip(@font-size-small, @line-height-1, 3, white);
     }
 }
