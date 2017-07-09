@@ -15,13 +15,10 @@ import { configureCategory } from '../actions/actionCreator';
 class AdministrationPanel extends Component {
     constructor() {
         super();
-        // Using React state for ephemeral state like UI stypes
+        // Using React state for ephemeral state like UI styles
         this.state = {
-            sidebarStyle: {
-                isWrapperHidden: true,
-                wrapperStyle: {},
-                isEditingCategories: false,
-            },
+            isEditingCategories: false,
+            isSidebarVisibleOnMobile: false,
         };
         this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
         this.handleEditingCategories = this.handleEditingCategories.bind(this);
@@ -53,21 +50,15 @@ class AdministrationPanel extends Component {
     handleToggleSidebar() {
         // The new state depends on the prev state
         this.setState(prevState => (
-            { ...prevState,
-                sidebarStyle: { ...prevState.sidebarStyle,
-                    isWrapperHidden: !prevState.sidebarStyle.isWrapperHidden,
-                    wrapperStyle: prevState.sidebarStyle.isWrapperHidden ? { width: '96%' } : {},
-                },
-            }));
+            { ...prevState, isSidebarVisibleOnMobile: !prevState.isSidebarVisibleOnMobile }
+        ));
     }
 
     handleEditingCategories() {
         this.setState(prevState => (
-            { ...prevState,
-                sidebarStyle: { ...prevState.sidebarStyle,
-                    isEditingCategories: !prevState.sidebarStyle.isEditingCategories,
-                },
-            }));
+            { ...prevState, isEditingCategories: !prevState.isEditingCategories }
+        ));
+    }
     }
 
     render() {
@@ -77,7 +68,7 @@ class AdministrationPanel extends Component {
                 <NavBar onToggleSiderbar={this.handleToggleSidebar} />
                 <SideBar
                   categories={categories}
-                  sidebarStyle={this.state.sidebarStyle}
+                  sidebarStyle={this.state}
                   onEditingCategories={this.handleEditingCategories}
                 />
                 <MenuContent

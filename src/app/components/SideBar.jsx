@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import CategoryList from './CategoryList';
 import AddCategoryButton from './AddCategoryButton';
 
 const SideBar = ({ categories, onEditingCategories, sidebarStyle }) => {
-    const { wrapperStyle, isEditingCategories } = sidebarStyle;
+    const { isEditingCategories, isSidebarVisibleOnMobile } = sidebarStyle;
+    const sidebarClass = classNames('sidebar-wrapper', { 'sidebar-mobile': isSidebarVisibleOnMobile });
     const showCategoryInfo = Object.keys(categories).length > 0;
-    // -90px for both the 'Add category' and 'Edit categories' buttons
-    const marginBottom = showCategoryInfo ? { marginBottom: '-90px' } : { marginBottom: '-45px' };
+    const sidebarContentClass = classNames('sidebar-content', { 'with-edit-categories': showCategoryInfo });
 
     return (
-        <div id="sidebar" className="sidebar-wrapper" style={wrapperStyle}>
-            <div className="sidebar-content" style={marginBottom}>
+        <div id="sidebar" className={sidebarClass}>
+            <div className={sidebarContentClass}>
                 <div className="sidebar-header">
                     Category
                 </div>
@@ -43,8 +44,7 @@ SideBar.propTypes = {
     })).isRequired,
     onEditingCategories: PropTypes.func.isRequired,
     sidebarStyle: PropTypes.shape({
-        isWrapperHidden: PropTypes.bool.isRequired,
-        wrapperStyle: PropTypes.object,
+        isSidebarVisibleOnMobile: PropTypes.bool.isRequired,
         isEditingCategories: PropTypes.bool.isRequired,
     }).isRequired,
 };

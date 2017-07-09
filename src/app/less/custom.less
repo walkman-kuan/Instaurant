@@ -147,10 +147,16 @@ body {
 
     overflow: hidden; // Disable scrollin, and let the sidebar nav scroll
 }
+.sidebar-mobile {
+    width: 88% !important;
+}
 .sidebar-content {
     min-height: 100%; // Help to create a sticky footer
-    // Equal to the height of the two equal-height sticky footers
-    // margin-bottom: -90px; // We set the value dynamically in component
+    margin-bottom: -45px;
+}
+.with-edit-categories {
+    // -90px for both the 'Add category' and 'Edit categories' buttons
+    margin-bottom: -90px;
 }
 .sidebar-header {
     background-color: @color-option-4;
