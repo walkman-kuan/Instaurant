@@ -38,7 +38,7 @@ const Category = ({ id, name, isEditingCategories, onConfiguringCategory, config
             {isEditingCategories &&
                 <div className="category-edit">
                     <a
-                      href={`#categoryId=${id}`}
+                      href={`#edit-categoryId=${id}`}
                       data-toggle="modal"
                       data-target="#edit-category"
                       onClick={handleEditCategoryClick}
@@ -46,14 +46,14 @@ const Category = ({ id, name, isEditingCategories, onConfiguringCategory, config
                         <span title="edit" className="glyphicon glyphicon-pencil" />
                     </a>
                     <a
-                      href={`#categoryId=${id}`}
+                      href={`#remove-categoryId=${id}`}
                       data-toggle="modal"
                       data-target="#remove-category"
                       onClick={handleRemoveCategoryClick}
                     >
                         <span title="delete" className="glyphicon glyphicon-remove" />
                     </a>
-                    <a href={`#categoryId=${id}`}>
+                    <a href={`#reorder-categoryId=${id}`}>
                         <span title="reorder" className="glyphicon glyphicon-move" />
                     </a>
                 </div>
