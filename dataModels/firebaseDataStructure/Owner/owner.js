@@ -133,7 +133,7 @@ const ownerDataStructure = {
             },
         },
     },
-
+    // Better to group dish images under owner for batch processsing, e.g., delete all
     'firebase-storage': {
         dishes: {
             dishId1: 'dishImageData1',
