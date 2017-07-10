@@ -74,3 +74,21 @@ export const addDish = (categoryId, dish) => (
         },
     }
 );
+
+export const selectedDish = selectedDishId => (
+    {
+        type: actionTypes.SELECT_DISH,
+        selectedDishId,
+    }
+);
+
+export const deleteDish = (configuredCategoryId, dishesWithUpdatedOrder, deletedDishId) => (
+    {
+        type: actionTypes.DELETE_DISH,
+        data: {
+            configuredCategoryId,
+            dishesWithUpdatedOrder,
+            deletedDishId,
+        },
+    }
+);

@@ -62,12 +62,43 @@ export const getAffectedCategoriesOnDelete = (indexOfDeletedCategory, keys, cate
 );
 
 /**
+ * Get a list of dishes that are affected by deleting a dish.
+ * The value of dish being deleted is set to null, and the order of
+ * each dish that follows the dish being deleted is decremented by 1.
+ *
+ * @param indexOfDeletedDish is the index of the element being deleted in the array keys
+ * @param keys is an array of IDs of all dishes
+ * @param dishes is the dishes of the currently configured category
+ * @returns A list of categories that are affected by deleting a dishes
+ */
+export const getAffectedDishesOnDelete = (indexOfDeletedDish, keys, dishes) => (
+    keys.reduce((prevUpdatedDishes, key, index) => {
+        if (index === indexOfDeletedDish) {
+            return { ...prevUpdatedDishes, [key]: null };
+        } else if (index > indexOfDeletedDish) {
+            return { ...prevUpdatedDishes,
+                [key]: {
+                    id: key,
+                    name: dishes[key].name,
+                    description: dishes[key].description,
+                    price: dishes[key].price,
+                    imageUrl: dishes[key].imageUrl,
+                    order: dishes[key].order - 1,
+                },
+            };
+        }
+
+        return prevUpdatedDishes;
+    }, {})
+);
+
+/**
  * Remove the category being deleted, and update the orders of the other affected categories
  *
  * @param currentCategories is the list of categories before the deleting action
  * @param categoriesWithUpdatedOrder are other affected categories with updated orders
  * @param deletedCategoryId is id of the category being deleted
- * @returns A list of new categories of correct order after the deleting action
+ * @returns A list of new categories of correct orders after the deleting action
  */
 export const getRemainingCategories = (currentCategories, { categoriesWithUpdatedOrder, deletedCategoryId }) => {
     // Use Destructuring to remove the category being deleted from the current categories
@@ -77,6 +108,24 @@ export const getRemainingCategories = (currentCategories, { categoriesWithUpdate
     // Note that categoriesWithUpdatedOrder is an empty object {}
     // if we are deleting the last category
     return { ...rest, ...categoriesWithUpdatedOrder };
+};
+
+/**
+ * Remove the dish being deleted, and update the orders of the other affected dishes
+ *
+ * @param currentDishes is the list of dishes before the deleting action
+ * @param DishesWithUpdatedOrder are other affected dishes with updated orders
+ * @param deletedDishId is the id of the dish being deleted
+ * @returns A list of new dishes of correct orders after the deleting action
+ */
+export const getRemainingDishes = (currentDishes, DishesWithUpdatedOrder, deletedDishId) => {
+    // Use Destructuring to remove the dishes being deleted from the current dishes
+    const { [deletedDishId]: deletedDish, ...rest } = currentDishes;
+
+    // Update the orders of other affected dishes and return.
+    // Note that DishesWithUpdatedOrder is an empty object {}
+    // if we are deleting the last category
+    return { ...rest, ...DishesWithUpdatedOrder };
 };
 
 /**

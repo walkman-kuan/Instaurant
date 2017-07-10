@@ -169,3 +169,26 @@ export const firebaseAddDish = (categoryId, name, description, price, file, orde
         });
     });
 };
+
+
+/**
+ * In Realtime Database, delete a dish and update the orders of all dishes that follow it.
+ * In Storage bucket, delete the related dish image
+ *
+ * @param configuredCategoryId is the id of currently configured category
+ * @param affectedDishes is a list of dishes that are affected by deleting a dish
+ * @param imageUrl is the long-lived HTTPS URL for the dish being deleted
+ * @return {firebase.Promise} containing void
+ */
+export const firebaseDeleteDish = (configuredCategoryId, affectedDishes, imageUrl) => (
+    // Update the dish list in Realtime Database, and execute a callback on complete
+    firebaseDatabase.ref(`dishes/${configuredCategoryId}`).update(affectedDishes, () => {
+        // Get a reference to the image being deleted using the https url
+        // referencing it in the Storage bucket, and delete the image
+        fireaseStorage.refFromURL(imageUrl).delete().then(() => {
+            // Image deleted successfully
+        }).catch((/* error */) => {
+            // Uh-oh, an error occurred!
+        });
+    })
+);

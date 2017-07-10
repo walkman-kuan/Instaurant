@@ -8,6 +8,7 @@ import {
     addDish,
     fetchingDishes,
     receiveDishes,
+    deleteDish,
 } from './actionCreator';
 import {
     firebaseAddCategory,
@@ -16,6 +17,7 @@ import {
     firebaseDeleteCategory,
     firebaseAddDish,
     firebaseFetchDishes,
+    firebaseDeleteDish,
 } from '../firebaseService';
 
 
@@ -147,5 +149,13 @@ export const fetchDishesIfNeeded = () => (dispatch, getState) => {
 export const addDishToFirebase = (categoryId, name, description, price, file, order) => (dispatch) => {
     firebaseAddDish(categoryId, name, description, price, file, order).then((dish) => {
         dispatch(addDish(categoryId, dish));
+    });
+};
+
+export const deleteDishFromFirebase = (configuredCategoryId, affectedDishes, deletedDishId, imageUrl) => (dispatch) => {
+    firebaseDeleteDish(configuredCategoryId, affectedDishes, imageUrl).then(() => {
+        // Use Destructuring to remove the dish being deleted from the affected dishes
+        const { [deletedDishId]: deletedDish, ...dishesWithUpdatedOrder } = affectedDishes;
+        dispatch(deleteDish(configuredCategoryId, dishesWithUpdatedOrder, deletedDishId));
     });
 };

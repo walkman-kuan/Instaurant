@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import actionTypes from '../actions/actionTypes';
-import { getRemainingCategories } from '../utils/instaurantUtils';
+import { getRemainingCategories, getRemainingDishes } from '../utils/instaurantUtils';
 
 // The reducer managing the category state
 const manageCategries = (state = { isFetching: false, alreadyFetched: false, items: {} }, action) => {
@@ -59,6 +59,17 @@ const manageDishes = (state = {}, action) => {
             },
         };
     }
+    case actionTypes.DELETE_DISH: {
+        const { configuredCategoryId, dishesWithUpdatedOrder, deletedDishId } = action.data;
+        return {
+            ...state,
+            [configuredCategoryId]: {
+                ...state[configuredCategoryId],
+                items: getRemainingDishes(
+                    state[configuredCategoryId].items, dishesWithUpdatedOrder, deletedDishId),
+            },
+        };
+    }
     default:
         return state;
     }
@@ -69,6 +80,16 @@ const selectedCategory = (state = '', action) => {
     switch (action.type) {
     case actionTypes.SELECT_CATEGORY:
         return action.selectedCategoryId;
+    default:
+        return state;
+    }
+};
+
+// The reducer managing the selected dish
+const selectedDish = (state = '', action) => {
+    switch (action.type) {
+    case actionTypes.SELECT_DISH:
+        return action.selectedDishId;
     default:
         return state;
     }
@@ -87,6 +108,7 @@ const rootReducer = combineReducers({
     category: manageCategries,
     dish: manageDishes,
     selectedCategory,
+    selectedDish,
     configuredCategory,
 });
 
