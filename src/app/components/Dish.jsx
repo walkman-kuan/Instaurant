@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectedDish } from '../actions/actionCreator';
+import { selecteDish } from '../actions/actionCreator';
 
 const Dish = ({ id, name, description, imageUrl, price, dispatch }) => {
-    const handleRemoveDishClick = () => dispatch(selectedDish(id));
+    const handleRemoveDishClick = () => dispatch(selecteDish(id));
 
     return (
         <div className="col-md-6">

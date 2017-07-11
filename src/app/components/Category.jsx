@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { selectedCategory, configureCategory } from '../actions/actionCreator';
+import { selecteCategory, configureCategory } from '../actions/actionCreator';
 import { fetchDishesIfNeeded } from '../actions/asyncActionCreator';
 
 const Category = ({ id, name, isEditingCategories, onConfiguringCategory, configuredCategoryId, dispatch }) => {
@@ -13,9 +13,9 @@ const Category = ({ id, name, isEditingCategories, onConfiguringCategory, config
         onConfiguringCategory();
     };
 
-    const handleEditCategoryClick = () => dispatch(selectedCategory(id));
+    const handleEditCategoryClick = () => dispatch(selecteCategory(id));
 
-    const handleRemoveCategoryClick = () => dispatch(selectedCategory(id));
+    const handleRemoveCategoryClick = () => dispatch(selecteCategory(id));
 
     const getCategoryLinkClass = () => (
         classNames({

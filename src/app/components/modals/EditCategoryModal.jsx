@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCurrentSignInUser } from '../../firebaseService';
-import { selectedCategory } from '../../actions/actionCreator';
+import { selecteCategory } from '../../actions/actionCreator';
 import { updateCategoryName } from '../../actions/asyncActionCreator';
 import { formatItemName } from '../../utils/instaurantUtils';
 
@@ -27,7 +27,7 @@ class EditCategoryModal extends Component {
      */
     componentDidMount() {
         const { dispatch } = this.props;
-        dispatch(selectedCategory(''));
+        dispatch(selecteCategory(''));
     }
 
     /**

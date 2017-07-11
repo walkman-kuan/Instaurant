@@ -17,7 +17,7 @@ export const addCategory = category => (
     }
 );
 
-export const selectedCategory = selectedCategoryId => (
+export const selecteCategory = selectedCategoryId => (
     {
         type: actionTypes.SELECT_CATEGORY,
         selectedCategoryId,
@@ -75,7 +75,7 @@ export const addDish = (categoryId, dish) => (
     }
 );
 
-export const selectedDish = selectedDishId => (
+export const selecteDish = selectedDishId => (
     {
         type: actionTypes.SELECT_DISH,
         selectedDishId,
