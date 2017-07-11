@@ -53,9 +53,11 @@ const Category = ({ id, name, isEditingCategories, onConfiguringCategory, config
                     >
                         <span title="delete" className="glyphicon glyphicon-remove" />
                     </a>
+                    {/*
                     <a href={`#reorder-categoryId=${id}`}>
                         <span title="reorder" className="glyphicon glyphicon-move" />
                     </a>
+                    */}
                 </div>
             }
         </li>
