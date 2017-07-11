@@ -29,7 +29,7 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
      * This makes sure that when the Modal shows again, the field shows the placeholder,
      * not the dirty category name left from previous cancelled editing!
      *
-     * Note that this method gets called on submitBtn and cancelBtn click
+     * Note that this method gets called on submitBtn, cancelBtn and closeBtn click
      */
     const handleDismissBtnClick = () => {
         categoryName.value = '';
