@@ -64,9 +64,6 @@ class EditCategoryModal extends Component {
             const ownerId = getCurrentSignInUser().uid;
             const { dispatch, selectedCategoryId } = this.props;
             dispatch(updateCategoryName(ownerId, selectedCategoryId, newCategoryName));
-
-            // Update the categoryNameBeforeEditing to the new name
-            this.categoryNameBeforeEditing = newCategoryName;
         }
 
         // We can't add 'data-dismiss' to the 'addBtn', otherwise, the submit
@@ -81,7 +78,9 @@ class EditCategoryModal extends Component {
      * Modal shows again, the displayed category name will always be the current category
      * name, not the dirty displayed category name left from previous cancelled editing!
      *
-     * Note that this method gets called on submitBtn, cancelBtn and CloseBtn click
+     * Note that this method gets called on submitBtn, cancelBtn and CloseBtn click.
+     * If called on submitBtn, this.categoryName.value will be set the old value, but
+     * it is OK.
      */
     handleDismissBtnClick() {
         this.categoryName.value = this.categoryNameBeforeEditing;
