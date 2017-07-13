@@ -98,6 +98,10 @@ class AddDishModal extends Component {
             imageOver: false,
             imageReadyForPreview: false,
         }));
+        // Set the file to null, otherwise, it will always be there if the component
+        // is not unmounted. As a result, if we add a new dish without an image, the
+        // previous image will be used!
+        this.file = null;
     }
 
     render() {
@@ -138,7 +142,7 @@ class AddDishModal extends Component {
                                   ref={(imageDropZoneDomElem) => { this.imageDropZone = imageDropZoneDomElem; }}
                                 >
                                     <img
-                                      className={previewImageClass} src="" alt="Uploading fail"
+                                      className={previewImageClass} src="" alt="Preview"
                                       ref={(previewImageDomElem) => { this.previewImageDomElem = previewImageDomElem; }}
                                     />
                                     <p className={dragImageTextClass}>
