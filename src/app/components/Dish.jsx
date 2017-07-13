@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { selecteDish } from '../actions/actionCreator';
 
 const Dish = ({ id, name, description, imageUrl, price, dispatch }) => {
+    const handleEditDishClick = () => dispatch(selecteDish(id));
     const handleRemoveDishClick = () => dispatch(selecteDish(id));
 
     return (
@@ -22,6 +23,7 @@ const Dish = ({ id, name, description, imageUrl, price, dispatch }) => {
                       href={`#edit-dishId=${id}`}
                       data-toggle="modal"
                       data-target="#edit-dish"
+                      onClick={handleEditDishClick}
                     >
                         <span title="edit" className="glyphicon glyphicon-pencil" />
                         &nbsp;
