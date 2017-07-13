@@ -71,8 +71,9 @@ const ownerReduxStateShape = {
      */
     dish: {
         category1Id: {
-            isFetching: false, // Are we fetching the dishes now?
-            alreadyFetched: true, // Have we already fetched the dishes before?
+            isFetching: false, // Are we fetching the dish list now?
+            isChanging: false, // Are we changing the dish list, e.g., add or edit a dish, or remove all dishes?
+            alreadyFetched: true, // Have we already fetched the dish list before?
             items: {
                 dish1Id: {
                     id: 'idOfDish1',
@@ -94,6 +95,7 @@ const ownerReduxStateShape = {
         },
         category2Id: {
             isFetching: false,
+            isChanging: false,
             alreadyFetched: true,
             items: {
                 dish3Id: {

@@ -21,7 +21,11 @@ const manageCategries = (state = { isFetching: false, alreadyFetched: false, ite
     }
 };
 
-const manageDishesOfIndividualCategory = (state = { isFetching: false, alreadyFetched: false, items: {} }) => (
+const manageDishesOfIndividualCategory = (state = {
+    isFetching: false,
+    isChanging: false,
+    alreadyFetched: false,
+    items: {} }) => (
     { ...state, isFetching: true }
 );
 
@@ -33,12 +37,20 @@ const manageDishes = (state = {}, action) => {
             ...state,
             [action.configuredCategoryId]: manageDishesOfIndividualCategory(state[action.configuredCategoryId]),
         };
+    case actionTypes.CHANGING_DISHES:
+        return {
+            ...state,
+            [action.configuredCategoryId]: {
+                ...state[action.configuredCategoryId], isChanging: true,
+            },
+        };
     case actionTypes.RECEIVE_DISH: {
         const { configuredCategoryId, dishes } = action.data;
         return {
             ...state,
             [configuredCategoryId]: {
                 isFetching: false,
+                isChanging: false,
                 alreadyFetched: true,
                 items: dishes,
             },
@@ -53,9 +65,9 @@ const manageDishes = (state = {}, action) => {
             [categoryId]: {
                 ...state[categoryId],
                 items: {
-                    ...items,
-                    [dish.id]: dish,
+                    ...items, [dish.id]: dish,
                 },
+                isChanging: false,
             },
         };
     }
@@ -68,6 +80,7 @@ const manageDishes = (state = {}, action) => {
                 items: {
                     ...state[configuredCategoryId].items, [updatedDish.id]: updatedDish,
                 },
+                isChanging: false,
             },
         };
     }

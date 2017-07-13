@@ -8,6 +8,7 @@ import ConfigureCategoryModal from './modals/ConfigureCategoryModal';
 import AddCategoryModal from './modals/AddCategoryModal';
 import EditCategoryModal from './modals/EditCategoryModal';
 import RemoveCategoryModal from './modals/RemoveCategoryModal';
+import Loader from './Loader';
 import { isUserSignedIn, getCurrentSignInUser } from '../firebaseService';
 import { fetchCategoriesIfNeeded, fetchDishesIfNeeded } from '../actions/asyncActionCreator';
 import { configureCategory } from '../actions/actionCreator';
@@ -71,7 +72,11 @@ class AdministrationPanel extends Component {
     }
 
     render() {
-        const { onCategoryFetched, categories, configuredCategory, dishes } = this.props;
+        const {
+            onCategoryFetched, categories,
+            configuredCategory, dishes, isFetchingDishes, ischangingDishes,
+        } = this.props;
+
         return (
             <div className="admin-page-wrapper">
                 <NavBar onToggleSiderbar={this.handleToggleSidebar} />
@@ -92,6 +97,7 @@ class AdministrationPanel extends Component {
                 <AddCategoryModal />
                 <EditCategoryModal />
                 <RemoveCategoryModal />
+                {(isFetchingDishes || ischangingDishes) && <Loader /> }
             </div>
         );
     }
@@ -113,6 +119,8 @@ AdministrationPanel.propTypes = {
         imageUrl: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
+    isFetchingDishes: PropTypes.bool.isRequired,
+    ischangingDishes: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
@@ -125,6 +133,12 @@ const mapStateToProps = state => (
         dishes: state.dish[state.configuredCategory]
             ? state.dish[state.configuredCategory].items
             : {},
+        isFetchingDishes: state.dish[state.configuredCategory]
+            ? state.dish[state.configuredCategory].isFetching
+            : false,
+        ischangingDishes: state.dish[state.configuredCategory]
+            ? state.dish[state.configuredCategory].isChanging
+            : false,
     }
 );
 
