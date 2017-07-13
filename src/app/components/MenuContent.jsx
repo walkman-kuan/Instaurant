@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import MenuContentTitle from './MenuContentTitle';
 import DishList from './DishList';
 import AddDishModal from './modals/AddDishModal';
+import EditDishModal from './modals/EditDishModal';
 import RemoveDishModal from './modals/RemoveDishModal';
 
 const MenuContent = ({ dishes, categoryName, isSidebarVisibleOnMobile }) => {
@@ -17,6 +18,7 @@ const MenuContent = ({ dishes, categoryName, isSidebarVisibleOnMobile }) => {
             />
             <DishList dishes={dishes} />
             <AddDishModal />
+            <EditDishModal />
             <RemoveDishModal />
         </div>
     );

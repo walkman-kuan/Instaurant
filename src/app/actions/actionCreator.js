@@ -82,6 +82,16 @@ export const selecteDish = selectedDishId => (
     }
 );
 
+export const updateDish = (configuredCategoryId, updatedDish) => (
+    {
+        type: actionTypes.UPDATE_DISH,
+        data: {
+            configuredCategoryId,
+            updatedDish,
+        },
+    }
+);
+
 export const deleteDish = (configuredCategoryId, dishesWithUpdatedOrder, deletedDishId) => (
     {
         type: actionTypes.DELETE_DISH,

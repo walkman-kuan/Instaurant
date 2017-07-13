@@ -59,6 +59,18 @@ const manageDishes = (state = {}, action) => {
             },
         };
     }
+    case actionTypes.UPDATE_DISH: {
+        const { configuredCategoryId, updatedDish } = action.data;
+        return {
+            ...state,
+            [configuredCategoryId]: {
+                ...state[configuredCategoryId],
+                items: {
+                    ...state[configuredCategoryId].items, [updatedDish.id]: updatedDish,
+                },
+            },
+        };
+    }
     case actionTypes.DELETE_DISH: {
         const { configuredCategoryId, dishesWithUpdatedOrder, deletedDishId } = action.data;
         return {

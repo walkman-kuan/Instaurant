@@ -16,7 +16,7 @@ class EditCategoryModal extends Component {
 
     /**
      * Reset `selectedCategory` to '' so that whenever we click to edit a category, Redux
-     * always re-renders the Edit Modal, i.e.,  componentWillReceiveProps is always called.
+     * always re-renders the Edit Modal, i.e., componentWillReceiveProps is always called.
      *
      * Without resetting selectedCategory: If we navigate back from any routing point, and
      * click to edit the SAME category we just edited before, Redux won't re-render this

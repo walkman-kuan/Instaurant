@@ -130,9 +130,9 @@ export const firebaseFetchDishes = configuredCategoryId => (
 );
 
 /**
- * Add a dish given the categoryId, name, description, price, file, and order
+ * Add a dish given the configuredCategoryId, name, description, price, file, and order
  *
- * @param categoryId is the id of the associated category of the dish
+ * @param configuredCategoryId is the id of the associated category of the dish
  * @param name is the dish name
  * @param description is the dish description
  * @param price is the dish price
@@ -140,9 +140,9 @@ export const firebaseFetchDishes = configuredCategoryId => (
  * @param order is the dish order within the existing dish list
  * @return {Promise} containing the new dish
  */
-export const firebaseAddDish = (categoryId, name, description, price, file, order) => {
+export const firebaseAddDish = (configuredCategoryId, name, description, price, file, order) => {
     // Generates a new dish location (Realtime Database) using a unique key and returns its Reference
-    const newDishRef = firebaseDatabase.ref(`dishes/${categoryId}`).push();
+    const newDishRef = firebaseDatabase.ref(`dishes/${configuredCategoryId}`).push();
 
     // Return a Promise so that we can consume the data
     return new Promise((resolve, reject) => {
@@ -170,6 +170,49 @@ export const firebaseAddDish = (categoryId, name, description, price, file, orde
     });
 };
 
+/**
+ * Update a dish given the configuredCategoryId, current editing dish, the updated dish
+ * text info and the new image file
+ *
+ * @param configuredCategoryId is the id of the associated category of the dish
+ * @param selectedDish is the currently editing dish
+ * @param updatedDishTextInfo is the updated fish text info, e.g., name, description and price
+ * @param file is the new dish image file
+ * @return {Promise} containing the new dish
+ */
+export const firebaseUpdateDish = (configuredCategoryId, selectedDish, updatedDishTextInfo, file) => (
+    // Return a Promise so that we can consume the data
+    new Promise((resolve, reject) => {
+        const id = selectedDish.id;
+        let updatedDish = { ...selectedDish };
+        const dishRef = firebaseDatabase.ref(`dishes/${configuredCategoryId}/${id}`);
+        // If file isn't undefined, upload the new image file
+        if (file) {
+            // Upload the image to the Storage bucket at the specified location, and return
+            // an uploadTask object that can be used to monitor and manage the upload
+            const uploadTask = fireaseStorage.ref(`dishes/${id}/${file.name}`).put(file, { contentType: file.type });
+
+            uploadTask.on('state_changed', null, (error) => {
+                reject(error.code);
+            }, () => {
+                // Handle successful uploads on complete
+                updatedDish = { ...updatedDish, imageUrl: uploadTask.snapshot.downloadURL };
+
+                if (Object.keys(updatedDishTextInfo).length > 0) {
+                    // Update the dish object
+                    updatedDish = { ...updatedDish, ...updatedDishTextInfo };
+                    dishRef.update(updatedDish);
+                }
+                resolve(updatedDish);
+            });
+        } else {
+            // If file is undefined, updatedDishTextInfo must not be empty
+            updatedDish = { ...updatedDish, ...updatedDishTextInfo };
+            dishRef.update(updatedDish);
+            resolve(updatedDish);
+        }
+    })
+);
 
 /**
  * In Realtime Database, delete a dish and update the orders of all dishes that follow it.

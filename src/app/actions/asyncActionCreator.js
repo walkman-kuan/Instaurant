@@ -8,6 +8,7 @@ import {
     addDish,
     fetchingDishes,
     receiveDishes,
+    updateDish,
     deleteDish,
 } from './actionCreator';
 import {
@@ -17,6 +18,7 @@ import {
     firebaseDeleteCategory,
     firebaseAddDish,
     firebaseFetchDishes,
+    firebaseUpdateDish,
     firebaseDeleteDish,
 } from '../firebaseService';
 
@@ -146,9 +148,18 @@ export const fetchDishesIfNeeded = () => (dispatch, getState) => {
     return Promise.resolve();
 };
 
-export const addDishToFirebase = (categoryId, name, description, price, file, order) => (dispatch) => {
-    firebaseAddDish(categoryId, name, description, price, file, order).then((dish) => {
-        dispatch(addDish(categoryId, dish));
+export const addDishToFirebase = (configuredCategoryId, name, description, price, file, order) => (dispatch) => {
+    firebaseAddDish(configuredCategoryId, name, description, price, file, order).then((dish) => {
+        dispatch(addDish(configuredCategoryId, dish));
+    });
+};
+
+export const updateDishInfo = (configuredCategoryId, selectedDish, updatedDishInfo) => (dispatch) => {
+    // Use Destructuring to get the new image (could be undefined), and
+    // the updated dish text info (could be empty)
+    const { image: newImage, ...updatedDishTextInfo } = updatedDishInfo;
+    firebaseUpdateDish(configuredCategoryId, selectedDish, updatedDishTextInfo, newImage).then((updatedDish) => {
+        dispatch(updateDish(configuredCategoryId, updatedDish));
     });
 };
 
