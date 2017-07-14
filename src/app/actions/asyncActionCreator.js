@@ -1,6 +1,7 @@
 // All the async action creators for Instaurant
 import {
     addCategory,
+    configureCategory,
     fetchingCategories,
     receiveCategories,
     updateCategory,
@@ -82,6 +83,7 @@ export const addCategoryToFirebase = (ownerId, name, order) => (dispatch) => {
         };
 
         dispatch(addCategory(category));
+        dispatch(configureCategory(category.id));
     });
 };
 
