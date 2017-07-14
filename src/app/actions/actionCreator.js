@@ -67,7 +67,7 @@ export const fetchingDishes = configuredCategoryId => (
 
 export const changingDishes = configuredCategoryId => (
     {
-        type: actionTypes.CHANGING_DISHES,
+        type: actionTypes.CHANGING_DISH,
         configuredCategoryId,
     }
 );

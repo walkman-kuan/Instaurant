@@ -9,7 +9,7 @@ const manageSingleCategoryDishes = (
         return { ...state, isFetching: true };
     case actionTypes.RECEIVE_DISH:
         return { ...state, isFetching: false, alreadyFetched: true, isChanging: false, items: action.data.dishes };
-    case actionTypes.CHANGING_DISHES:
+    case actionTypes.CHANGING_DISH:
         return { ...state, isChanging: true };
     case actionTypes.ADD_DISH:
     case actionTypes.UPDATE_DISH: {
@@ -30,7 +30,7 @@ const manageDishes = (state = {}, action) => {
     switch (action.type) {
     case actionTypes.FETCHING_DISH:
     case actionTypes.RECEIVE_DISH:
-    case actionTypes.CHANGING_DISHES:
+    case actionTypes.CHANGING_DISH:
     case actionTypes.ADD_DISH:
     case actionTypes.UPDATE_DISH:
     case actionTypes.DELETE_DISH: {
