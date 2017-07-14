@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Dish from './Dish';
 import AddDishThumbnail from './AddDishThumbnail';
 
-const DishList = ({ dishes }) => (
+const DishList = ({ dishes, categoryName }) => (
     <div className="row">
         {Object.values(dishes).map(dish => (
             <Dish
@@ -11,7 +11,8 @@ const DishList = ({ dishes }) => (
               {...dish}
             />
         ))}
-        <AddDishThumbnail />
+        {/* Render the add dish thumbnail only when the categoryName is truthy */}
+        { categoryName && <AddDishThumbnail /> }
     </div>
 );
 
@@ -25,6 +26,7 @@ DishList.propTypes = {
         imageUrl: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
+    categoryName: PropTypes.string.isRequired,
 };
 
 export default DishList;

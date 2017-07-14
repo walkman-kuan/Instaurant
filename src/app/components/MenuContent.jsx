@@ -12,11 +12,11 @@ const MenuContent = ({ dishes, categoryName, isSidebarVisibleOnMobile }) => {
 
     return (
         <div id="menu-content" className={menuContentClass}>
-            <MenuContentTitle
-              categoryName={categoryName}
-              numOfDishes={Object.keys(dishes).length}
-            />
-            <DishList dishes={dishes} />
+            {/* Render the title only when the categoryName is truthy */}
+            { categoryName &&
+                <MenuContentTitle categoryName={categoryName} numOfDishes={Object.keys(dishes).length} />
+             }
+            <DishList dishes={dishes} categoryName={categoryName} />
             <AddDishModal />
             <EditDishModal />
             <RemoveDishModal />
