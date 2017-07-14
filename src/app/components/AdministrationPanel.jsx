@@ -39,10 +39,19 @@ class AdministrationPanel extends Component {
             const { dispatch } = this.props;
             dispatch(fetchCategoriesIfNeeded(getCurrentSignInUser().uid)).then(() => {
                 // We have already fetch the configured categories (if any) successfully
-                const { categories } = this.props;
+                const { categories, configuredCategory } = this.props;
                 if (Object.values(categories).length > 0) {
-                    // Set the configured category to the first one in the list
-                    dispatch(configureCategory(Object.values(categories)[0].id));
+                    // If configuredCategory is NOT falsy, i.e., '', it means that we have already
+                    // set a configuredCategoryId, and we are navigating back from a routing point.
+                    // As a result, we should keep the previous configuredCategoryId so
+                    // that users can see the dishes of the category that was previously
+                    // editing before they went to other routing point.
+
+                    // If configuredCategory is falsy, set the configured category to the first
+                    // category in the list
+                    if (!configuredCategory) {
+                        dispatch(configureCategory(Object.values(categories)[0].id));
+                    }
                     dispatch(fetchDishesIfNeeded());
                 }
             });
