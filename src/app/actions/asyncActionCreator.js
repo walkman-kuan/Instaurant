@@ -132,7 +132,7 @@ export const fetchDishesFromFirebase = configuredCategoryId => dispatch => (
 export const fetchDishesIfNeeded = () => (dispatch, getState) => {
     // The return value can be accessed through dispatch(fetchDishesIfNeed(ownerId)).then()
 
-    const configuredCategoryId = getState().configuredCategory;
+    const configuredCategoryId = getState().configuredCategoryId;
     // configuredDishInfo is undefined when fetching dishes for a category for the first time
     const configuredDishInfo = getState().dish[configuredCategoryId];
 

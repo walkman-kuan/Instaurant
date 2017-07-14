@@ -220,10 +220,10 @@ AddDishModal.propTypes = {
 
 const mapStateToProps = state => (
     {
-        categoryId: state.configuredCategory,
+        categoryId: state.configuredCategoryId,
         // Return 0 if state.dish[categoryId] is undefined
-        numOfDishes: state.dish[state.configuredCategory]
-            ? Object.keys(state.dish[state.configuredCategory].items).length
+        numOfDishes: state.dish[state.configuredCategoryId]
+            ? Object.keys(state.dish[state.configuredCategoryId].items).length
             : 0,
     }
 );

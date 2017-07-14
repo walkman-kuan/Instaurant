@@ -10,10 +10,10 @@
 
 const ownerReduxStateShape = {
     /* Actions: select a category or dish, and start editing/deleting */
-    selectedCategory: 'selectedCategoryId',
-    selectedDish: 'selectedDishId',
+    selectedCategoryId: 'selectedCategoryId',
+    selectedDishId: 'selectedDishId',
     /* Actions: Highlight a category and configure its associated dish(es) */
-    configuredCategory: 'configuredCategoryId',
+    configuredCategoryId: 'configuredCategoryId',
     /**
      * Actions
      * 1. Add category

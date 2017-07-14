@@ -110,11 +110,11 @@ RemoveDishModal.propTypes = {
 
 const mapStateToProps = state => (
     {
-        selectedDishId: state.selectedDish,
-        configuredCategory: state.category.items[state.configuredCategory]
-            ? state.category.items[state.configuredCategory] : {},
-        dishes: state.dish[state.configuredCategory]
-            ? state.dish[state.configuredCategory].items : {},
+        selectedDishId: state.selectedDishId,
+        configuredCategory: state.category.items[state.configuredCategoryId]
+            ? state.category.items[state.configuredCategoryId] : {},
+        dishes: state.dish[state.configuredCategoryId]
+            ? state.dish[state.configuredCategoryId].items : {},
     }
 );
 

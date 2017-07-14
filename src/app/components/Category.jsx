@@ -73,6 +73,6 @@ Category.propTypes = {
     onConfiguringCategory: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({ configuredCategoryId: state.configuredCategory });
+const mapStateToProps = state => ({ configuredCategoryId: state.configuredCategoryId });
 
 export default connect(mapStateToProps)(Category);

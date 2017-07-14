@@ -22,12 +22,12 @@ class EditDishModal extends Component {
     }
 
     /**
-     * Reset `selectedDish` to '' so that whenever we click to edit a dish, Redux
+     * Reset `selectedDishId` to '' so that whenever we click to edit a dish, Redux
      * always re-renders the Edit Modal, i.e., componentWillReceiveProps is always called.
      *
-     * Without resetting selectedDish: If we navigate back from any routing point, and
+     * Without resetting `selectedDishId`: If we navigate back from any routing point, and
      * click to edit the SAME dish we just edited before, Redux won't re-render this
-     * Modal because the prev and current states, i.e., `selectedDish`, are the same!
+     * Modal because the prev and current states, i.e., `selectedDishId`, are the same!
      *
      * As a result, the dish fields will be empty, or the default values will show
      * if specified.
@@ -293,10 +293,10 @@ EditDishModal.propTypes = {
 
 const mapStateToProps = state => (
     {
-        configuredCategoryId: state.configuredCategory,
-        selectedDishId: state.selectedDish,
-        dishes: state.dish[state.configuredCategory]
-            ? state.dish[state.configuredCategory].items : {},
+        configuredCategoryId: state.configuredCategoryId,
+        selectedDishId: state.selectedDishId,
+        dishes: state.dish[state.configuredCategoryId]
+            ? state.dish[state.configuredCategoryId].items : {},
     }
 );
 

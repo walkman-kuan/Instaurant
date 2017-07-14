@@ -100,7 +100,7 @@ RemoveCategoryModal.propTypes = {
 
 const mapStateToProps = state => (
     {
-        selectedCategoryId: state.selectedCategory,
+        selectedCategoryId: state.selectedCategoryId,
         categories: state.category.items,
     }
 );

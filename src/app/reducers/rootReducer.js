@@ -4,7 +4,7 @@ import manageDishes from './dishReducer';
 import manageCategries from './categoryReducer';
 
 // The reducer managing the selected category
-const selectedCategory = (state = '', action) => {
+const selectedCategoryId = (state = '', action) => {
     switch (action.type) {
     case actionTypes.SELECT_CATEGORY:
         return action.selectedCategoryId;
@@ -14,7 +14,7 @@ const selectedCategory = (state = '', action) => {
 };
 
 // The reducer managing the selected dish
-const selectedDish = (state = '', action) => {
+const selectedDishId = (state = '', action) => {
     switch (action.type) {
     case actionTypes.SELECT_DISH:
         return action.selectedDishId;
@@ -23,7 +23,7 @@ const selectedDish = (state = '', action) => {
     }
 };
 
-const configuredCategory = (state = '', action) => {
+const configuredCategoryId = (state = '', action) => {
     switch (action.type) {
     case actionTypes.CONFIGURE_CATEGORY:
         return action.configuredCategoryId;
@@ -35,9 +35,9 @@ const configuredCategory = (state = '', action) => {
 const rootReducer = combineReducers({
     category: manageCategries,
     dish: manageDishes,
-    selectedCategory,
-    selectedDish,
-    configuredCategory,
+    selectedCategoryId,
+    selectedDishId,
+    configuredCategoryId,
 });
 
 export default rootReducer;

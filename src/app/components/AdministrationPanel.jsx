@@ -39,17 +39,17 @@ class AdministrationPanel extends Component {
             const { dispatch } = this.props;
             dispatch(fetchCategoriesIfNeeded(getCurrentSignInUser().uid)).then(() => {
                 // We have already fetch the configured categories (if any) successfully
-                const { categories, configuredCategory } = this.props;
+                const { categories, configuredCategoryId } = this.props;
                 if (Object.values(categories).length > 0) {
-                    // If configuredCategory is NOT falsy, i.e., '', it means that we have already
+                    // If configuredCategoryId is NOT falsy, i.e., '', it means that we have already
                     // set a configuredCategoryId, and we are navigating back from a routing point.
                     // As a result, we should keep the previous configuredCategoryId so
                     // that users can see the dishes of the category that was previously
                     // editing before they went to other routing point.
 
-                    // If configuredCategory is falsy, set the configured category to the first
+                    // If configuredCategoryId is falsy, set the configured category to the first
                     // category in the list
-                    if (!configuredCategory) {
+                    if (!configuredCategoryId) {
                         dispatch(configureCategory(Object.values(categories)[0].id));
                     }
                     dispatch(fetchDishesIfNeeded());
@@ -83,7 +83,7 @@ class AdministrationPanel extends Component {
     render() {
         const {
             onCategoryFetched, categories,
-            configuredCategory, dishes, isFetchingDishes, ischangingDishes,
+            configuredCategoryId, dishes, isFetchingDishes, ischangingDishes,
         } = this.props;
 
         return (
@@ -97,7 +97,7 @@ class AdministrationPanel extends Component {
                 />
                 <MenuContent
                   dishes={dishes}
-                  categoryName={categories[configuredCategory] ? categories[configuredCategory].name : ''}
+                  categoryName={categories[configuredCategoryId] ? categories[configuredCategoryId].name : ''}
                   isSidebarVisibleOnMobile={this.state.isSidebarVisibleOnMobile}
                 />
 
@@ -119,7 +119,7 @@ AdministrationPanel.propTypes = {
         order: PropTypes.number.isRequired,
     })).isRequired,
     onCategoryFetched: PropTypes.bool.isRequired,
-    configuredCategory: PropTypes.string.isRequired,
+    configuredCategoryId: PropTypes.string.isRequired,
     dishes: PropTypes.objectOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -138,15 +138,15 @@ const mapStateToProps = state => (
     {
         onCategoryFetched: state.category.alreadyFetched,
         categories: state.category.items,
-        configuredCategory: state.configuredCategory,
-        dishes: state.dish[state.configuredCategory]
-            ? state.dish[state.configuredCategory].items
+        configuredCategoryId: state.configuredCategoryId,
+        dishes: state.dish[state.configuredCategoryId]
+            ? state.dish[state.configuredCategoryId].items
             : {},
-        isFetchingDishes: state.dish[state.configuredCategory]
-            ? state.dish[state.configuredCategory].isFetching
+        isFetchingDishes: state.dish[state.configuredCategoryId]
+            ? state.dish[state.configuredCategoryId].isFetching
             : false,
-        ischangingDishes: state.dish[state.configuredCategory]
-            ? state.dish[state.configuredCategory].isChanging
+        ischangingDishes: state.dish[state.configuredCategoryId]
+            ? state.dish[state.configuredCategoryId].isChanging
             : false,
     }
 );
