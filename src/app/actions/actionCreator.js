@@ -72,11 +72,11 @@ export const changingDishes = configuredCategoryId => (
     }
 );
 
-export const addDish = (categoryId, dish) => (
+export const addDish = (configuredCategoryId, dish) => (
     {
         type: actionTypes.ADD_DISH,
         data: {
-            categoryId,
+            configuredCategoryId,
             dish,
         },
     }
@@ -94,7 +94,7 @@ export const updateDish = (configuredCategoryId, updatedDish) => (
         type: actionTypes.UPDATE_DISH,
         data: {
             configuredCategoryId,
-            updatedDish,
+            dish: updatedDish,
         },
     }
 );

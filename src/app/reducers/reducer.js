@@ -21,79 +21,42 @@ const manageCategries = (state = { isFetching: false, alreadyFetched: false, ite
     }
 };
 
-const manageDishesOfIndividualCategory = (state = {
-    isFetching: false,
-    isChanging: false,
-    alreadyFetched: false,
-    items: {} }) => (
-    { ...state, isFetching: true }
-);
+// The reducer managing the dishes of a single category
+const manageSingleCategoryDishes = (
+    state = { isFetching: false, alreadyFetched: false, isChanging: false, items: {} }, action) => {
+    switch (action.type) {
+    case actionTypes.FETCHING_DISH:
+        return { ...state, isFetching: true };
+    case actionTypes.RECEIVE_DISH:
+        return { ...state, isFetching: false, alreadyFetched: true, isChanging: false, items: action.data.dishes };
+    case actionTypes.CHANGING_DISHES:
+        return { ...state, isChanging: true };
+    case actionTypes.ADD_DISH:
+    case actionTypes.UPDATE_DISH: {
+        const { dish } = action.data;
+        return { ...state, isChanging: false, items: { ...state.items, [dish.id]: dish } };
+    }
+    case actionTypes.DELETE_DISH: {
+        const { dishesWithUpdatedOrder, deletedDishId } = action.data;
+        return { ...state, items: getRemainingDishes(state.items, dishesWithUpdatedOrder, deletedDishId) };
+    }
+    default:
+        return state;
+    }
+};
 
 // The reducer managing the dish state
 const manageDishes = (state = {}, action) => {
     switch (action.type) {
     case actionTypes.FETCHING_DISH:
-        return {
-            ...state,
-            [action.configuredCategoryId]: manageDishesOfIndividualCategory(state[action.configuredCategoryId]),
-        };
+    case actionTypes.RECEIVE_DISH:
     case actionTypes.CHANGING_DISHES:
-        return {
-            ...state,
-            [action.configuredCategoryId]: {
-                ...state[action.configuredCategoryId], isChanging: true,
-            },
-        };
-    case actionTypes.RECEIVE_DISH: {
-        const { configuredCategoryId, dishes } = action.data;
-        return {
-            ...state,
-            [configuredCategoryId]: {
-                isFetching: false,
-                isChanging: false,
-                alreadyFetched: true,
-                items: dishes,
-            },
-        };
-    }
-    case actionTypes.ADD_DISH: {
-        const { categoryId, dish } = action.data;
-        // state[categoryId] is undefined if first dish
-        const items = state[categoryId] ? state[categoryId].items : {};
-        return {
-            ...state,
-            [categoryId]: {
-                ...state[categoryId],
-                items: {
-                    ...items, [dish.id]: dish,
-                },
-                isChanging: false,
-            },
-        };
-    }
-    case actionTypes.UPDATE_DISH: {
-        const { configuredCategoryId, updatedDish } = action.data;
-        return {
-            ...state,
-            [configuredCategoryId]: {
-                ...state[configuredCategoryId],
-                items: {
-                    ...state[configuredCategoryId].items, [updatedDish.id]: updatedDish,
-                },
-                isChanging: false,
-            },
-        };
-    }
+    case actionTypes.ADD_DISH:
+    case actionTypes.UPDATE_DISH:
     case actionTypes.DELETE_DISH: {
-        const { configuredCategoryId, dishesWithUpdatedOrder, deletedDishId } = action.data;
-        return {
-            ...state,
-            [configuredCategoryId]: {
-                ...state[configuredCategoryId],
-                items: getRemainingDishes(
-                    state[configuredCategoryId].items, dishesWithUpdatedOrder, deletedDishId),
-            },
-        };
+        // If action.data isn't undefined, get configuredCategoryId from action.data, otherwise, from action
+        const configuredCategoryId = action.data ? action.data.configuredCategoryId : action.configuredCategoryId;
+        return { ...state, [configuredCategoryId]: manageSingleCategoryDishes(state[configuredCategoryId], action) };
     }
     default:
         return state;
