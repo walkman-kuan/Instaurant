@@ -10,8 +10,8 @@ import EditCategoryModal from './modals/EditCategoryModal';
 import RemoveCategoryModal from './modals/RemoveCategoryModal';
 import Loader from './Loader';
 import { isUserSignedIn, getCurrentSignInUser } from '../firebaseService';
-import { fetchCategoriesIfNeeded, fetchDishesIfNeeded } from '../actions/asyncActionCreator';
 import { configureCategory } from '../actions/actionCreator';
+import { fetchCategoriesIfNeeded, fetchDishesIfNeeded } from '../actions/asyncActionCreator';
 
 class AdministrationPanel extends Component {
     constructor() {
@@ -38,19 +38,23 @@ class AdministrationPanel extends Component {
             // is resolved since fetchCategoriesIfNeed() is async
             const { dispatch } = this.props;
             dispatch(fetchCategoriesIfNeeded(getCurrentSignInUser().uid)).then(() => {
-                // We have already fetch the configured categories (if any) successfully
+                // We have already fetched the configured categories (if any) successfully
                 const { categories, configuredCategoryId } = this.props;
-                if (Object.values(categories).length > 0) {
-                    // If configuredCategoryId is NOT falsy, i.e., '', it means that we have already
-                    // set a configuredCategoryId, and we are navigating back from a routing point.
-                    // As a result, we should keep the previous configuredCategoryId so
-                    // that users can see the dishes of the category that was previously
-                    // editing before they went to other routing point.
+                const categoryIds = Object.keys(categories);
+                // Perform following operation only when there is category
+                if (categoryIds.length) {
+                    // If configuredCategoryId is truthy, it means that we have already set a
+                    // configuredCategoryId, and we are navigating back from a routing point.
+                    // As a result, we should keep the previous configuredCategoryId so that
+                    // users can see the dishes of the category that was previously editing
+                    // before they went to other routing point.
 
-                    // If configuredCategoryId is falsy, set the configured category to the first
-                    // category in the list
-                    if (!configuredCategoryId) {
-                        dispatch(configureCategory(Object.values(categories)[0].id));
+                    // If configuredCategoryId is falsy, e.g., '', it means that we are just
+                    // login, or we are about to add the FIRST category. We set the configured
+                    // category to the first category in the list if the list is not empty, i.e.,
+                    // categoryIds[0] is truthy
+                    if (!configuredCategoryId && categoryIds[0]) {
+                        dispatch(configureCategory(categoryIds[0]));
                     }
                     dispatch(fetchDishesIfNeeded());
                 }
