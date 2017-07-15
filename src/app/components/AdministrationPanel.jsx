@@ -105,11 +105,12 @@ class AdministrationPanel extends Component {
                   isSidebarVisibleOnMobile={this.state.isSidebarVisibleOnMobile}
                 />
 
-                {/* Show the Configure Menu modal if, after fetching, there is no configured categories. */}
+                {/* Show the Configure Menu modal if, after fetching, there is no configured categories */}
                 {onCategoryFetched && Object.keys(categories).length < 1 && <ConfigureCategoryModal />}
                 <AddCategoryModal />
                 <EditCategoryModal />
                 <RemoveCategoryModal />
+                {/* Show the Loader if there are data fetching or updating */}
                 {(isFetchingDishes || ischangingDishes) && <Loader /> }
             </div>
         );

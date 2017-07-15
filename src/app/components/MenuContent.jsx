@@ -12,7 +12,7 @@ const MenuContent = ({ dishes, categoryName, isSidebarVisibleOnMobile }) => {
 
     return (
         <div id="menu-content" className={menuContentClass}>
-            {/* Render the title only when the categoryName is truthy */}
+            {/* Render the title only when 'categoryName' is truthy, i.e., configuredCategoryId is truthy */}
             { categoryName &&
                 <MenuContentTitle categoryName={categoryName} numOfDishes={Object.keys(dishes).length} />
              }

@@ -11,7 +11,7 @@ const DishList = ({ dishes, categoryName }) => (
               {...dish}
             />
         ))}
-        {/* Render the add dish thumbnail only when the categoryName is truthy */}
+        {/* Render AddDishThumbnail only when 'categoryName' is truthy, i.e., 'configuredCategoryId' is truthy */}
         { categoryName && <AddDishThumbnail /> }
     </div>
 );
