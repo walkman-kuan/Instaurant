@@ -32,6 +32,7 @@ const configuredCategoryId = (state = '', action) => {
     }
 };
 
+// Redux will call our reducer with an undefined state for the first time
 const rootReducer = combineReducers({
     category: manageCategries,
     dish: manageDishes,

@@ -22,7 +22,7 @@ class RemoveDishModal extends Component {
      * 1. Click to delete a dish, but cancel deleting, and click to delete the same dish again
      */
     componentWillReceiveProps({ selectedDishId, configuredCategory, dishes }) {
-        if (selectedDishId !== '' && dishes[selectedDishId]) {
+        if (selectedDishId && dishes[selectedDishId]) {
             this.deletedDishName = dishes[selectedDishId].name;
         }
         if (configuredCategory && configuredCategory.name) {

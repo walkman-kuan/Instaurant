@@ -61,7 +61,7 @@ class EditDishModal extends Component {
      * the same dish again
      */
     componentWillReceiveProps({ selectedDishId, dishes }) {
-        if (selectedDishId !== '' && dishes[selectedDishId]) {
+        if (selectedDishId && dishes[selectedDishId]) {
             const selectedDish = dishes[selectedDishId];
 
             // Set the dish info before editing

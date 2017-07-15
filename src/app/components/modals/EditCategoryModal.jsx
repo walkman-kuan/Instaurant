@@ -45,7 +45,7 @@ class EditCategoryModal extends Component {
      * the same category again
      */
     componentWillReceiveProps({ selectedCategoryId, categories }) {
-        if (selectedCategoryId !== '' && categories[selectedCategoryId]) {
+        if (selectedCategoryId && categories[selectedCategoryId]) {
             const currentCategoryName = categories[selectedCategoryId].name;
 
             // Set the category name before editing to the current category name

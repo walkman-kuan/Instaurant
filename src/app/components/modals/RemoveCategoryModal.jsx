@@ -23,7 +23,7 @@ class RemoveCategoryModal extends Component {
      * 1. Click to delete a category, but cancel deleting, and click to delete the same category again
      */
     componentWillReceiveProps({ selectedCategoryId, categories }) {
-        if (selectedCategoryId !== '' && categories[selectedCategoryId]) {
+        if (selectedCategoryId && categories[selectedCategoryId]) {
             this.deletedCategoryName = categories[selectedCategoryId].name;
         }
     }
