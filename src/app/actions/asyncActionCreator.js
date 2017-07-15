@@ -12,6 +12,7 @@ import {
     receiveDishes,
     updateDish,
     deleteDish,
+    deleteDishes,
 } from './actionCreator';
 import {
     firebaseAddCategory,
@@ -74,6 +75,7 @@ export const fetchCategoriesIfNeeded = ownerId => (dispatch, getState) => {
     return Promise.resolve();
 };
 
+// Add a category to Firebase
 export const addCategoryToFirebase = (ownerId, name, order) => (dispatch) => {
     firebaseAddCategory(ownerId, name, order).then((snapshot) => {
         const category = {
@@ -87,6 +89,7 @@ export const addCategoryToFirebase = (ownerId, name, order) => (dispatch) => {
     });
 };
 
+// Send the updated category name to Firebase
 export const updateCategoryName = (ownerId, categoryId, newName) => (dispatch) => {
     firebaseUpdateCategory(ownerId, categoryId, newName).then((snapshot) => {
         const category = {
@@ -99,8 +102,10 @@ export const updateCategoryName = (ownerId, categoryId, newName) => (dispatch) =
     });
 };
 
-export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedCategoryId) => (dispatch) => {
-    firebaseDeleteCategory(ownerId, affectedCategories).then(() => {
+// Delete a category and its associated dishes from Firebase
+export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedCategoryId, imageUrls) => (dispatch) => {
+    dispatch(changingDishes(deletedCategoryId));
+    return firebaseDeleteCategory(ownerId, affectedCategories, deletedCategoryId, imageUrls).then(() => {
         // Use Destructuring to remove the category being deleted from the affected categories
         const { [deletedCategoryId]: deletedCategory, ...categoriesWithUpdatedOrder } = affectedCategories;
         dispatch(deleteCategory(categoriesWithUpdatedOrder, deletedCategoryId));
@@ -151,6 +156,7 @@ export const fetchDishesIfNeeded = () => (dispatch, getState) => {
     return Promise.resolve();
 };
 
+// Add a dish to Firebase
 export const addDishToFirebase = (configuredCategoryId, name, description, price, file, order) => (dispatch) => {
     dispatch(changingDishes(configuredCategoryId));
     firebaseAddDish(configuredCategoryId, name, description, price, file, order).then((dish) => {
@@ -158,6 +164,7 @@ export const addDishToFirebase = (configuredCategoryId, name, description, price
     });
 };
 
+// Send the updated dish info to Firebase
 export const updateDishInfo = (configuredCategoryId, selectedDish, updatedDishInfo) => (dispatch) => {
     dispatch(changingDishes(configuredCategoryId));
     // Use Destructuring to get the new image (could be undefined), and
@@ -168,6 +175,7 @@ export const updateDishInfo = (configuredCategoryId, selectedDish, updatedDishIn
     });
 };
 
+// Delete a dish from Firebase
 export const deleteDishFromFirebase = (configuredCategoryId, affectedDishes, deletedDishId, imageUrl) => (dispatch) => {
     firebaseDeleteDish(configuredCategoryId, affectedDishes, imageUrl).then(() => {
         // Use Destructuring to remove the dish being deleted from the affected dishes

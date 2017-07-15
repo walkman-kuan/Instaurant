@@ -109,15 +109,43 @@ export const firebaseUpdateCategory = (ownerId, categoryId, newName) => {
 
 
 /**
- * Delete a category and update the orders of all categories that follow it
+ * In Realtime Database,
+ * 1. Delete a category and update the orders of all categories that follow it.
+ * 2. Delete all dishes of a category.
+ *
+ * In Storage bucket, delete the all the related dish images
+ *
+ * TODO: Consider updating data using transaction
  *
  * @param ownerId is the owner id
  * @param affectedCategories is a list of categories that are affected by deleting a category
+ * @param selectedCategory is the id of category being deleted
+ * @param imageUrls is a list of urls of all dish images being deleted
  * @return {firebase.Promise} containing void
  */
-export const firebaseDeleteCategory = (ownerId, affectedCategories) => (
-    firebaseDatabase.ref(`categories/${ownerId}`).update(affectedCategories)
-);
+export const firebaseDeleteCategory = (ownerId, affectedCategories, selectedCategory, imageUrls = []) => {
+    // Prefix the Realtime DB path to the the properties of 'affectedCategories'
+    const affectedCategoriesWithPath =
+        Object.entries(affectedCategories).reduce((prevUpdatedCategories, [key, value]) => (
+            { ...prevUpdatedCategories, [[`categories/${ownerId}/${key}`]]: value }
+        ), {});
+
+    return firebaseDatabase.ref().update({
+        // Perform simultaneous updates to multiple locations
+        ...affectedCategoriesWithPath,
+        [`dishes/${selectedCategory}`]: null,
+    }, () => {
+        imageUrls.forEach((imageUrl) => {
+            // Get a reference to the image being deleted using the https url
+            // referencing it in the Storage bucket, and delete the image
+            fireaseStorage.refFromURL(imageUrl).delete().then(() => {
+                // Image deleted successfully
+            }).catch((/* error */) => {
+                // Uh-oh, an error occurred!
+            });
+        });
+    });
+};
 
 /**
  * Fetech a list of ordered dishes given the category id
