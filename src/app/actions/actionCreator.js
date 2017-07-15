@@ -109,3 +109,10 @@ export const deleteDish = (configuredCategoryId, dishesWithUpdatedOrder, deleted
         },
     }
 );
+
+export const deleteDishes = selectedCategoryId => (
+    {
+        type: actionTypes.DELETE_DISHES,
+        selectedCategoryId,
+    }
+);

@@ -108,6 +108,8 @@ export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedC
     return firebaseDeleteCategory(ownerId, affectedCategories, deletedCategoryId, imageUrls).then(() => {
         // Use Destructuring to remove the category being deleted from the affected categories
         const { [deletedCategoryId]: deletedCategory, ...categoriesWithUpdatedOrder } = affectedCategories;
+
+        dispatch(deleteDishes(deletedCategoryId));
         dispatch(deleteCategory(categoriesWithUpdatedOrder, deletedCategoryId));
     });
 };

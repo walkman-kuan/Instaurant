@@ -38,6 +38,12 @@ const manageDishes = (state = {}, action) => {
         const configuredCategoryId = action.data ? action.data.configuredCategoryId : action.configuredCategoryId;
         return { ...state, [configuredCategoryId]: manageSingleCategoryDishes(state[configuredCategoryId], action) };
     }
+    // Delete all dishes of a category
+    case actionTypes.DELETE_DISHES:
+        return {
+            ...state,
+            [action.selectedCategoryId]: { ...state[action.selectedCategoryId], isChanging: false, items: {} },
+        };
     default:
         return state;
     }

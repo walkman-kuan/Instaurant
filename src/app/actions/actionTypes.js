@@ -15,6 +15,7 @@ const actionTypes = {
     SELECT_DISH: 'SELECT_DISH',
     UPDATE_DISH: 'UPDATE_DISH',
     DELETE_DISH: 'DELETE_DISH',
+    DELETE_DISHES: 'DELETE_DISHES',
 };
 
 export default actionTypes;
