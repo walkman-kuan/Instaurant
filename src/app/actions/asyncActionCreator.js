@@ -39,7 +39,22 @@ const shouldFetchItem = (itemInfo = { isFetching: false, alreadyFetched: false, 
     return true;
 };
 
-// Fetch categories from Firebase, and return a promise
+/**
+ * Note on the return value of the inner function of a Thunk.
+ *
+ * In JavaScript, Promise.then() returns a Promise.
+ *
+ * In Redux, dispatch(action) returns the action being dispatched, e.g., console.log(dispatch(myAction));
+ * will log the 'myAction'.
+ *
+ * Redux Thunk makes the return value of the inner function of a Thunk available as the return value of dispatch!!!
+ * For example, the return value of the inner function of the Thunk'fetchCategoriesFromFirebase' is a promise, e.g.,
+ * firebaseFetchCategories(ownerId).then(...), and can be accessed by 'dispatch(fetchCategoriesFromFirebase())'.
+ * In other words, we have firebaseFetchCategories(ownerId).then(...) == dispatch(fetchCategoriesFromFirebase()).
+ * That's why we can call dispatch(fetchCategoriesFromFirebase()).then(...);
+ */
+
+// Fetch categories from Firebase, and then return a promise
 const fetchCategoriesFromFirebase = ownerId => dispatch => (
     firebaseFetchCategories(ownerId).then((snapshot) => {
         const categories = {};
@@ -59,9 +74,9 @@ const fetchCategoriesFromFirebase = ownerId => dispatch => (
     })
 );
 
-// Fetch categories from Firebase if needed
+// Fetch categories from Firebase if needed, and then return a promise
 export const fetchCategoriesIfNeeded = ownerId => (dispatch, getState) => {
-    // The return value can be accessed through dispatch(fetchCategoriesIfNeed(ownerId)).then()
+    // The return value can be accessed through dispatch(fetchCategoriesIfNeed(ownerId))
 
     // Avoiding a network request if a cached value is already available
     if (shouldFetchItem(getState().category)) {
@@ -103,7 +118,7 @@ export const updateCategoryName = (ownerId, categoryId, newName) => (dispatch) =
     });
 };
 
-// Delete a category and its associated dishes from Firebase
+// Delete a category and its associated dishes from Firebase, then return a promise
 export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedCategoryId) => (dispatch, getState) => {
     const imageUrlArray = getImageUrlsFromDishes(getState().dish[deletedCategoryId].items);
 
@@ -117,7 +132,7 @@ export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedC
     });
 };
 
-// Fetch dishes from Firebase, and return a promise
+// Fetch dishes from Firebase, and then return a promise
 export const fetchDishesFromFirebase = configuredCategoryId => dispatch => (
     firebaseFetchDishes(configuredCategoryId).then((snapshot) => {
         const dishes = {};
@@ -140,9 +155,9 @@ export const fetchDishesFromFirebase = configuredCategoryId => dispatch => (
     })
 );
 
-// Fetch dishes from Firebase if needed
+// Fetch dishes from Firebase if needed, and then return a promise
 export const fetchDishesIfNeeded = () => (dispatch, getState) => {
-    // The return value can be accessed through dispatch(fetchDishesIfNeed(ownerId)).then()
+    // The return value can be accessed through dispatch(fetchDishesIfNeed(ownerId))
 
     const configuredCategoryId = getState().configuredCategoryId;
     // configuredDishInfo is undefined when fetching dishes for a category for the first time
