@@ -120,7 +120,8 @@ export const updateCategoryName = (ownerId, categoryId, newName) => (dispatch) =
 
 // Delete a category and its associated dishes from Firebase, then return a promise
 export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedCategoryId) => (dispatch, getState) => {
-    const imageUrlArray = getImageUrlsFromDishes(getState().dish[deletedCategoryId].items);
+    const dishes = getState().dish[deletedCategoryId] ? getState().dish[deletedCategoryId].items : {};
+    const imageUrlArray = getImageUrlsFromDishes(dishes);
 
     dispatch(changingDishes(deletedCategoryId));
     return firebaseDeleteCategory(ownerId, affectedCategories, deletedCategoryId, imageUrlArray).then(() => {
