@@ -129,6 +129,16 @@ export const getRemainingDishes = (currentDishes, DishesWithUpdatedOrder, delete
 };
 
 /**
+ * Given a list of dishes, return an array of imageUrls, each of which is
+ * from a dish.
+ *
+ * @param dishes is a list of dishes
+ */
+export const getImageUrlsFromDishes = dishes => (
+    Object.values(dishes).map(dish => dish.imageUrl)
+);
+
+/**
  * Format the item name:
  * 1. Remove leading and trailing space(s)
  * 2. Replace multiple spaces with a single space
@@ -136,6 +146,8 @@ export const getRemainingDishes = (currentDishes, DishesWithUpdatedOrder, delete
  *
  * This is helpful when saving category or dish name, e.g., we will format
  * ` caliFoNia rOLl  ` into `California Roll` when saving a dish name.
+ *
+ * @param unformattedItemName is the name before formatting
  */
 export const formatItemName = unformattedItemName => (
     // Remove leading and trailing space(s) and replace multiple spaces with a single space
