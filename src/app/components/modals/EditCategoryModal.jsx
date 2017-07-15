@@ -62,8 +62,10 @@ class EditCategoryModal extends Component {
         // Update the category name if necessary/different
         if (this.categoryNameBeforeEditing !== newCategoryName) {
             const ownerId = getCurrentSignInUser().uid;
-            const { dispatch, selectedCategoryId } = this.props;
+            const { dispatch, selectedCategoryId, onCompleteEditingCategory } = this.props;
             dispatch(updateCategoryName(ownerId, selectedCategoryId, newCategoryName));
+            // Toggle the Edit Category button after completing editing
+            onCompleteEditingCategory();
         }
 
         // We can't add 'data-dismiss' to the 'addBtn', otherwise, the submit
@@ -142,6 +144,7 @@ EditCategoryModal.propTypes = {
         order: PropTypes.number.isRequired,
     })).isRequired,
     dispatch: PropTypes.func.isRequired,
+    onCompleteEditingCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => (

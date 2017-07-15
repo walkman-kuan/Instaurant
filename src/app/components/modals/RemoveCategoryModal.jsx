@@ -32,7 +32,7 @@ class RemoveCategoryModal extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        const { dispatch, selectedCategoryId, categories } = this.props;
+        const { dispatch, selectedCategoryId, categories, onCompleteRemovingCategory } = this.props;
         const keys = Object.keys(categories);
         const indexOfDeletedCategory = keys.indexOf(selectedCategoryId);
 
@@ -49,6 +49,8 @@ class RemoveCategoryModal extends Component {
                 const firstCategoryId = Object.keys(this.props.categories)[0]
                     ? Object.keys(this.props.categories)[0] : '';
                 dispatch(configureCategory(firstCategoryId));
+                // Toggle the Edit Category button after completing removing
+                onCompleteRemovingCategory();
             });
         }
 
@@ -107,6 +109,7 @@ RemoveCategoryModal.propTypes = {
         order: PropTypes.number.isRequired,
     })).isRequired,
     dispatch: PropTypes.func.isRequired,
+    onCompleteRemovingCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => (
