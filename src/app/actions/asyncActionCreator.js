@@ -24,6 +24,7 @@ import {
     firebaseUpdateDish,
     firebaseDeleteDish,
 } from '../firebaseService';
+import { getImageUrlsFromDishes } from '../utils/instaurantUtils';
 
 
 // Return {true} if we are not in the process of fetching, have already fetched before,
@@ -103,9 +104,11 @@ export const updateCategoryName = (ownerId, categoryId, newName) => (dispatch) =
 };
 
 // Delete a category and its associated dishes from Firebase
-export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedCategoryId, imageUrls) => (dispatch) => {
+export const deleteCategoryFromFirebase = (ownerId, affectedCategories, deletedCategoryId) => (dispatch, getState) => {
+    const imageUrlArray = getImageUrlsFromDishes(getState().dish[deletedCategoryId].items);
+
     dispatch(changingDishes(deletedCategoryId));
-    return firebaseDeleteCategory(ownerId, affectedCategories, deletedCategoryId, imageUrls).then(() => {
+    return firebaseDeleteCategory(ownerId, affectedCategories, deletedCategoryId, imageUrlArray).then(() => {
         // Use Destructuring to remove the category being deleted from the affected categories
         const { [deletedCategoryId]: deletedCategory, ...categoriesWithUpdatedOrder } = affectedCategories;
 

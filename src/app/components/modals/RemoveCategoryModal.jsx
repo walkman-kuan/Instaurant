@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCurrentSignInUser } from '../../firebaseService';
-import { getAffectedCategoriesOnDelete, getImageUrlsFromDishes } from '../../utils/instaurantUtils';
+import { getAffectedCategoriesOnDelete } from '../../utils/instaurantUtils';
 import { configureCategory } from '../../actions/actionCreator';
 import { deleteCategoryFromFirebase } from '../../actions/asyncActionCreator';
 
@@ -32,17 +32,16 @@ class RemoveCategoryModal extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        const { dispatch, selectedCategoryId, categories, dishes } = this.props;
+        const { dispatch, selectedCategoryId, categories } = this.props;
         const keys = Object.keys(categories);
         const indexOfDeletedCategory = keys.indexOf(selectedCategoryId);
 
         if (indexOfDeletedCategory !== -1) {
             const ownerId = getCurrentSignInUser().uid;
             const updatedCategories = getAffectedCategoriesOnDelete(indexOfDeletedCategory, keys, categories);
-            const imageUrlArray = getImageUrlsFromDishes(dishes);
 
             dispatch(
-                deleteCategoryFromFirebase(ownerId, updatedCategories, selectedCategoryId, imageUrlArray),
+                deleteCategoryFromFirebase(ownerId, updatedCategories, selectedCategoryId),
             ).then(() => {
                 // After deleting a category, set the configured category id
                 // 1. to the id of the first category in the list if the list is not empty
@@ -107,14 +106,6 @@ RemoveCategoryModal.propTypes = {
         name: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
-    dishes: PropTypes.objectOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        price: PropTypes.string.isRequired,
-        imageUrl: PropTypes.string.isRequired,
-        order: PropTypes.number.isRequired,
-    })).isRequired,
     dispatch: PropTypes.func.isRequired,
 };
 
@@ -122,9 +113,6 @@ const mapStateToProps = state => (
     {
         selectedCategoryId: state.selectedCategoryId,
         categories: state.category.items,
-        dishes: state.dish[state.selectedCategoryId]
-            ? state.dish[state.selectedCategoryId].items
-            : {},
     }
 );
 
