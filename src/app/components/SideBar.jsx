@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import CategoryList from './CategoryList';
 import AddCategoryButton from './AddCategoryButton';
+import EditCategoryButton from './EditCategoryButton';
 
 const SideBar = ({ categories, onConfiguringCategory, onEditingCategories, sidebarStyle }) => {
     const { isEditingCategories, isSidebarVisibleOnMobile } = sidebarStyle;
@@ -25,17 +26,14 @@ const SideBar = ({ categories, onConfiguringCategory, onEditingCategories, sideb
                     />
                 }
             </div>
+
             <AddCategoryButton />
-            {/* Edit Category Button */}
-            {showCategoryInfo && (
-                <button type="button" className="sidebar-footer non-shadow-outlline" onClick={onEditingCategories}>
-                    {isEditingCategories ? (
-                        <span><span className="glyphicon glyphicon-saved" />&nbsp;Complete editing</span>
-                    ) : (
-                        <span><span className="glyphicon glyphicon-edit" />&nbsp;Edit categories</span>
-                    )}
-                </button>
-            )}
+            {showCategoryInfo &&
+                <EditCategoryButton
+                  isEditingCategories={isEditingCategories}
+                  onEditingCategories={onEditingCategories}
+                />
+            }
         </div>
     );
 };
