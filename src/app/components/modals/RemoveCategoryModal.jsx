@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCurrentSignInUser } from '../../firebaseService';
 import { getAffectedCategoriesOnDelete } from '../../utils/instaurantUtils';
+import { configureCategory } from '../../actions/actionCreator';
 import { deleteCategoryFromFirebase } from '../../actions/asyncActionCreator';
 
 class RemoveCategoryModal extends Component {
@@ -23,7 +24,7 @@ class RemoveCategoryModal extends Component {
      * 1. Click to delete a category, but cancel deleting, and click to delete the same category again
      */
     componentWillReceiveProps({ selectedCategoryId, categories }) {
-        if (selectedCategoryId !== '' && categories[selectedCategoryId]) {
+        if (selectedCategoryId && categories[selectedCategoryId]) {
             this.deletedCategoryName = categories[selectedCategoryId].name;
         }
     }
@@ -31,14 +32,26 @@ class RemoveCategoryModal extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        const { dispatch, selectedCategoryId, categories } = this.props;
+        const { dispatch, selectedCategoryId, categories, onCompleteRemovingCategory } = this.props;
         const keys = Object.keys(categories);
         const indexOfDeletedCategory = keys.indexOf(selectedCategoryId);
 
         if (indexOfDeletedCategory !== -1) {
             const ownerId = getCurrentSignInUser().uid;
             const updatedCategories = getAffectedCategoriesOnDelete(indexOfDeletedCategory, keys, categories);
-            dispatch(deleteCategoryFromFirebase(ownerId, updatedCategories, selectedCategoryId));
+
+            dispatch(
+                deleteCategoryFromFirebase(ownerId, updatedCategories, selectedCategoryId),
+            ).then(() => {
+                // After deleting a category, set the configured category id
+                // 1. to the id of the first category in the list if the list is not empty
+                // 2. otherwise, to ''
+                const firstCategoryId = Object.keys(this.props.categories)[0]
+                    ? Object.keys(this.props.categories)[0] : '';
+                dispatch(configureCategory(firstCategoryId));
+                // Toggle the Edit Category button after completing removing
+                onCompleteRemovingCategory();
+            });
         }
 
         // We can't add 'data-dismiss' to the 'addBtn', otherwise, the submit
@@ -50,7 +63,7 @@ class RemoveCategoryModal extends Component {
     render() {
         return (
             <div
-              className="modal fade" id="delete-category" tabIndex="-1" role="dialog"
+              className="modal fade" id="remove-category" tabIndex="-1" role="dialog"
               data-backdrop="static" data-keyboard="false"
             >
                 <div className="modal-dialog" role="document">
@@ -64,9 +77,9 @@ class RemoveCategoryModal extends Component {
                         <form role="form" onSubmit={this.handleSubmit}>
                             <div className="modal-body">
                                 <span>
-                                    Are you sure you want to delete <strong>{ this.deletedCategoryName }</strong>?
-                                    Deleting <strong>{ this.deletedCategoryName }</strong> will
-                                     also delete <strong>all dishes</strong> associated with it.
+                                    Are you sure you want to delete <strong>{this.deletedCategoryName}</strong>?
+                                    Deleting <strong>{this.deletedCategoryName}</strong> will
+                                    also delete <strong>all dishes</strong> associated with it.
                                 </span>
                             </div>
                             <div className="modal-footer">
@@ -75,9 +88,7 @@ class RemoveCategoryModal extends Component {
                                   className="btn btn-default outline narrow non-shadow-outlline"
                                   data-dismiss="modal"
                                   ref={(cancelBtnNode) => { this.cancelBtn = cancelBtnNode; }}
-                                >
-                                Cancel
-                                </button>
+                                >Cancel</button>
                                 <button
                                   type="submit" className="btn btn-danger outline narrow non-shadow-outlline"
                                 >Delete</button>
@@ -98,11 +109,12 @@ RemoveCategoryModal.propTypes = {
         order: PropTypes.number.isRequired,
     })).isRequired,
     dispatch: PropTypes.func.isRequired,
+    onCompleteRemovingCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => (
     {
-        selectedCategoryId: state.selectedCategory,
+        selectedCategoryId: state.selectedCategoryId,
         categories: state.category.items,
     }
 );

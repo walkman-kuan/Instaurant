@@ -21,8 +21,8 @@ class ConfigureCategoryModal extends Component {
                             </div>
                             <div className="modal-body">
                                 <p>
-                                    Click the add a category button in the Category section
-                                    to add a new category and start to configure your menu!
+                                    Click the <strong>Add a category</strong> button in the Category section
+                                    to add a new category, and start to configure your menu!
                                 </p>
                             </div>
                         </div>
@@ -31,7 +31,7 @@ class ConfigureCategoryModal extends Component {
 
                 {/* Hidden button */}
                 <button
-                  className="hidden-element"
+                  className="hidden"
                   type="button"
                   data-toggle="modal"
                   data-target="#start-configure-menu"

@@ -18,9 +18,6 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
         const order = numOfCategories + 1;
         dispatch(addCategoryToFirebase(ownerId, formatItemName(categoryName.value), order));
 
-        // Reset the name field so that it is empty when shown again
-        categoryName.value = '';
-
         // We can't add 'data-dismiss' to the 'addBtn', otherwise, the submit
         // functionality won't work. Therefore, simulate a click on 'cancelBtn',
         // after form submission, to dismiss the modal
@@ -32,9 +29,9 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
      * This makes sure that when the Modal shows again, the field shows the placeholder,
      * not the dirty category name left from previous cancelled editing!
      *
-     * Note that this method gets called on submitBtn and cancelBtn click
+     * Note that this method gets called on submitBtn, cancelBtn and closeBtn click
      */
-    const handleCancelBtnClick = () => {
+    const handleDismissBtnClick = () => {
         categoryName.value = '';
     };
 
@@ -46,7 +43,10 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <button
+                          type="button" className="close" data-dismiss="modal" aria-label="Close"
+                          onClick={handleDismissBtnClick}
+                        >
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <h4 className="modal-title">Add a new category</h4>
@@ -68,10 +68,8 @@ const AddCategoryModal = ({ dispatch, numOfCategories }) => {
                               className="btn btn-default outline narrow non-shadow-outlline"
                               data-dismiss="modal"
                               ref={(cancelBtnNode) => { cancelBtn = cancelBtnNode; }}
-                              onClick={handleCancelBtnClick}
-                            >
-                            Cancel
-                            </button>
+                              onClick={handleDismissBtnClick}
+                            >Cancel</button>
                             <button
                               type="submit" className="btn btn-primary outline narrow non-shadow-outlline"
                             >Add</button>

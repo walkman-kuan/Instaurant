@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCurrentSignInUser } from '../../firebaseService';
-import { selectedCategory } from '../../actions/actionCreator';
+import { selecteCategory } from '../../actions/actionCreator';
 import { updateCategoryName } from '../../actions/asyncActionCreator';
 import { formatItemName } from '../../utils/instaurantUtils';
 
@@ -11,17 +11,23 @@ class EditCategoryModal extends Component {
     constructor() {
         super();
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCancelBtnClick = this.handleCancelBtnClick.bind(this);
+        this.handleDismissBtnClick = this.handleDismissBtnClick.bind(this);
     }
 
-    // Reset `selectedCategory` to '' so that whenever we click to edit a category, Redux
-    // always re-renders the Edit Modal, i.e.,  componentWillReceiveProps is always called.
-    // Without resetting selectedCategory: If we navigate back from any routing point, and
-    // click to edit the SAME category we just edited before, Redux won't re-render this
-    // Modal because the prev and current states, i.e., `selectedCategory`, are the same!
+    /**
+     * Reset `selectedCategoryId` to '' so that whenever we click to edit a category, Redux
+     * always re-renders the Edit Modal, i.e., componentWillReceiveProps is always called.
+     *
+     * Without resetting selectedCategoryId: If we navigate back from any routing point, and
+     * click to edit the SAME category we just edited before, Redux won't re-render this
+     * Modal because the prev and current states, i.e., `selectedCategoryId`, are the same!
+     *
+     * As a result, the category name field will be empty, or the default value will show
+     * if specified.
+     */
     componentDidMount() {
         const { dispatch } = this.props;
-        dispatch(selectedCategory(''));
+        dispatch(selecteCategory(''));
     }
 
     /**
@@ -39,7 +45,7 @@ class EditCategoryModal extends Component {
      * the same category again
      */
     componentWillReceiveProps({ selectedCategoryId, categories }) {
-        if (selectedCategoryId !== '' && categories[selectedCategoryId]) {
+        if (selectedCategoryId && categories[selectedCategoryId]) {
             const currentCategoryName = categories[selectedCategoryId].name;
 
             // Set the category name before editing to the current category name
@@ -56,11 +62,10 @@ class EditCategoryModal extends Component {
         // Update the category name if necessary/different
         if (this.categoryNameBeforeEditing !== newCategoryName) {
             const ownerId = getCurrentSignInUser().uid;
-            const { dispatch, selectedCategoryId } = this.props;
+            const { dispatch, selectedCategoryId, onCompleteEditingCategory } = this.props;
             dispatch(updateCategoryName(ownerId, selectedCategoryId, newCategoryName));
-
-            // Update the categoryNameBeforeEditing to the new name
-            this.categoryNameBeforeEditing = newCategoryName;
+            // Toggle the Edit Category button after completing editing
+            onCompleteEditingCategory();
         }
 
         // We can't add 'data-dismiss' to the 'addBtn', otherwise, the submit
@@ -75,9 +80,11 @@ class EditCategoryModal extends Component {
      * Modal shows again, the displayed category name will always be the current category
      * name, not the dirty displayed category name left from previous cancelled editing!
      *
-     * Note that this method gets called on submitBtn and cancelBtn click
+     * Note that this method gets called on submitBtn, cancelBtn and CloseBtn click.
+     * If called on submitBtn, this.categoryName.value will be set the old value, but
+     * it is OK.
      */
-    handleCancelBtnClick() {
+    handleDismissBtnClick() {
         this.categoryName.value = this.categoryNameBeforeEditing;
     }
 
@@ -90,7 +97,10 @@ class EditCategoryModal extends Component {
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <button
+                              type="button" className="close" data-dismiss="modal" aria-label="Close"
+                              onClick={this.handleDismissBtnClick}
+                            >
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <h4 className="modal-title">Edit category name</h4>
@@ -101,7 +111,7 @@ class EditCategoryModal extends Component {
                                     {/* Using uncontrolled component */}
                                     <input
                                       type="text" className="form-control" id="edit-category-name"
-                                      name="edit-category-name" defaultValue="defaultValue" required
+                                      name="edit-category-name" required
                                       ref={(categoryNameNode) => { this.categoryName = categoryNameNode; }}
                                     />
                                 </div>
@@ -112,10 +122,8 @@ class EditCategoryModal extends Component {
                                   className="btn btn-default outline narrow non-shadow-outlline"
                                   data-dismiss="modal"
                                   ref={(cancelBtnNode) => { this.cancelBtn = cancelBtnNode; }}
-                                  onClick={this.handleCancelBtnClick}
-                                >
-                                Cancel
-                                </button>
+                                  onClick={this.handleDismissBtnClick}
+                                >Cancel</button>
                                 <button
                                   type="submit" className="btn btn-primary outline narrow non-shadow-outlline"
                                 >Save change</button>
@@ -136,11 +144,12 @@ EditCategoryModal.propTypes = {
         order: PropTypes.number.isRequired,
     })).isRequired,
     dispatch: PropTypes.func.isRequired,
+    onCompleteEditingCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => (
     {
-        selectedCategoryId: state.selectedCategory,
+        selectedCategoryId: state.selectedCategoryId,
         categories: state.category.items,
     }
 );

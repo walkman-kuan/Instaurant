@@ -9,7 +9,7 @@ const NavBar = ({ onToggleSiderbar }) => {
     };
 
     return (
-        <nav className="navbar navbar-default">
+        <nav className="navbar navbar-default navbar-fixed-top">
             <div className="container-fluid">
                 <div className="navbar-header">
                     <button
@@ -29,21 +29,21 @@ const NavBar = ({ onToggleSiderbar }) => {
                         <Link to="/qrCode">
                             <span className="glyphicon glyphicon-qrcode" />
                             &nbsp;
-                            <span className="nav-text">QR Code</span>
+                            <span className="hidden-on-xs">QR Code</span>
                         </Link>
                     </li>
                     <li>
                         <Link to="/profile">
                             <span className="glyphicon glyphicon-user" />
                             &nbsp;
-                            <span className="nav-text">Profile</span>
+                            <span className="hidden-on-xs">Profile</span>
                         </Link>
                     </li>
                     <li>
                         <Link to="/signin" onClick={handleSignOut}>
                             <span className="glyphicon glyphicon-off" />
                             &nbsp;
-                            <span className="nav-text">Sign out</span>
+                            <span className="hidden-on-xs">Sign out</span>
                         </Link>
                     </li>
                 </ul>

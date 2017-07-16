@@ -1,28 +1,113 @@
 /* Customized colors */
 @color-option-1: #0099cc; // Instaurant primary color
-@color-option-2: #007299;
-@color-option-3: #666; // Default Outline Button/Customized Link
+@color-option-2: #666; // Default Outline Button/Customized Link/Texts
+@color-option-3: #111; // Customized Link/Text on hover
 @color-option-4: #fcfcfc; // Background of Sidebar header
 @color-option-5: #f5f5f5; // Background of Sidebar content
 @color-option-6: #e5e5e5; // Background of Sidebar content on hover
-@color-option-7: #111; // Default Outline Button/Customized Link on hover
-@border-color: #eee;
+@color-option-7: #e9534f; // Danger color
+@loader-color: #3498db;
+@border-color-1: #eee;
+@border-color-2: #ccc;
+@border-color-3: #ddd;
+
+/* Font size */
+@font-size-regular: 16px;
+@font-size-small: 14px;
+@font-size-extra-small: 12px;
+
+/* Variables */
+@dish-image-size: 138px;
+@dish-image-size-small: 105px;
+@line-height-1: 1.3; // Bootstrap 3 default is 1.428571429
+
+/* Mixins */
+.active-focus-hover-button(@color) {
+    &:hover, &:focus, &:active,
+    &.active.focus, &.active:focus, &.focus,
+    &.focus:active, &:active:focus, &:focus {
+        background-color: @color;
+        border-color: @color;
+        color: white;
+    }
+}
+/* Pure CSS for multiline truncation with ellipsis. Credit to:
+ * http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+ */
+.elem-with-tooltip(@font-size, @line-height, @line-count, @bg-color, ) {
+    /* hide text if it more than @line-count lines  */
+    overflow: hidden;
+    /* for set '...' in absolute position */
+    position: relative;
+    /* use this value to count block height */
+    line-height: calc(@font-size * @line-height);
+    /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: calc(@font-size * @line-height * @line-count);
+    /* fix problem when last visible word doesn't adjoin right side  */
+    text-align: justify;
+    /* place for '...' */
+    margin-right: 0;
+    padding-right: @font-size;
+
+    /* create the ... */
+    &:before {
+        /* points in the end */
+        content: ' ...';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of block */
+        right: 0;
+        bottom: 0;
+    }
+    /* hide ... if we have text, which is less than or equal to max lines */
+    &:after {
+        /* points in the end */
+        content: '';
+        /* absolute position */
+        position: absolute;
+        /* set position to right bottom corner of text */
+        right: 0;
+        /* set width and height */
+        width: @font-size;
+        height: @font-size;
+        margin-top: calc(0.2 * @font-size);
+        /* bg color = bg color of body or container */
+        background: @bg-color;
+    }
+}
+
 
 /* General Style */
 .non-shadow-outlline {
-    // Remove button outline and shadow
-    &:hover, &:focus, &:active {
-      outline: none;
+    // Remove outline and shadow
+    &:hover, &:focus, &:active,
+    &.active.focus, &.active:focus, &.focus,
+    &.focus:active, &:active:focus, &:focus {
+      outline: 0;
+      -webkit-box-shadow: none;
       box-shadow: none;
     }
 }
 
+
 /* General layout */
 body {
-    font-size: 16px;
+    font-size: @font-size-regular;
 }
-.hidden-element {
-    display: none;
+.hidden {
+    display: none !important;
+}
+// Parent element should be position: non-static
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%); // Internet Explorer and Microsoft Edge
+    -moz-transform: translate(-50%,-50%); // Firefox
+    -o-transform: translate(-50%,-50%); // Old, pre-WebKit, versions of Opera
+    -webkit-transform: translate(-50%,-50%); // Safari
+    text-align: center;
 }
 
 
@@ -30,10 +115,6 @@ body {
 .auth-page {
     a {
         color: @color-option-1;
-        &:hover, &:focus, &:active {
-            color: @color-option-2;
-        }
-
     }
     h1 {
         color: @color-option-1;
@@ -46,17 +127,18 @@ body {
     /* Vetically `center` */
     position: absolute;
     top: 40%;
-    transform: translate(0%, -50%); // Standard
-    -ms-transform: translate(0%, -50%); // IE 9
-    -o-transform: translate(0%, -50%); // Opera
-    -webkit-transform: translate(0%, -50%); // Safari
+    transform: translate(0%, -50%);
+    -ms-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
+    -webkit-transform: translate(0%, -50%);
 }
 .forgot-password {
-    font-size: 14px;
+    font-size: @font-size-small;
     margin: -5px 0 15px 0;
 }
 .route-group a {
-    font-size: 16px;
+    font-size: @font-size-regular;
 }
 
 
@@ -71,9 +153,9 @@ body {
         font-size: 26px;
     }
     .navbar-nav > li > a {
-        color: @color-option-3;
+        color: @color-option-2;
         &:hover, &:focus, &:active {
-            color: @color-option-7;
+            color: @color-option-3;
         }
     }
     /* Always right align nav bar icons */
@@ -91,31 +173,37 @@ body {
 .sidebar-wrapper {
     position: fixed; // Positioned relative to browser
 
-    top: 52px;
+    top: 51px;
     bottom: 0;
 
     z-index: 100; // Stay on top
 
-    width: 250px;
+    width: 268px;
 
-    border-right: 1px solid @border-color;
+    border-right: 1px solid @border-color-1;
 
     background-color: @color-option-5;
-    transition: 0.3s;
+    transition: 0.4s;
 
     overflow: hidden; // Disable scrollin, and let the sidebar nav scroll
 }
+.sidebar-mobile {
+    width: 88% !important;
+}
 .sidebar-content {
     min-height: 100%; // Help to create a sticky footer
-    // Equal to the height of the two equal-height sticky footers
-    // margin-bottom: -90px; // We set the value dynamically in component
+    margin-bottom: -45px;
+}
+.with-edit-categories {
+    // -90px for both the 'Add category' and 'Edit categories' buttons
+    margin-bottom: -90px;
 }
 .sidebar-header {
     background-color: @color-option-4;
-    color: @color-option-3;
+    color: @color-option-2;
 
     border-bottom: 1px solid #eee;
-    padding: 10px 0 10px 30px;
+    padding: 12px 0 12px 30px;
 
     font-size: 18px;
     font-weight: 500;
@@ -137,17 +225,22 @@ body {
         a {
             display: block; // Highlight the whole <li> when a is hovered
             text-decoration: none;
-            color: @color-option-3;
+            color: @color-option-2;
 
-            // TODO: Make sure the selected <li> is ALWAYS highlighted while editing dishes
             &:hover, &:focus, &:active {
                 background: @color-option-6;
-                color: @color-option-7;
+                color: @color-option-3;
             }
 
             &.disabled-link {
                 pointer-events: none; // Prevent the <li> being a target of mouse events
                 display: inline; // Avoid moving the editing icons to next line
+            }
+
+            //  Highlight the configured <li> while editing dishes
+            &.hightlight-link {
+                background: @color-option-6;
+                color: @color-option-3;
             }
         }
 
@@ -160,10 +253,10 @@ body {
 
             a {
                 display: inline;
-                text-indent: 8px;
+                text-indent: 18px;
                 &:hover, &:focus, &:active {
                     background: @color-option-5;
-                    color: @color-option-7;
+                    color: @color-option-3;
                 }
             }
         }
@@ -172,10 +265,10 @@ body {
 /* The sticky footer */
 .sidebar-footer {
     background-color: @color-option-4;
-    color: @color-option-3;
+    color: @color-option-2;
     &:hover, &:focus, &:active {
         background: @color-option-6;
-        color: @color-option-7;
+        color: @color-option-3;
     }
     padding: 13px 0 15px 30px;
 
@@ -187,17 +280,135 @@ body {
     border-bottom-width: 0px;
     border-left-width: 0px;
     border-style: solid;
-    border-color: @border-color;
+    border-color: @border-color-1;
     text-align: inherit;
 }
+
+/* The Menu Content */
 .menu-content {
-    margin-left: 250px;
-    padding: 20px 15px;
+    margin: 50px 0 0 268px;
+    padding: 10px 20px;
 }
+/* Push the dish container(s) to left when sidebar shows on mobile view */
+.push-dishes-left {
+    .dish-container {
+        margin-left: -40%;
+    }
+}
+.menu-content-title {
+    margin: 5px 0 15px 0;
+    span {
+        color: @color-option-2;
+    }
+}
+.dish-container {
+    border: 1px solid @border-color-3;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 5px;
+
+    /* Layout 1 - Position dish image and dish text */
+    display: table;
+    // The horizontal layout only depends on the table's width and
+    // the width of the columns, not the contents of the cells.
+    // In other words, the layout is fixed based on the first row.
+    // Set the width of those, and the rest of the table follows.
+    table-layout: fixed;
+    width: 100%; // The table will occupy the whole column
+
+    /* Layout 2 - Position dish editing link */
+    position: relative;
+
+    transition: 0.4s;
+}
+.dish-image-container {
+    display: table-cell;
+    vertical-align: top;
+
+    padding-right: 15px;
+
+    width: calc(@dish-image-size + 15px); // image width + image container right padding
+}
+.dish-image {
+    border: 1px solid @border-color-3;
+    height: @dish-image-size;
+    width: @dish-image-size;
+}
+.dish-text-container {
+    display: table-cell;
+    vertical-align: top;
+
+    // No sure why we should set width to
+    // 100% to make it work?!
+    width: 100%;
+
+    position: relative;
+
+    padding-bottom: 10px; // Avoid description text overlapping price
+}
+.dish-name {
+    font-size: @font-size-regular;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.dish-description {
+    color: @color-option-2;
+    font-size: @font-size-small;
+    margin-bottom: 10px;
+}
+.dish-price {
+    color: @color-option-1;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.dish-edit {
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
+
+    a {
+        color: @color-option-2;
+        text-decoration: none;
+        // Use text-indent to create space between links
+        // Maybe use margin/padding is bettre?
+        text-indent: 15px;
+        &:hover, &:focus, &:active {
+            color: @color-option-3;
+        }
+    }
+}
+.add-dish-image {
+    height: @dish-image-size;
+    width: @dish-image-size;
+    // Shrink the image
+    padding: 10px;
+}
+
 
 /* Modal */
 .modal .form-group:last-of-type {
     margin-bottom: 0px; // No bottom margin if the last form group
+}
+.image-drop-zone {
+    padding: 20px;
+    border: 3px dashed @border-color-2;
+    height: 315px;
+    width: 360px;
+    max-width: 100%;
+    max-height: 100%;
+    position: relative;
+}
+.upload-image-target {
+    margin: 0 auto 15px auto;
+}
+.preview-image {
+    max-height: 98%;
+    max-width: 98%;
+}
+.image-over {
+    border-color: @color-option-1;
 }
 
 
@@ -213,30 +424,62 @@ body {
 .btn-primary.outline {
 	border: 2px solid @color-option-1;
 	color: @color-option-1;
-
-    &:hover, &:focus, &:active {
-        border-color: @color-option-2;
-        color: @color-option-2;
-    }
+    .active-focus-hover-button(@color-option-1);
 }
 .btn-default.outline {
-	border: 2px solid #666;
-	color: #666;
-
-    &:hover, &:focus, &:active {
-        border-color: @color-option-7;
-        color: @color-option-7;
-    }
+	border: 2px solid @color-option-2;
+	color: @color-option-2;
+    .active-focus-hover-button(@color-option-2);
 }
 .btn-danger.outline {
-	border: 2px solid #e9534f;
-	color: #e9534f;
-
-    &:hover, &:focus, &:active {
-        border-color: #c9302c;
-        color: #c9302c;
-    }
+	border: 2px solid @color-option-7;
+	color: @color-option-7;
+    .active-focus-hover-button(@color-option-7);
 }
+.btn-right {
+    margin-left: 5px;
+}
+
+/* The Loader */
+.loader {
+  border: 15px solid @border-color-3;
+  border-radius: 50%;
+  border-top: 15px solid @loader-color;
+  height: 120px;
+  width: 120px;
+  animation: spin 2s linear infinite;
+  -ms-transform: spin 2s linear infinite;
+  -moz-transform: spin 2s linear infinite;
+  -o-transform: spin 2s linear infinite;
+  -webkit-animation: spin 2s linear infinite;
+
+  // Position
+  position: fixed; // Relative to the viewport
+  top: calc(45%);
+  left: calc(54%);
+  z-index: 1000;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@-ms-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@-o-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
 
 /*
     Responsive Design - Bootstrap 4 Break Points
@@ -245,10 +488,22 @@ body {
     Medium ≥ 768px
     Large ≥ 992px
     Extra large ≥ 1200px
+
+    Notes:
+    1. The reason we define hidden-on-*, visible-on-* is because
+    we are using Bootstrap 3 where extra small break point is
+    768 px, not 576px.
+    2. Migrate to Bootstrap 4 or override Bootstrap 3 breakpoints
  */
 @media (max-width: 575px) {
-    .nav-text {
+    .hidden-on-xs {
         display: none;
+    }
+
+    /* Reduce padding to avoid overlapping */
+    .navbar-nav > li > a {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     /* Hide the sidebar */
@@ -260,6 +515,31 @@ body {
     .menu-content {
         margin-left: 0;
     }
+    .menu-content-title {
+        text-align: center;
+    }
+
+    .dish-container {
+        margin-bottom: 10px;
+    }
+
+    .dish-image-container {
+        width: calc(@dish-image-size-small + 15px);
+    }
+    .dish-image {
+        height: @dish-image-size-small;
+        width: @dish-image-size-small;
+    }
+    .add-dish-image {
+        height: @dish-image-size-small;
+        width: @dish-image-size-small;
+        padding: 5px;
+    }
+
+    .dish-description {
+        font-size: @font-size-extra-small;
+        line-height: calc(@font-size-extra-small * @line-height-1);
+    }
 
     /* Tweak the narbar-toggle class to get our toggle button */
     .navbar-toggle.sidebar-toggle {
@@ -268,10 +548,33 @@ body {
         margin-left: 15px;
         margin-right: 0;
     }
+
+    /* Modal */
+    .image-drop-zone {
+        height: 258px;
+        width: 306px;
+    }
+
+    .loader {
+      border: 8px solid @border-color-3;
+      border-top: 8px solid @loader-color;
+      height: 70px;
+      width: 70px;
+
+      left: calc(~'50% - 30px');
+    }
 }
 
 @media (min-width: 576px) {
+    .visible-on-xs {
+        display: none;
+    }
+
     .navbar-toggle.sidebar-toggle {
         display: none;
+    }
+
+    .dish-description {
+        .elem-with-tooltip(@font-size-small, @line-height-1, 3, white);
     }
 }

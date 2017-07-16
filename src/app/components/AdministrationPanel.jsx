@@ -8,22 +8,22 @@ import ConfigureCategoryModal from './modals/ConfigureCategoryModal';
 import AddCategoryModal from './modals/AddCategoryModal';
 import EditCategoryModal from './modals/EditCategoryModal';
 import RemoveCategoryModal from './modals/RemoveCategoryModal';
+import Loader from './Loader';
 import { isUserSignedIn, getCurrentSignInUser } from '../firebaseService';
-import { fetchCategoriesIfNeed } from '../actions/asyncActionCreator';
+import { configureCategory } from '../actions/actionCreator';
+import { fetchCategoriesIfNeeded, fetchDishesIfNeeded } from '../actions/asyncActionCreator';
 
 class AdministrationPanel extends Component {
     constructor() {
         super();
-        // Using React state for ephemeral state like UI stypes
+        // Using React state for ephemeral state like UI styles
         this.state = {
-            sidebarStyle: {
-                isWrapperHidden: true,
-                wrapperStyle: {},
-                isEditingCategories: false,
-            },
+            isEditingCategories: false,
+            isSidebarVisibleOnMobile: false,
         };
         this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
         this.handleEditingCategories = this.handleEditingCategories.bind(this);
+        this.handleConfiguringCategory = this.handleConfiguringCategory.bind(this);
     }
 
     // If there is no signed-in user, redirect to the sign in page.
@@ -37,67 +37,122 @@ class AdministrationPanel extends Component {
             // Note that render() will be called before fetchCategoriesIfNeed()
             // is resolved since fetchCategoriesIfNeed() is async
             const { dispatch } = this.props;
-            dispatch(fetchCategoriesIfNeed(getCurrentSignInUser().uid));
+            dispatch(fetchCategoriesIfNeeded(getCurrentSignInUser().uid)).then(() => {
+                // We have already fetched the configured categories (if any) successfully
+                const { categories, configuredCategoryId } = this.props;
+                const categoryIds = Object.keys(categories);
+                // Perform following operation only when there is category
+                if (categoryIds.length) {
+                    // If configuredCategoryId is truthy, it means that we have already set a
+                    // configuredCategoryId, and we are navigating back from a routing point.
+                    // As a result, we should keep the previous configuredCategoryId so that
+                    // users can see the dishes of the category that was previously editing
+                    // before they went to other routing point.
+
+                    // If configuredCategoryId is falsy, e.g., '', it means that we are just
+                    // login, or we are about to add the FIRST category. We set the configured
+                    // category to the first category in the list if the list is not empty, i.e.,
+                    // categoryIds[0] is truthy
+                    if (!configuredCategoryId && categoryIds[0]) {
+                        dispatch(configureCategory(categoryIds[0]));
+                    }
+                    dispatch(fetchDishesIfNeeded());
+                }
+            });
         }
     }
 
     handleToggleSidebar() {
         // The new state depends on the prev state
         this.setState(prevState => (
-            { ...prevState,
-                sidebarStyle: { ...prevState.sidebarStyle,
-                    isWrapperHidden: !prevState.sidebarStyle.isWrapperHidden,
-                    wrapperStyle: prevState.sidebarStyle.isWrapperHidden ? { width: '90%' } : {},
-                },
-            }));
+            { ...prevState, isSidebarVisibleOnMobile: !prevState.isSidebarVisibleOnMobile }
+        ));
     }
 
     handleEditingCategories() {
         this.setState(prevState => (
-            { ...prevState,
-                sidebarStyle: { ...prevState.sidebarStyle,
-                    isEditingCategories: !prevState.sidebarStyle.isEditingCategories,
-                },
-            }));
+            { ...prevState, isEditingCategories: !prevState.isEditingCategories }
+        ));
+    }
+
+    handleConfiguringCategory() {
+        // If sidebar shows on mobile view, hide it, otherwise, do nothing
+        if (this.state.isSidebarVisibleOnMobile) {
+            this.setState(prevState => (
+                { ...prevState, isSidebarVisibleOnMobile: !prevState.isSidebarVisibleOnMobile }
+            ));
+        }
     }
 
     render() {
-        const { alreadyFetched, items } = this.props;
+        const {
+            onCategoryFetched, categories,
+            configuredCategoryId, dishes, isFetchingDishes, ischangingDishes,
+        } = this.props;
+
         return (
             <div className="admin-page-wrapper">
                 <NavBar onToggleSiderbar={this.handleToggleSidebar} />
                 <SideBar
-                  categories={items}
-                  sidebarStyle={this.state.sidebarStyle}
+                  categories={categories}
+                  sidebarStyle={this.state}
                   onEditingCategories={this.handleEditingCategories}
+                  onConfiguringCategory={this.handleConfiguringCategory}
                 />
-                <MenuContent />
+                <MenuContent
+                  dishes={dishes}
+                  categoryName={categories[configuredCategoryId] ? categories[configuredCategoryId].name : ''}
+                  isSidebarVisibleOnMobile={this.state.isSidebarVisibleOnMobile}
+                />
 
-                {/* Show the Configure Menu modal if, after fetching, there is no configured categories. */}
-                {alreadyFetched && Object.keys(items).length < 1 && <ConfigureCategoryModal />}
+                {/* Show the Configure Menu modal if, after fetching, there is no configured categories */}
+                {onCategoryFetched && Object.keys(categories).length < 1 && <ConfigureCategoryModal />}
                 <AddCategoryModal />
-                <EditCategoryModal />
-                <RemoveCategoryModal />
+                <EditCategoryModal onCompleteEditingCategory={this.handleEditingCategories} />
+                <RemoveCategoryModal onCompleteRemovingCategory={this.handleEditingCategories} />
+                {/* Show the Loader if there are data fetching or updating */}
+                {(isFetchingDishes || ischangingDishes) && <Loader /> }
             </div>
         );
     }
 }
 
 AdministrationPanel.propTypes = {
-    items: PropTypes.objectOf(PropTypes.shape({
+    categories: PropTypes.objectOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         order: PropTypes.number.isRequired,
     })).isRequired,
-    alreadyFetched: PropTypes.bool.isRequired,
+    onCategoryFetched: PropTypes.bool.isRequired,
+    configuredCategoryId: PropTypes.string.isRequired,
+    dishes: PropTypes.objectOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        price: PropTypes.string.isRequired,
+        imageUrl: PropTypes.string.isRequired,
+        order: PropTypes.number.isRequired,
+    })).isRequired,
+    isFetchingDishes: PropTypes.bool.isRequired,
+    ischangingDishes: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => (
     {
-        alreadyFetched: state.category.alreadyFetched,
-        items: state.category.items,
+        onCategoryFetched: state.category.alreadyFetched,
+        categories: state.category.items,
+        configuredCategoryId: state.configuredCategoryId,
+        dishes: state.dish[state.configuredCategoryId]
+            ? state.dish[state.configuredCategoryId].items
+            : {},
+        isFetchingDishes: state.dish[state.configuredCategoryId]
+            ? state.dish[state.configuredCategoryId].isFetching
+            : false,
+        ischangingDishes: state.dish[state.configuredCategoryId]
+            ? state.dish[state.configuredCategoryId].isChanging
+            : false,
     }
 );
 

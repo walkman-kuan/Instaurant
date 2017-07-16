@@ -9,22 +9,22 @@
  */
 
 const ownerReduxStateShape = {
-    /**
-     * Actions: select a category or dish, and start editing/deleting
-     */
-    selectedCategory: 'selectedCategoryId',
-    selectedDish: 'selectedDishId',
+    /* Actions: select a category or dish, and start editing/deleting */
+    selectedCategoryId: 'selectedCategoryId',
+    selectedDishId: 'selectedDishId',
+    /* Actions: Highlight a category and configure its associated dish(es) */
+    configuredCategoryId: 'configuredCategoryId',
     /**
      * Actions
      * 1. Add category
      *     1. ID is given by Firebase
      *     2. Name is given by owner
-     *     3. Order = length of list of categories + 1
+     *     3. Order = (length of list of categories) + 1
      * 2. Update category
      *     1. Name is updated by owner
      *     2. Order is updated, e.g., drag and drop, based on orders of re-rendered <li>'s within <ul>
      * 3. Delete category
-     *     1. Order is updated based on orders of re-rendered <li>'s within <ul>
+     *     1. Order is updated by decrementing the orders of following categories by 1
      *     2. All associated dishes are deleted
      * 4. Fetch categories
      */
@@ -60,34 +60,35 @@ const ownerReduxStateShape = {
      * 1. Add dish
      *     1. ID and Image URL are given by Firebase
      *     2. Name, Price and Description are given by owner
-     *     3. Order = length of list of dish + 1
+     *     3. Order = (length of list of dish) + 1
      * 2. Update dish
      *     1. Name, Price and Description are updated by owner
      *     2. Image URL is given by Firebase
      *     2. Order is updated, e.g., drag and drop, based on orders of re-rendered <li>'s within <ul>
      * 3. Delete dish
-     *     1. Order is updated based on orders of re-rendered <li>'s within <ul>
+     *     1. Order is updated by decrementing the orders of following categories by 1
      * 4. Fetch dishes
      */
     dish: {
         category1Id: {
-            isFetching: false, // Are we fetching the dishes now?
-            alreadyFetched: true, // Have we already fetched the dishes before?
+            isFetching: false, // Are we fetching the dish list now?
+            alreadyFetched: true, // Have we already fetched the dish list before?
+            isChanging: false, // Are we changing the dish list, e.g., add or edit a dish, or remove all dishes?
             items: {
                 dish1Id: {
                     id: 'idOfDish1',
-                    dishName: 'nameOfDish1',
-                    dishPrice: 'priceOfDish1',
-                    dishDescription: 'descriptionOfDish1',
-                    dishImageUrl: 'urlOfImageOfDish1',
+                    name: 'nameOfDish1',
+                    price: 'priceOfDish1',
+                    description: 'descriptionOfDish1',
+                    imageUrl: 'urlOfImageOfDish1',
                     order: 1, // displaying order within the list of all dishes
                 },
                 dish2Id: {
                     id: 'idOfDish2',
-                    dishName: 'nameOfDish2',
-                    dishPrice: 'priceOfDish2',
-                    dishDescription: 'descriptionOfDish2',
-                    dishImageUrl: 'urlOfImageOfDish2',
+                    name: 'nameOfDish2',
+                    price: 'priceOfDish2',
+                    description: 'descriptionOfDish2',
+                    imageUrl: 'urlOfImageOfDish2',
                     order: 2,
                 },
             },
@@ -95,21 +96,22 @@ const ownerReduxStateShape = {
         category2Id: {
             isFetching: false,
             alreadyFetched: true,
+            isChanging: false,
             items: {
                 dish3Id: {
                     id: 'idOfDish3',
-                    dishName: 'nameOfDish3',
-                    dishPrice: 'priceOfDish3',
-                    dishDescription: 'descriptionOfDish3',
-                    dishImageUrl: 'urlOfImageOfDish3',
+                    name: 'nameOfDish3',
+                    price: 'priceOfDish3',
+                    description: 'descriptionOfDish3',
+                    imageUrl: 'urlOfImageOfDish3',
                     order: 1,
                 },
                 dish4Id: {
                     id: 'idOfDish4',
-                    dishName: 'nameOfDish4',
-                    dishPrice: 'priceOfDish4',
-                    dishDescription: 'descriptionOfDish4',
-                    dishImageUrl: 'urlOfImageOfDish2',
+                    name: 'nameOfDish4',
+                    price: 'priceOfDish4',
+                    description: 'descriptionOfDish4',
+                    imageUrl: 'urlOfImageOfDish2',
                     order: 2,
                 },
             },
