@@ -3,14 +3,28 @@ const webpack = require('webpack'); // To access built-in plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-
 const config = {
+    // entry tells webpack where to start looking
     entry: {
         main: [
             'webpack-dev-server/client?http://localhost:8080', // Enable websocket connection (needs url and port)
             'webpack/hot/only-dev-server', // Perform HMR in the browser BUT doesn't reload the page upon errors
             // 'webpack/hot/dev-server', // Perform HMR in the browser and reload the page upon errors
             './src/app/index.jsx',
+        ],
+        vendor: [
+            'classnames',
+            'firebase',
+            'immutability-helper',
+            'prop-types',
+            'react',
+            'react-dom',
+            'react-redux',
+            'react-router',
+            'react-router-dom',
+            'redux',
+            'redux-logger',
+            'redux-thunk',
         ],
     },
     output: {
@@ -43,6 +57,13 @@ const config = {
     },
     plugins: [
         // new webpack.optimize.UglifyJsPlugin(),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            filename: '[name].js',
+            // With more entries, this ensures that no other module
+            // goes into the vendor chunk)
+            minChunks: Infinity,
+        }),
 
         /*
         // Extract the css bundle into a separate css file
@@ -52,7 +73,7 @@ const config = {
         */
         // By default, HtmlWebpackPlugin put the generated html under the directory: output.path
         new HtmlWebpackPlugin({
-            template: './src/index.template.html',
+            template: './src/index.template.html', // where to find the template
             filename: '../index.html',
             inject: 'body',
         }),
