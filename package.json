@@ -5,10 +5,10 @@
   "homepage": "https://bitbucket.org/hackinstaurant/instaurant#readme",
   "main": "index.jsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prebuild": "rm -f index.html && rm -rf bundles",
-    "build": "webpack",
-    "start": "webpack-dev-server"
+    "build": "NODE_ENV='development' webpack --config ./webpack.config.js",
+    "dev": "npm run build && NODE_ENV='development' webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
