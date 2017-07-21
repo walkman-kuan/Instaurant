@@ -218,7 +218,7 @@ class EditDishModal extends Component {
                                     </p>
                                 </div>
                                 <div className="text-center upload-image-target ">
-                                    <span className="hidden-on-xs">Or&nbsp;</span>
+                                    <span className="hidden-on-xs">Drag a dish image or&nbsp;</span>
                                     <button
                                       type="button"
                                       className="btn btn-default non-shadow-outlline"
@@ -235,14 +235,14 @@ class EditDishModal extends Component {
                                 <div className="form-group">
                                     <input
                                       type="text" className="form-control"
-                                      id="edit-dish-name" required
+                                      id="edit-dish-name" placeholder="Dish name" required
                                       ref={(dishNameDomElem) => { this.dishNameDomElem = dishNameDomElem; }}
                                     />
                                 </div>
                                 <div className="form-group">
                                     <textarea
                                       rows="4" className="form-control" id="edit-dish-description"
-                                      maxLength="300" required
+                                      maxLength="300" placeholder="Dish description" required
                                       ref={(dishDescrDomElem) => { this.dishDescrDomElem = dishDescrDomElem; }}
                                     />
                                 </div>
@@ -251,7 +251,7 @@ class EditDishModal extends Component {
                                         <div className="input-group-addon">$</div>
                                         <input
                                           type="text" className="form-control"
-                                          id="edit-dish-price" required
+                                          id="edit-dish-price" placeholder="Dish price" required
                                           ref={(dishPriceDomElem) => { this.dishPriceDomElem = dishPriceDomElem; }}
                                         />
                                     </div>
