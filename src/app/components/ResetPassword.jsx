@@ -32,7 +32,6 @@ class ResetPassword extends Component {
                             <div className="form-group">
                                 <div className="input-group input-group-lg">
                                     <input
-                                      autoFocus
                                       type="email" className="form-control"
                                       id="email" name="email" placeholder="Email"
                                       ref={(email) => { this.email = email; }} required

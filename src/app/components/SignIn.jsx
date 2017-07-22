@@ -36,7 +36,6 @@ class SignIn extends Component {
                                     {/* TODO: Considering using controlled components
                                         to take advantage of their benefits */}
                                     <input
-                                      autoFocus
                                       type="email" className="form-control"
                                       id="email" name="email" placeholder="Email"
                                       ref={(email) => { this.email = email; }} required
