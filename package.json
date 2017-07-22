@@ -2,29 +2,36 @@
   "name": "instaurant",
   "version": "1.0.0",
   "description": "This is the instaurant project.",
+  "homepage": "https://bitbucket.org/hackinstaurant/instaurant#readme",
   "main": "index.jsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "rm index.html && rm -rf bundles",
-    "build": "webpack",
-    "start": "webpack-dev-server"
+    "prebuild": "rm -f index.html && rm -rf bundles",
+    "build": "NODE_ENV='development' webpack --config ./webpack.config.js",
+    "dev": "npm run build && NODE_ENV='development' webpack-dev-server",
+
+    "prestartbuild": "rm -f index.html && rm -rf bundles",
+    "startbuild": "NODE_ENV='production' webpack -p --config ./webpack.config.js",
+    "start": "npm run startbuild && firebase deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://clark_the_walkman@bitbucket.org/hackinstaurant/instaurant.git"
+    "url": "https://bitbucket.org/hackinstaurant/instaurant.git"
   },
-  "author": "Kuan Lin",
+  "author": ["Kuan Lin", "Zhuoran Li"],
+  "contributors": ["Yuchen Xiao", "Jack Zheng"],
   "license": "ISC",
   "keywords": [
+    "Babel",
     "Bootstrap",
     "ES6/ECMAScript 2015",
     "Firebase",
     "React",
     "React Router",
     "Redux",
+    "Redux-thunk",
     "Webpack"
   ],
-  "homepage": "https://bitbucket.org/hackinstaurant/instaurant#readme",
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",

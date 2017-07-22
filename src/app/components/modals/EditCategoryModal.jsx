@@ -111,7 +111,7 @@ class EditCategoryModal extends Component {
                                     {/* Using uncontrolled component */}
                                     <input
                                       type="text" className="form-control" id="edit-category-name"
-                                      name="edit-category-name" required
+                                      name="edit-category-name" placeholder="Category name" required
                                       ref={(categoryNameNode) => { this.categoryName = categoryNameNode; }}
                                     />
                                 </div>

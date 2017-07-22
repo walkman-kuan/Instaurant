@@ -5,6 +5,7 @@
     "extends": "airbnb",
     "rules": {
         "class-methods-use-this": ["warn", { "exceptMethods": ["handleSignOut"] }],
+        "global-require": "off",
         "indent": [2, 4],
         "max-len": ["warn", 120],
         "react/forbid-prop-types": ["warn", {"forbid": ["any"]}],
