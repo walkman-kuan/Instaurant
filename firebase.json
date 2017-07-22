@@ -10,7 +10,17 @@
     "ignore": [
       "firebase.json",
       "./database-rules.json",
-      "./storage.rules"
-    ]
+      "./storage.rules",
+      ".*",
+      "dataModels/**",
+      "src/**",
+      "package.json",
+      "README.md",
+      "webpack.config.js"
+    ],
+    "rewrites": [ {
+      "source": "**",
+      "destination": "/index.html"
+    } ]
   }
 }
