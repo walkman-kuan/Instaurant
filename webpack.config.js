@@ -37,6 +37,16 @@ const webpackConfig = {
                 loader: process.env.NODE_ENV === 'production' ? 'babel-loader' : 'react-hot-loader!babel-loader',
                 include: path.resolve('./src/app'),
             },
+            {
+                test: /\.(gif|jpe?g|png|svg)$/i,
+                use: [
+                    // Instructs webpack to emit the required object as file and to return its public url
+                    'file-loader?name=[name].[ext]?[hash]&outputPath=resources/images/',
+                    // Minify PNG, JPEG, GIF and SVG images with imagemin
+                    { loader: 'img-loader', options: { enabled: process.env.NODE_ENV === 'production' } },
+                ],
+                include: path.resolve('./src/app/resources/images'),
+            },
         ],
     },
     resolve: {

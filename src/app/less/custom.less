@@ -14,11 +14,11 @@
 /* Font size */
 @font-size-regular: 16px;
 @font-size-small: 14px;
-@font-size-extra-small: 12px;
+@font-size-extra-small: 13px;
 
 /* Variables */
 @dish-image-size: 138px;
-@dish-image-size-small: 105px;
+@dish-image-size-small: 93px;
 @line-height-1: 1.3; // Bootstrap 3 default is 1.428571429
 
 /* Mixins */
@@ -102,36 +102,28 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%); // Internet Explorer and Microsoft Edge
-    -moz-transform: translate(-50%,-50%); // Firefox
-    -o-transform: translate(-50%,-50%); // Old, pre-WebKit, versions of Opera
-    -webkit-transform: translate(-50%,-50%); // Safari
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%); // Internet Explorer and Microsoft Edge
+    -moz-transform: translate(-50%, -50%); // Firefox
+    -o-transform: translate(-50%, -50%); // Old, pre-WebKit, versions of Opera
+    -webkit-transform: translate(-50%, -50%); // Safari
     text-align: center;
 }
 
 
-/* The Authentication page */
-.auth-page {
+/* The Routing pages */
+.auth-page, .home-page, .qr-code-page, .profile-page {
     a {
         color: @color-option-1;
     }
     h1 {
         color: @color-option-1;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
         text-align: center;
     }
     form {
         margin: 15px 0 15px 0;
     }
-    /* Vetically `center` */
-    position: absolute;
-    top: 40%;
-    transform: translate(0%, -50%);
-    -ms-transform: translate(0%, -50%);
-    -moz-transform: translate(0%, -50%);
-    -o-transform: translate(0%, -50%);
-    -webkit-transform: translate(0%, -50%);
 }
 .forgot-password {
     font-size: @font-size-small;
@@ -354,7 +346,6 @@ body {
 .dish-description {
     color: @color-option-2;
     font-size: @font-size-small;
-    margin-bottom: 10px;
 }
 .dish-price {
     color: @color-option-1;
@@ -551,8 +542,8 @@ body {
 
     /* Modal */
     .image-drop-zone {
-        height: 258px;
-        width: 306px;
+        height: 198px;
+        width: 228px;
     }
 
     .loader {
@@ -576,5 +567,11 @@ body {
 
     .dish-description {
         .elem-with-tooltip(@font-size-small, @line-height-1, 3, white);
+    }
+}
+
+@media (min-width: 1200px) {
+    .auth-page, .home-page, .qr-code-page, .profile-page {
+        padding-top: 150px;
     }
 }
