@@ -28,7 +28,7 @@ Current contributors include:
 ######
 > [React Router](https://reacttraining.com/react-router/) is a collection of **navigational components** that compose declaratively with your application.
 ######
-> [Redux](http://redux.js.org/) Redux is a predictable **state container** for JavaScript apps.
+> [Redux](http://redux.js.org/) is a predictable **state container** for JavaScript apps.
 ######
 > [Webpack](https://webpack.js.org/) is a **module bundler** for modern JavaScript applications.
 
