@@ -1,19 +1,10 @@
 # Instaurant
 
 ## Instaurant Introduction
-Instaurant (portmanteau of “Instant” and “Restaurant”) is designed to
+Instaurant is designed to
 
-1. Allow restaurant owners to configure restaurant menus and services that are accessible to customers through mobile devices.
-2. Turn every customer's mobile device into a menu and ordering machine with a scan of **QR Code**.
-3. Provide insights into restaurant operations by presenting useful analytical data.
-## Insturant Origin and Contributors
-The idea is proposed by Zhuoran Li during a dinner with Xiaowei Deng and Kuan Lin, on 25th June, 2016.  
-Current contributors include:
-
-* Zhuoran Li
-* Kuan Lin
-* Yuchen Xiao
-* Jack Zheng
+1. Allow restaurant owners to configure online restaurant menus and services that are accessible to customers.
+2. Provide restaurant owners with insights into restaurant operations by presenting useful analytical data.
 
 ## Tech Stack
 > [Babel](https://babeljs.io/) is the **compiler** for writing next generation JavaScript right now without waiting for browser support.
@@ -28,13 +19,13 @@ Current contributors include:
 ######
 > [React Router](https://reacttraining.com/react-router/) is a collection of **navigational components** that compose declaratively with your application.
 ######
-> [Redux](http://redux.js.org/) Redux is a predictable **state container** for JavaScript apps.
+> [Redux](http://redux.js.org/) is a predictable **state container** for JavaScript apps.
 ######
 > [Webpack](https://webpack.js.org/) is a **module bundler** for modern JavaScript applications.
 
 ## Quick Start
 ```shell
-$ git clone https://bitbucket.org/hackinstaurant/instaurant.git
+$ git clone https://github.com/walkman-kuan/Instaurant.git
 $ cd instaurant
 $ npm install
 $ npm run dev
@@ -46,4 +37,3 @@ $ npm run dev
 |`npm install`| Install all modules, listed as dependencies in `package.json`, in the local `node_modules` folder|
 |`npm run build`| Remove previous build files (if any), and then package all application modules to `./bundles`|
 |`npm run dev`| Start development-ready application with webpack-dev-server @ `http://localhost:8080/`|
-|`npm start`| Start production-ready application with Firebase Hosting @ `https://www.instaurant.ca/`|
