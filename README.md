@@ -37,3 +37,6 @@ $ npm run dev
 |`npm install`| Install all modules, listed as dependencies in `package.json`, in the local `node_modules` folder|
 |`npm run build`| Remove previous build files (if any), and then package all application modules to `./bundles`|
 |`npm run dev`| Start development-ready application with webpack-dev-server @ `http://localhost:8080/`|
+
+## Demo
+A [demo video](https://www.youtube.com/watch?v=8UZgBEMhGi0&t=5s) on Youtube.
