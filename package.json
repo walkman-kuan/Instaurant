@@ -8,10 +8,6 @@
     "prebuild": "rm -f index.html && rm -rf bundles",
     "build": "NODE_ENV='development' webpack --config ./webpack.config.js",
     "dev": "npm run build && NODE_ENV='development' webpack-dev-server",
-
-    "prestartbuild": "rm -f index.html && rm -rf bundles",
-    "startbuild": "NODE_ENV='production' webpack -p --config ./webpack.config.js",
-    "start": "npm run startbuild && firebase deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
