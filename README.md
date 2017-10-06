@@ -6,6 +6,9 @@ Instaurant is designed to
 1. Allow restaurant owners to configure online restaurant menus and services that are accessible to customers.
 2. Provide restaurant owners with insights into restaurant operations by presenting useful analytical data.
 
+## Demo
+A [demo video](https://www.youtube.com/watch?v=8UZgBEMhGi0&t=5s) on Youtube.
+
 ## Tech Stack
 > [Babel](https://babeljs.io/) is the **compiler** for writing next generation JavaScript right now without waiting for browser support.
 ######
